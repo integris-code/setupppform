@@ -2,6 +2,7 @@
   <b-form-checkbox
     v-if="options.type === 'checkbox'"
     v-model="value"
+    class="mb-3"
     :readonly="options.readonly"
     :state="validationDisplay.state"
     :value="options.value"
