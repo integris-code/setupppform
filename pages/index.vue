@@ -18,7 +18,15 @@
       <IntegrisPPPSetup
         ref="pppSetup"
         class="mb-3"
-        header="Personal Pension Plan (PPP) Setup"
+        :header="
+          $localize(
+            {
+              en: 'Personal Pension Plan (PPP) Setup',
+              fr: 'Personal Pension Plan (PPP) Setup (FR)',
+            },
+            language
+          )
+        "
         prefix="pppSetup"
         v-bind="commonBind"
       ></IntegrisPPPSetup>
@@ -163,7 +171,26 @@ export default {
       )
     },
     languageOptions() {
-      return this.$localize(this.$localize_languages, this.language)
+      // return this.$localize(this.$localize_languages, this.language)
+      return this.$localize(
+        [
+          {
+            text: {
+              en: 'English',
+              fr: 'Anglais',
+            },
+            value: 'en',
+          },
+          {
+            text: {
+              en: 'French',
+              fr: 'Français',
+            },
+            value: 'fr',
+          },
+        ],
+        this.language
+      )
     },
     commonBind() {
       return {

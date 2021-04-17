@@ -200,28 +200,28 @@
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_salutation"
+          :name="prefixed.beneficiaryDesignation1_firstName"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_firstName"
+          :name="prefixed.beneficiaryDesignation1_lastName"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_otherNames"
+          :name="prefixed.beneficiaryDesignation1_dateOfBirth"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_lastName"
+          :name="prefixed.beneficiaryDesignation1_relationship"
           v-bind="commonBind"
         ></FormField>
       </b-col>
@@ -230,21 +230,21 @@
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_salutation"
+          :name="prefixed.beneficiaryDesignation1_type"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_firstName"
+          :name="prefixed.beneficiaryDesignation1_share"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_otherNames"
+          :name="prefixed.beneficiaryDesignation1_revocability"
           v-bind="commonBind"
         ></FormField>
       </b-col>
@@ -255,28 +255,28 @@
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_salutation"
+          :name="prefixed.beneficiaryDesignation2_firstName"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_firstName"
+          :name="prefixed.beneficiaryDesignation2_lastName"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_otherNames"
+          :name="prefixed.beneficiaryDesignation2_dateOfBirth"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_lastName"
+          :name="prefixed.beneficiaryDesignation2_relationship"
           v-bind="commonBind"
         ></FormField>
       </b-col>
@@ -285,21 +285,21 @@
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_salutation"
+          :name="prefixed.beneficiaryDesignation2_type"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_firstName"
+          :name="prefixed.beneficiaryDesignation2_share"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_otherNames"
+          :name="prefixed.beneficiaryDesignation2_revocability"
           v-bind="commonBind"
         ></FormField>
       </b-col>
@@ -310,28 +310,28 @@
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_salutation"
+          :name="prefixed.beneficiaryDesignation3_firstName"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_firstName"
+          :name="prefixed.beneficiaryDesignation3_lastName"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_otherNames"
+          :name="prefixed.beneficiaryDesignation3_dateOfBirth"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_lastName"
+          :name="prefixed.beneficiaryDesignation3_relationship"
           v-bind="commonBind"
         ></FormField>
       </b-col>
@@ -340,21 +340,21 @@
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_salutation"
+          :name="prefixed.beneficiaryDesignation3_type"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_firstName"
+          :name="prefixed.beneficiaryDesignation3_share"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_otherNames"
+          :name="prefixed.beneficiaryDesignation3_revocability"
           v-bind="commonBind"
         ></FormField>
       </b-col>
@@ -365,28 +365,28 @@
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_salutation"
+          :name="prefixed.beneficiaryDesignation4_firstName"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_firstName"
+          :name="prefixed.beneficiaryDesignation4_lastName"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_otherNames"
+          :name="prefixed.beneficiaryDesignation4_dateOfBirth"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_lastName"
+          :name="prefixed.beneficiaryDesignation4_relationship"
           v-bind="commonBind"
         ></FormField>
       </b-col>
@@ -395,21 +395,21 @@
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_salutation"
+          :name="prefixed.beneficiaryDesignation4_type"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_firstName"
+          :name="prefixed.beneficiaryDesignation4_share"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_otherNames"
+          :name="prefixed.beneficiaryDesignation4_revocability"
           v-bind="commonBind"
         ></FormField>
       </b-col>
@@ -420,28 +420,28 @@
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_salutation"
+          :name="prefixed.beneficiaryDesignation5_firstName"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_firstName"
+          :name="prefixed.beneficiaryDesignation5_lastName"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_otherNames"
+          :name="prefixed.beneficiaryDesignation5_dateOfBirth"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_lastName"
+          :name="prefixed.beneficiaryDesignation5_relationship"
           v-bind="commonBind"
         ></FormField>
       </b-col>
@@ -450,25 +450,36 @@
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_salutation"
+          :name="prefixed.beneficiaryDesignation5_type"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_firstName"
+          :name="prefixed.beneficiaryDesignation5_share"
           v-bind="commonBind"
         ></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
         <FormField
-          :name="prefixed.spouse_otherNames"
+          :name="prefixed.beneficiaryDesignation5_revocability"
           v-bind="commonBind"
         ></FormField>
       </b-col>
     </b-form-row>
+
+    <b-card class="bg-light">
+      <b-form-row>
+        <b-col cols="12" md="6" lg="3">
+          <FormField
+            :name="prefixed.beneficiaryDesignation_totalShare"
+            v-bind="commonBind"
+          ></FormField>
+        </b-col>
+      </b-form-row>
+    </b-card>
   </b-card>
 </template>
 
@@ -1056,6 +1067,16 @@ export default {
             'Revocable',
             'Irrevocable',
           ],
+          validators: {
+            notEmpty: {},
+          },
+        },
+
+        [prefixer.set('beneficiaryDesignation_totalShare')]: {
+          label: 'Total Share',
+          type: 'number',
+          readonly: true,
+          defaultValue: 0,
           validators: {
             notEmpty: {},
           },

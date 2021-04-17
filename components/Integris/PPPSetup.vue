@@ -172,7 +172,12 @@ export default {
           choices: [{ text: 'Select\u2026', value: '' }, 'English', 'French'],
           defaultValue: 'English',
           validators: {
-            notEmpty: {},
+            notEmpty: {
+              invalidFeedback: this.$localize(
+                { en: 'INVALID', fr: 'invalid fr' },
+                this.language
+              ),
+            },
           },
         },
         [prefixer.set('requestFor')]: {

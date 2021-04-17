@@ -109,7 +109,7 @@ export default {
       }
     }
 
-    if (this.values[this.name] === undefined) {
+    if (typeof this.values[this.name] === 'undefined') {
       this.$set(this.values, this.name, defaultValue)
     }
 

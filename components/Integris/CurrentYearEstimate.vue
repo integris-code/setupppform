@@ -120,7 +120,7 @@ export default {
     const prefixer = this.$prefixer(this.prefix)
 
     const endYear = new Date().getFullYear()
-    const startYear = endYear - 30
+    const startYear = 1989
 
     const fields = {}
 
