@@ -1,30 +1,21 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
-    browser: true
+    browser: true,
+    node: true
   },
-  extends: [
-    'plugin:vue/recommended',
-    'eslint:recommended'
-    // 'prettier/vue',
-    // 'plugin:prettier/recommended'
-  ],
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
+  extends: ['@nuxtjs', 'plugin:nuxt/recommended'],
+  plugins: [],
+  // add your custom rules here
   rules: {
-    'vue/component-name-in-template-casing': ['error', 'PascalCase'],
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'space-before-function-paren': 'off',
     'arrow-parens': 'off',
     'comma-dangle': 'off',
     'eol-last': 'off',
     indent: 'off',
     'vue/no-use-v-if-with-v-for': 'off'
-  },
-  globals: {
-    $nuxt: true
-  },
-  parserOptions: {
-    parser: 'babel-eslint'
   }
 }

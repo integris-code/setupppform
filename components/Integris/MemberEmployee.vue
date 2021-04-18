@@ -135,7 +135,7 @@
         ></FormField>
       </b-col>
 
-      <b-col cols="12" lg="6">
+      <b-col cols="12" lg="12" v-show="values.memberEmployee1_buyingBackPastService">
         <FormField
           :name="prefixed.buyingBackPastService_yearsRecognized"
           v-bind="commonBind"
@@ -743,7 +743,7 @@ export default {
         },
         [prefixer.set('buyingBackPastService_yearsRecognized')]: {
           label:
-            'If checked, indicate the year(s) or range(s) of years to be recognized',
+            'Indicate the year(s) or range(s) of years to be recognized',
           type: 'text',
           validators: {
             notEmpty: {},
