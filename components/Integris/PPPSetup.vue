@@ -1,5 +1,5 @@
 <template>
-  <b-card :header="header" header-tag="h2" header-class="h5">
+  <b-card :header="header"  header-tag="h2" header-class="h5">
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
         <FormField

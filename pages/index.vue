@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h1>PPP&reg; Setup Request Form</h1>
+    <h1 class="mb-5">PPP&reg; Setup Request Form</h1>
 
     <b-form :novalidate="true" @submit="onSubmit">
+      <!-- Let's comment out languages for now until we get french
       <b-row>
         <b-col cols="12" md="6" offset-md="6" lg="3" offset-lg="9">
           <b-form-group :label="languageLabel">
@@ -13,6 +14,7 @@
           </b-form-group>
         </b-col>
       </b-row>
+      -->
 
       <IntegrisPPPSetup
         ref="pppSetup"
@@ -218,10 +220,20 @@ export default {
 </script>
 
 <style>
-div[role='radiogroup'] {
-  background-color: #ffffff;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  padding: 0.375rem 0 0.375rem 0.75rem;
-}
+  body {
+    background:#f9f8f7;
+  }
+  .card {
+    transition: box-shadow .5s;
+    margin-bottom:4em !important;
+  }
+  .card:hover{
+    box-shadow:0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+  }
+  div[role='radiogroup'] {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0 0.375rem 0.75rem;
+  }
 </style>
