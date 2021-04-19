@@ -47,22 +47,27 @@
         prefix="memberEmployee1"
         v-bind="commonBind"
       ></IntegrisMemberEmployee>
+      <b-button @click="show.member2=true" variant="secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-1 bi bi-plus-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+</svg> Add another Employee </b-button>
 
-      <IntegrisSponsorEmployer
-        ref="sponsorEmployer1"
-        class="my-3"
-        header="Sponsor/Employer #1 (Primary Sponsor)"
-        prefix="sponsorEmployer1"
-        v-bind="commonBind"
-      ></IntegrisSponsorEmployer>
-
+      
       <IntegrisMemberEmployee
         ref="memberEmployee2"
         class="my-3"
         header="Member/Employee #2"
         prefix="memberEmployee2"
         v-bind="commonBind"
+        v-show="show.member2"
       ></IntegrisMemberEmployee>
+
+      <b-button @click="show.member3=true" variant="secondary" v-show="show.member2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-1 bi bi-plus-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+</svg> Add another Employee </b-button>
 
       <IntegrisMemberEmployee
         ref="memberEmployee3"
@@ -70,7 +75,14 @@
         header="Member/Employee #3"
         prefix="memberEmployee3"
         v-bind="commonBind"
+        v-show="show.member3"
       ></IntegrisMemberEmployee>
+
+      <b-button @click="show.member4=true" variant="secondary" v-show="show.member3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-1 bi bi-plus-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+</svg> Add another Employee </b-button>
 
       <IntegrisMemberEmployee
         ref="memberEmployee4"
@@ -78,7 +90,22 @@
         header="Member/Employee #4"
         prefix="memberEmployee4"
         v-bind="commonBind"
+        v-show="show.member4"
       ></IntegrisMemberEmployee>
+
+       <IntegrisSponsorEmployer
+        ref="sponsorEmployer1"
+        class="my-3"
+        header="Sponsor/Employer #1 (Primary Sponsor)"
+        prefix="sponsorEmployer1"
+        v-bind="commonBind"
+      ></IntegrisSponsorEmployer>
+
+      <b-button @click="show.sponsor2=true" variant="secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-1 bi bi-plus-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+</svg> Add another Sponsor </b-button>
 
       <IntegrisSponsorEmployer
         ref="sponsorEmployer2"
@@ -86,7 +113,14 @@
         header="Sponsor/Employer #2"
         prefix="sponsorEmployer2"
         v-bind="commonBind"
+        v-show="show.sponsor2"
       ></IntegrisSponsorEmployer>
+
+      <b-button @click="show.sponsor3=true" variant="secondary" v-show="show.sponsor2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="mr-1 bi bi-plus-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+</svg> Add another Sponsor </b-button>
 
       <IntegrisSponsorEmployer
         ref="sponsorEmployer3"
@@ -94,6 +128,7 @@
         header="Sponsor/Employer #3"
         prefix="sponsorEmployer3"
         v-bind="commonBind"
+        v-show="show.sponsor3"
       ></IntegrisSponsorEmployer>
 
       <IntegrisCustodianTrustee
@@ -159,6 +194,31 @@ export default {
       language: this.$localize_defaultlanguage,
       validated: false,
       values: {},
+      show:{
+        member1:true,
+        member2:false,
+        member3:false,
+        member4:false,
+        sponsor1:true,
+        sponsor2:false,
+        sponsor3:false,
+      }
+    }
+  },
+  watch:{
+    "show.sponsor2"(newItem,old){
+      if(newItem){
+      this.values.pppSetup_sponsorsEmployersParticipatingInThePlan.push('Sponsor #2');
+      }else{
+        this.values.pppSetup_sponsorsEmployersParticipatingInThePlan.pop();
+      }
+    },
+    "show.sponsor3"(newItem,old){
+      if(newItem)
+      {this.values.pppSetup_sponsorsEmployersParticipatingInThePlan.push('Sponsor #3');}
+      else{
+        this.values.pppSetup_sponsorsEmployersParticipatingInThePlan.pop();
+      }
     }
   },
   computed: {
