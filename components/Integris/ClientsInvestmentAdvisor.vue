@@ -1,31 +1,25 @@
 <template>
   <b-card :header="header" header-tag="h2" header-class="h5">
     <b-form-row>
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField :name="prefixed.firstName" v-bind="commonBind"></FormField>
       </b-col>
 
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField :name="prefixed.lastName" v-bind="commonBind"></FormField>
       </b-col>
 
-      <b-col cols="12" lg="6">
+      <b-col cols="12" md="6">
         <FormField :name="prefixed.title" v-bind="commonBind"></FormField>
       </b-col>
-    </b-form-row>
-
-    <b-form-row>
-      <b-col cols="12">
+      <b-col cols="12" md="6">
         <FormField :name="prefixed.companyName" v-bind="commonBind"></FormField>
       </b-col>
     </b-form-row>
 
     <b-form-row>
       <b-col cols="12" lg="6">
-        <FormField
-          :name="prefixed.emailAddress"
-          v-bind="commonBind"
-        ></FormField>
+        <FormField :name="prefixed.emailAddress" v-bind="commonBind"></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
@@ -46,26 +40,26 @@ export default {
       type: String,
       default() {
         return this.$localize_defaultlanguage
-      },
+      }
     },
     validated: {
       type: Boolean,
-      default: false,
+      default: false
     },
     values: {
       type: Object,
       default() {
         return {}
-      },
+      }
     },
     header: {
       type: String,
-      default: 'Untitled',
+      default: 'Untitled'
     },
     prefix: {
       type: String,
-      default: '',
-    },
+      default: ''
+    }
   },
   data() {
     const prefixer = this.$prefixer(this.prefix)
@@ -75,53 +69,53 @@ export default {
           label: 'First Name',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('lastName')]: {
           label: 'Last Name',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('title')]: {
           label: 'Title',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('companyName')]: {
           label: 'Company Name',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('emailAddress')]: {
           label: 'Email Address',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('phoneNumber')]: {
           label: 'Phone Number',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('faxNumber')]: {
           label: 'Fax Number',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
-        },
+            notEmpty: {}
+          }
+        }
       },
-      prefixed: prefixer.prefixed,
+      prefixed: prefixer.prefixed
     }
   },
   computed: {
@@ -130,9 +124,9 @@ export default {
         language: this.language,
         validated: this.validated,
         values: this.values,
-        fields: this.fields,
+        fields: this.fields
       }
-    },
+    }
   },
   methods: {
     getValidations() {
@@ -140,7 +134,7 @@ export default {
         acc[cur] = this.$refs[cur].validation
         return acc
       }, {})
-    },
-  },
+    }
+  }
 }
 </script>
