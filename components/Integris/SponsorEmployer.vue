@@ -194,7 +194,13 @@
 
       <b-row>
         <b-col cols="12" lg="6" v-show="show.member1">
-          <b-card header-class="h6" header="Member #1" header-tag="h3">
+          <b-card header-tag="header">
+            <template #header class="pb-0">
+              <h3
+                class="h6"
+                v-show="!!values['memberEmployee1_lastName'] && !!values['memberEmployee1_firstName']"
+              >{{values['memberEmployee1_lastName']}}, {{values['memberEmployee1_firstName']}}</h3>
+            </template>
             <FormField :name="prefixed.employmentDates1_employmentSince" v-bind="commonBind"></FormField>
 
             <FormField :name="prefixed.employmentDates1_contactPerson" v-bind="commonBind"></FormField>
