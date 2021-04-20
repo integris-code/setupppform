@@ -1,46 +1,32 @@
 <template>
   <b-card :header="header" header-tag="h2" header-class="h5">
     <b-form-row>
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField :name="prefixed.firstName" v-bind="commonBind"></FormField>
       </b-col>
 
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField :name="prefixed.lastName" v-bind="commonBind"></FormField>
       </b-col>
 
       <b-col cols="12" lg="6">
         <FormField :name="prefixed.title" v-bind="commonBind"></FormField>
       </b-col>
-    </b-form-row>
 
-    <b-form-row>
       <b-col cols="12" lg="6">
-        <FormField
-          :name="prefixed.primaryEmailAddress"
-          v-bind="commonBind"
-        ></FormField>
+        <FormField :name="prefixed.primaryEmailAddress" v-bind="commonBind"></FormField>
       </b-col>
 
-      <b-col cols="12" md="6" lg="3">
-        <FormField
-          :name="prefixed.primaryPhoneNumber"
-          v-bind="commonBind"
-        ></FormField>
+      <b-col cols="12" md="6">
+        <FormField :name="prefixed.primaryPhoneNumber" v-bind="commonBind"></FormField>
       </b-col>
 
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField :name="prefixed.faxNumber" v-bind="commonBind"></FormField>
       </b-col>
-    </b-form-row>
-
-    <b-form-row>
       <b-col cols="12">
         <FormField :name="prefixed.street1" v-bind="commonBind"></FormField>
       </b-col>
-    </b-form-row>
-
-    <b-form-row>
       <b-col cols="12" lg="6">
         <FormField :name="prefixed.street2" v-bind="commonBind"></FormField>
       </b-col>
@@ -48,22 +34,19 @@
       <b-col cols="12" lg="6">
         <FormField :name="prefixed.street3" v-bind="commonBind"></FormField>
       </b-col>
-    </b-form-row>
-
-    <b-form-row>
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField :name="prefixed.city" v-bind="commonBind"></FormField>
       </b-col>
 
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField :name="prefixed.province" v-bind="commonBind"></FormField>
       </b-col>
 
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField :name="prefixed.country" v-bind="commonBind"></FormField>
       </b-col>
 
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField :name="prefixed.postalCode" v-bind="commonBind"></FormField>
       </b-col>
     </b-form-row>
@@ -77,26 +60,26 @@ export default {
       type: String,
       default() {
         return this.$localize_defaultlanguage
-      },
+      }
     },
     validated: {
       type: Boolean,
-      default: false,
+      default: false
     },
     values: {
       type: Object,
       default() {
         return {}
-      },
+      }
     },
     header: {
       type: String,
-      default: 'Untitled',
+      default: 'Untitled'
     },
     prefix: {
       type: String,
-      default: '',
-    },
+      default: ''
+    }
   },
   data() {
     const prefixer = this.$prefixer(this.prefix)
@@ -106,71 +89,71 @@ export default {
           label: 'First Name',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('lastName')]: {
           label: 'Last Name',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('title')]: {
           label: 'Title',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('primaryEmailAddress')]: {
           label: 'Primary Email Address',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('primaryPhoneNumber')]: {
           label: 'Primary Phone Number',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('faxNumber')]: {
           label: 'Fax Number',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('street1')]: {
           label: 'Street 1',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('street2')]: {
           label: 'Street 2',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('street3')]: {
           label: 'Street 3',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('city')]: {
           label: 'City',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('province')]: {
           label: 'Province',
@@ -189,11 +172,11 @@ export default {
             'Prince Edward Island',
             'Québec',
             'Saskatchewan',
-            'Yukon',
+            'Yukon'
           ],
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('country')]: {
           label: 'Country',
@@ -201,21 +184,21 @@ export default {
           choices: [
             { text: 'Select\u2026', value: '' },
             'Canada',
-            'United States',
+            'United States'
           ],
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('postalCode')]: {
           label: 'Postal Code',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
-        },
+            notEmpty: {}
+          }
+        }
       },
-      prefixed: prefixer.prefixed,
+      prefixed: prefixer.prefixed
     }
   },
   computed: {
@@ -224,9 +207,9 @@ export default {
         language: this.language,
         validated: this.validated,
         values: this.values,
-        fields: this.fields,
+        fields: this.fields
       }
-    },
+    }
   },
   methods: {
     getValidations() {
@@ -234,7 +217,7 @@ export default {
         acc[cur] = this.$refs[cur].validation
         return acc
       }, {})
-    },
-  },
+    }
+  }
 }
 </script>

@@ -30,10 +30,11 @@
           <a class="nav-link" v-show="show.sponsor3" href="#sponsorEmployer3">
             <b-icon icon="chevron-right"></b-icon>Third Sponsor
           </a>
-          <a class="nav-link" href="#">Custodian</a>
-          <a class="nav-link" href="#">Member</a>
-          <a class="nav-link" href="#">Corporate Trustee/Individual Trustee #1</a>
-          <a class="nav-link" href="#">Current Year Estimate & Historical T4 (Box 14)/T4PS Income</a>
+          <a class="nav-link" href="#Custodian">Custodian</a>
+          <a class="nav-link" href="#trust1">Corporate Trustee/Individual Trustee #1</a>
+          <a class="nav-link" href="#trust2">Individual Trustee #2</a>
+          <a class="nav-link" href="#trust3">Individual Trustee #3</a>
+          <a class="nav-link" href="#t4income">Current & Historical Income</a>
         </nav>
       </div>
       <div class="col-lg-9 offset-lg-2">
@@ -123,7 +124,7 @@
           <IntegrisSponsorEmployer
             ref="sponsorEmployer1"
             class="my-3"
-            header="Sponsor/Employer #1 (Primary Sponsor)"
+            header="Primary Sponsor"
             prefix="sponsorEmployer1"
             v-bind="commonBind"
             :showNextSponsorBtn="!show.sponsor2"
@@ -160,6 +161,7 @@
             header="Custodian"
             prefix="custodian"
             v-bind="commonBind"
+            id="Custodian"
           ></IntegrisCustodianTrustee>
 
           <IntegrisCustodianTrustee
@@ -168,6 +170,7 @@
             header="Corporate Trustee/Individual Trustee #1"
             prefix="corporateIndividualTrustee"
             v-bind="commonBind"
+            id="trust1"
           ></IntegrisCustodianTrustee>
 
           <IntegrisCustodianTrustee
@@ -176,6 +179,7 @@
             header="Individual Trustee #2"
             prefix="individualTrustee2"
             v-bind="commonBind"
+            id="trust2"
           ></IntegrisCustodianTrustee>
 
           <IntegrisCustodianTrustee
@@ -184,6 +188,7 @@
             header="Individual Trustee #3"
             prefix="individualTrustee3"
             v-bind="commonBind"
+            id="trust3"
           ></IntegrisCustodianTrustee>
 
           <IntegrisCurrentYearEstimate
@@ -192,6 +197,7 @@
             header="Current Year Estimate &amp; Historical T4 (Box 14)/T4PS Income"
             prefix="currentYearEstimate"
             v-bind="commonBind"
+            id="t4income"
           ></IntegrisCurrentYearEstimate>
 
           <b-card class="my-3" header="Data">
@@ -315,7 +321,8 @@ export default {
       return {
         language: this.language,
         validated: this.validated,
-        values: this.values
+        values: this.values,
+        show: this.show
       }
     }
   },
@@ -343,7 +350,7 @@ body {
 }
 .card {
   transition: box-shadow 0.5s;
-  margin-bottom: 4em !important;
+  margin-bottom: 2em !important;
 }
 .card:hover {
   box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;

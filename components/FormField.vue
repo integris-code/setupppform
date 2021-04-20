@@ -7,8 +7,8 @@
     :state="validationDisplay.state"
     :value="options.value"
     @input="onInput"
-    >{{ options.label }}</b-form-checkbox
-  >
+    @change="$emit('change')"
+  >{{ options.label }}</b-form-checkbox>
   <b-form-group
     v-else
     :label="options.label"
@@ -75,30 +75,31 @@ export default {
       type: String,
       default() {
         return this.$localize_defaultlanguage
-      },
+      }
     },
     validated: {
       type: Boolean,
-      default: false,
+      default: false
     },
     values: {
       type: Object,
       default() {
         return {}
-      },
+      }
     },
     fields: {
       type: Object,
       default() {
         return {}
-      },
+      }
     },
     name: {
       type: String,
-      default: 'unnamed',
-    },
+      default: 'unnamed'
+    }
   },
   data() {
+    // console.log('FIELD TYPE', this.fields[this.name])
     const type = this.fields[this.name].type || 'text'
 
     let defaultValue = this.fields[this.name].defaultValue
@@ -127,8 +128,8 @@ export default {
           this.language
         ),
         readonly: this.fields[this.name].readonly || false,
-        validators: this.fields[this.name].validators || {},
-      },
+        validators: this.fields[this.name].validators || {}
+      }
     }
   },
 
@@ -141,14 +142,15 @@ export default {
         return { state: null }
       }
       return this.validation
-    },
+    }
   },
 
   methods: {
     onInput(value) {
       this.values[this.name] = value // eslint-disable-line vue/no-mutating-props
-    },
-  },
+      this.$emit('change')
+    }
+  }
 }
 </script>
 

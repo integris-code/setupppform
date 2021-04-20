@@ -10,8 +10,20 @@
         </b-col>
 
         <b-col cols="12" lg="9">
-          <div v-for="mIndex in 4" :key="`${yearIndex}_${mIndex}`">
-            <h4 class="h6">Member #{{ mIndex }}</h4>
+          <b-card
+            header-tag="h3"
+            header-class="h6 mb-0"
+            v-for="mIndex in 4"
+            :key="`${yearIndex}_${mIndex}`"
+          >
+            <template #header>
+              <h3 class="h6">
+                {{'Member #'+ mIndex}}
+                <span
+                  v-show="!!values['memberEmployee'+mIndex+'_lastName']"
+                >({{values['memberEmployee'+mIndex+'_lastName']}}, {{values['memberEmployee'+mIndex+'_firstName']}})</span>
+              </h3>
+            </template>
 
             <b-form-row>
               <b-col cols="12" md="6" lg="4">
@@ -80,7 +92,7 @@
                 ></FormField>
               </b-col>
             </b-form-row>
-          </div>
+          </b-card>
         </b-col>
       </b-form-row>
       <!-- </b-card> -->
@@ -91,36 +103,39 @@
 <script>
 export default {
   props: {
+    show: {
+      type: Object
+    },
     language: {
       type: String,
       default() {
         return this.$localize_defaultlanguage
-      },
+      }
     },
     validated: {
       type: Boolean,
-      default: false,
+      default: false
     },
     values: {
       type: Object,
       default() {
         return {}
-      },
+      }
     },
     header: {
       type: String,
-      default: 'Untitled',
+      default: 'Untitled'
     },
     prefix: {
       type: String,
-      default: '',
-    },
+      default: ''
+    }
   },
   data() {
     const prefixer = this.$prefixer(this.prefix)
 
     const endYear = new Date().getFullYear()
-    const startYear = 1989
+    const startYear = endYear - 30
 
     const fields = {}
 
@@ -130,13 +145,13 @@ export default {
           const name = [
             `year${year + 1}`,
             `member${mIndex + 1}`,
-            `sponsor${sIndex + 1}`,
+            `sponsor${sIndex + 1}`
           ].join('_')
 
           fields[prefixer.set(name)] = {
             label: `Sponsor #${sIndex + 1}`,
             type: 'text',
-            validators: {},
+            validators: {}
           }
         }
       }
@@ -146,7 +161,7 @@ export default {
       startYear,
       endYear,
       fields,
-      prefixed: prefixer.prefixed,
+      prefixed: prefixer.prefixed
     }
   },
   computed: {
@@ -155,9 +170,17 @@ export default {
         language: this.language,
         validated: this.validated,
         values: this.values,
-        fields: this.fields,
+        fields: this.fields
       }
     },
+    test() {
+      // var sponsorName = ''
+      // if (!!this.values['sponsorEmployer' + sIndex + '_companyName']) {
+      //   sponsorName = this.values[
+      //     'sponsorEmployer' + sIndex + '_companyName'
+      //   ]
+      // }
+    }
   },
   methods: {
     getValidations() {
@@ -165,7 +188,7 @@ export default {
         acc[cur] = this.$refs[cur].validation
         return acc
       }, {})
-    },
-  },
+    }
+  }
 }
 </script>

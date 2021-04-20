@@ -134,7 +134,7 @@ export default {
           choices: [
             { text: 'Select\u2026', value: '' },
             'Insurrance (Assumption Life)',
-            'Insurrance (Desjardins)',
+            // 'Insurrance (Desjardins)',
             'Insurrance (iA)',
             'Trust - 3 Individual Trustees',
             'Trust - Corporate Trustees'
