@@ -1,7 +1,7 @@
 <template>
   <b-card :header="header" header-tag="h2" header-class="h5">
     <b-form-row>
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField
           ref="provincialAuthority"
           :name="prefixed.provincialAuthority"
@@ -9,15 +9,11 @@
         ></FormField>
       </b-col>
 
-      <b-col cols="12" md="6" lg="3">
-        <FormField
-          ref="productPlatform"
-          :name="prefixed.productPlatform"
-          v-bind="commonBind"
-        ></FormField>
+      <b-col cols="12" md="6">
+        <FormField ref="productPlatform" :name="prefixed.productPlatform" v-bind="commonBind"></FormField>
       </b-col>
 
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField
           ref="normalRetirementAge"
           :name="prefixed.normalRetirementAge"
@@ -25,7 +21,7 @@
         ></FormField>
       </b-col>
 
-      <b-col cols="12" md="6" lg="3">
+      <b-col cols="12" md="6">
         <FormField
           ref="languageOfCorrespondence"
           :name="prefixed.languageOfCorrespondence"
@@ -36,51 +32,42 @@
 
     <b-form-row>
       <b-col cols="12">
-        <FormField
-          ref="requestFor"
-          :name="prefixed.requestFor"
-          v-bind="commonBind"
-        ></FormField>
+        <FormField ref="requestFor" :name="prefixed.requestFor" v-bind="commonBind"></FormField>
       </b-col>
     </b-form-row>
 
     <b-form-row>
       <b-col cols="12" md="6" lg="9">
-        <FormField
-          ref="existingPlanName"
-          :name="prefixed.existingPlanName"
-          v-bind="commonBind"
-        ></FormField>
+        <FormField ref="existingPlanName" :name="prefixed.existingPlanName" v-bind="commonBind"></FormField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
-        <FormField
-          ref="existingCraPlanNo"
-          :name="prefixed.existingCraPlanNo"
-          v-bind="commonBind"
-        ></FormField>
+        <FormField ref="existingCraPlanNo" :name="prefixed.existingCraPlanNo" v-bind="commonBind"></FormField>
       </b-col>
     </b-form-row>
 
-    <b-form-row>
-      <b-col cols="12">
-        <FormField
-          ref="membersEmployeesParticipatingInThePlan"
-          :name="prefixed.membersEmployeesParticipatingInThePlan"
-          v-bind="commonBind"
-        ></FormField>
-      </b-col>
-    </b-form-row>
+    <!-- Not needed anymore since we have amost "dynamic" sections now -->
+    <div v-show="false">
+      <b-form-row>
+        <b-col cols="12">
+          <FormField
+            ref="membersEmployeesParticipatingInThePlan"
+            :name="prefixed.membersEmployeesParticipatingInThePlan"
+            v-bind="commonBind"
+          ></FormField>
+        </b-col>
+      </b-form-row>
 
-    <b-form-row>
-      <b-col cols="12">
-        <FormField
-          ref="sponsorsEmployersParticipatingInThePlan"
-          :name="prefixed.sponsorsEmployersParticipatingInThePlan"
-          v-bind="commonBind"
-        ></FormField>
-      </b-col>
-    </b-form-row>
+      <b-form-row>
+        <b-col cols="12">
+          <FormField
+            ref="sponsorsEmployersParticipatingInThePlan"
+            :name="prefixed.sponsorsEmployersParticipatingInThePlan"
+            v-bind="commonBind"
+          ></FormField>
+        </b-col>
+      </b-form-row>
+    </div>
   </b-card>
 </template>
 
@@ -91,26 +78,26 @@ export default {
       type: String,
       default() {
         return this.$localize_defaultlanguage
-      },
+      }
     },
     validated: {
       type: Boolean,
-      default: false,
+      default: false
     },
     values: {
       type: Object,
       default() {
         return {}
-      },
+      }
     },
     header: {
       type: String,
-      default: 'Untitled',
+      default: 'Untitled'
     },
     prefix: {
       type: String,
-      default: '',
-    },
+      default: ''
+    }
   },
   data() {
     const prefixer = this.$prefixer(this.prefix)
@@ -134,12 +121,12 @@ export default {
             'Québec',
             'Saskatchewan',
             'Yukon',
-            'Federal',
+            'Federal'
           ],
           defaultValue: 'Ontario',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('productPlatform')]: {
           label: 'Product Platform',
@@ -150,12 +137,12 @@ export default {
             'Insurrance (Desjardins)',
             'Insurrance (iA)',
             'Trust - 3 Individual Trustees',
-            'Trust - Corporate Trustees',
+            'Trust - Corporate Trustees'
           ],
           defaultValue: 'Insurrance (iA)',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('normalRetirementAge')]: {
           label: 'Normal Retirement Age',
@@ -163,8 +150,8 @@ export default {
           readonly: true,
           defaultValue: 65,
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('languageOfCorrespondence')]: {
           label: 'Language of Correspondence',
@@ -176,9 +163,9 @@ export default {
               invalidFeedback: this.$localize(
                 { en: 'INVALID', fr: 'invalid fr' },
                 this.language
-              ),
-            },
-          },
+              )
+            }
+          }
         },
         [prefixer.set('requestFor')]: {
           label: 'This PPP Setup is for (select one)',
@@ -187,26 +174,26 @@ export default {
             { text: 'Select\u2026', value: '' },
             'Setup of a new PPP\u00AE',
             'Conversion of an existing IPP to a PPP\u00AE',
-            'Commutted Value Transfer from an existing Pension Plan to a new PPP\u00AE',
+            'Commutted Value Transfer from an existing Pension Plan to a new PPP\u00AE'
           ],
           defaultValue: 'Setup of a new PPP\u00AE',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('existingPlanName')]: {
           label: 'Existing Plan Name',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('existingCraPlanNo')]: {
           label: 'Existing CRA Plan No',
           type: 'text',
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('membersEmployeesParticipatingInThePlan')]: {
           label: 'Member(s)/Employee(s) participating in the Plan',
@@ -215,12 +202,12 @@ export default {
             { text: 'Member #1 (Primary)', value: 'Member #1' },
             'Member #2',
             'Member #3',
-            'Member #4',
+            'Member #4'
           ],
           defaultValue: ['Member #1'],
           validators: {
-            notEmpty: {},
-          },
+            notEmpty: {}
+          }
         },
         [prefixer.set('sponsorsEmployersParticipatingInThePlan')]: {
           label: 'Sponsor(s)/Employer(s) participating in the Plan',
@@ -228,15 +215,15 @@ export default {
           choices: [
             { text: 'Sponsor #1 (Primary)', value: 'Sponsor #1' },
             'Sponsor #2',
-            'Sponsor #3',
+            'Sponsor #3'
           ],
           defaultValue: ['Sponsor #1'],
           validators: {
-            notEmpty: {},
-          },
-        },
+            notEmpty: {}
+          }
+        }
       },
-      prefixed: prefixer.prefixed,
+      prefixed: prefixer.prefixed
     }
   },
   computed: {
@@ -245,9 +232,9 @@ export default {
         language: this.language,
         validated: this.validated,
         values: this.values,
-        fields: this.fields,
+        fields: this.fields
       }
-    },
+    }
   },
   methods: {
     getValidations() {
@@ -255,7 +242,7 @@ export default {
         acc[cur] = this.$refs[cur].validation
         return acc
       }, {})
-    },
-  },
+    }
+  }
 }
 </script>
