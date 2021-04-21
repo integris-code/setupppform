@@ -157,42 +157,42 @@
 
           <IntegrisCustodianTrustee
             ref="custodian"
-            class="my-3"
-            header="Custodian"
-            prefix="custodian"
-            v-bind="commonBind"
+            v-model="value.custodian"
+            :language="language"
+            class="mb-3"
+            :header="{ en: 'Custodian' }"
           ></IntegrisCustodianTrustee>
 
           <IntegrisCustodianTrustee
             ref="corporateIndividualTrustee"
-            class="my-3"
-            header="Corporate Trustee/Individual Trustee #1"
-            prefix="corporateIndividualTrustee"
-            v-bind="commonBind"
+            v-model="value.corporateIndividualTrustee"
+            :language="language"
+            class="mb-3"
+            :header="{ en: 'Corporate Trustee/Individual Trustee #1' }"
           ></IntegrisCustodianTrustee>
 
           <IntegrisCustodianTrustee
             ref="individualTrustee2"
-            class="my-3"
-            header="Individual Trustee #2"
-            prefix="individualTrustee2"
-            v-bind="commonBind"
+            v-model="value.individualTrustee2"
+            :language="language"
+            class="mb-3"
+            :header="{ en: 'Individual Trustee #2' }"
           ></IntegrisCustodianTrustee>
 
           <IntegrisCustodianTrustee
             ref="individualTrustee3"
-            class="my-3"
-            header="Individual Trustee #3"
-            prefix="individualTrustee3"
-            v-bind="commonBind"
+            v-model="value.individualTrustee3"
+            :language="language"
+            class="mb-3"
+            :header="{ en: 'Individual Trustee #3' }"
           ></IntegrisCustodianTrustee>
 
           <IntegrisCurrentYearEstimate
             ref="currentYearEstimate"
-            class="my-3"
-            header="Current Year Estimate &amp; Historical T4 (Box 14)/T4PS Income"
-            prefix="currentYearEstimate"
-            v-bind="commonBind"
+            v-model="value.currentYearEstimate"
+            :language="language"
+            class="mb-3"
+            :header="{ en: 'Current Year Estimate &amp; Historical T4 (Box 14)/T4PS Income' }"
           ></IntegrisCurrentYearEstimate>
 
           <b-card class="my-3" header="Data">
@@ -216,6 +216,12 @@
 <script>
 export default {
   data() {
+    const currentYear = new Date().getFullYear()
+    const currentYearEstimate = {}
+    for (let index = 0, length = 30; index <  length; index++) {
+      currentYearEstimate[String(currentYear - index)] = {}
+    }
+
     return {
       language: 'en',
       value: {
@@ -230,7 +236,12 @@ export default {
           membersEmployeesParticipatingInThePlan: ['Member #1'],
           sponsorsEmployersParticipatingInThePlan: ['Sponsor #1']
         },
-        clientsInvestmentAdvisor: {}
+        clientsInvestmentAdvisor: {},
+        custodian: {},
+        corporateIndividualTrustee: {},
+        individualTrustee2: {},
+        individualTrustee3: {},
+        currentYearEstimate
       },
 
       validated: false,
@@ -294,6 +305,7 @@ export default {
       }
     }
   },
+
   computed: {
     languageLabel() {
       return this.$localize(
@@ -334,22 +346,12 @@ export default {
       }
     }
   },
+
   methods: {
     onSubmit(event) {
       event.preventDefault()
-      // this.validated = true
-
-      // console.log(this.getValidations()) // eslint-disable-line no-console
       console.log(this.validate())
     },
-
-    // getValidations() {
-    //   return Object.keys(this.$refs).reduce((acc, cur) => {
-    //     acc[cur] = this.$refs[cur].getValidations()
-    //     return acc
-    //   }, {})
-    // },
-
     validate() {
       return Object.keys(this.$refs).reduce((acc, cur) => {
         if (this.$refs[cur].validate) {

@@ -1,240 +1,269 @@
 <template>
-  <b-card :header="header" header-tag="h2" header-class="h5">
+  <b-card :header="_header" header-tag="h2" header-class="h5">
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
-        <FormField :name="prefixed.firstName" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="firstName"
+          v-model="value.firstName"
+          :label="{ en: 'First Name' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
-        <FormField :name="prefixed.lastName" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="lastName"
+          v-model="value.lastName"
+          :label="{ en: 'Last Name' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" lg="6">
-        <FormField :name="prefixed.title" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="title"
+          v-model="value.title"
+          :label="{ en: 'Title' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
     </b-form-row>
 
     <b-form-row>
       <b-col cols="12" lg="6">
-        <FormField
-          :name="prefixed.primaryEmailAddress"
-          v-bind="commonBind"
-        ></FormField>
+        <JnInputField
+          ref="primaryEmailAddress"
+          v-model="value.primaryEmailAddress"
+          :label="{ en: 'Primary Email Address' }"
+          type="email"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
-        <FormField
-          :name="prefixed.primaryPhoneNumber"
-          v-bind="commonBind"
-        ></FormField>
+        <JnInputField
+          ref="primaryPhoneNumber"
+          v-model="value.primaryPhoneNumber"
+          :label="{ en: 'Primary Phone Number' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
-        <FormField :name="prefixed.faxNumber" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="faxNumber"
+          v-model="value.faxNumber"
+          :label="{ en: 'Fax Number' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
     </b-form-row>
 
     <b-form-row>
       <b-col cols="12">
-        <FormField :name="prefixed.street1" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="street1"
+          v-model="value.street1"
+          :label="{ en: 'Street 1' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
     </b-form-row>
 
     <b-form-row>
       <b-col cols="12" lg="6">
-        <FormField :name="prefixed.street2" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="street2"
+          v-model="value.street2"
+          :label="{ en: 'Street 2' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" lg="6">
-        <FormField :name="prefixed.street3" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="street3"
+          v-model="value.street3"
+          :label="{ en: 'Street 3' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
     </b-form-row>
 
     <b-form-row>
       <b-col cols="12" md="6" lg="3">
-        <FormField :name="prefixed.city" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="city"
+          v-model="value.city"
+          :label="{ en: 'City' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
-        <FormField :name="prefixed.province" v-bind="commonBind"></FormField>
+        <JnSelectField
+          ref="province"
+          v-model="value.province"
+          :label="{ en: 'Province' }"
+          :options="[
+            {
+              text: { en: 'Alberta' },
+              value: 'Alberta'
+            },
+            {
+              text: { en: 'British Columbia' },
+              value: 'British Columbia'
+            },
+            {
+              text: { en: 'Manitoba' },
+              value: 'Manitoba'
+            },
+            {
+              text: { en: 'New Brunswick' },
+              value: 'New Brunswick'
+            },
+            {
+              text: { en: 'Newfoundland & Labrador' },
+              value: 'Newfoundland & Labrador'
+            },
+            {
+              text: { en: 'Northwest Teritories' },
+              value: 'Northwest Teritories'
+            },
+            {
+              text: { en: 'Nova Scotia' },
+              value: 'Nova Scotia'
+            },
+            {
+              text: { en: 'Nunavut' },
+              value: 'Nunavut'
+            },
+            {
+              text: { en: 'Ontario' },
+              value: 'Ontario'
+            },
+            {
+              text: { en: 'Prince Edward Island' },
+              value: 'Prince Edward Island'
+            },
+            {
+              text: { en: 'Québec' },
+              value: 'Québec'
+            },
+            {
+              text: { en: 'Saskatchewan' },
+              value: 'Saskatchewan'
+            },
+            {
+              text: { en: 'Yukon' },
+              value: 'Yukon'
+            }
+          ]"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnSelectField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
-        <FormField :name="prefixed.country" v-bind="commonBind"></FormField>
+        <JnSelectField
+          ref="country"
+          v-model="value.country"
+          :label="{ en: 'Country' }"
+          :options="[
+            {
+              text: { en: 'Canada' },
+              value: 'Canada'
+            },
+            {
+              text: { en: 'United States' },
+              value: 'United States'
+            }
+          ]"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnSelectField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
-        <FormField :name="prefixed.postalCode" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="postalCode"
+          v-model="value.postalCode"
+          type="text"
+          :label="{ en: 'Postal Code' }"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
     </b-form-row>
   </b-card>
 </template>
 
 <script>
+import localizeMixin from '~/mixins/localize'
+
 export default {
+  mixins: [localizeMixin],
+
   props: {
-    language: {
-      type: String,
-      default() {
-        return this.$localize_defaultlanguage
-      },
+    header: {
+      type: [String, Object],
+      default: null
     },
-    validated: {
-      type: Boolean,
-      default: false,
-    },
-    values: {
+    value: {
       type: Object,
       default() {
         return {}
-      },
-    },
-    header: {
-      type: String,
-      default: 'Untitled',
-    },
-    prefix: {
-      type: String,
-      default: '',
-    },
-  },
-  data() {
-    const prefixer = this.$prefixer(this.prefix)
-    return {
-      fields: {
-        [prefixer.set('firstName')]: {
-          label: 'First Name',
-          type: 'text',
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('lastName')]: {
-          label: 'Last Name',
-          type: 'text',
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('title')]: {
-          label: 'Title',
-          type: 'text',
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('primaryEmailAddress')]: {
-          label: 'Primary Email Address',
-          type: 'text',
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('primaryPhoneNumber')]: {
-          label: 'Primary Phone Number',
-          type: 'text',
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('faxNumber')]: {
-          label: 'Fax Number',
-          type: 'text',
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('street1')]: {
-          label: 'Street 1',
-          type: 'text',
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('street2')]: {
-          label: 'Street 2',
-          type: 'text',
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('street3')]: {
-          label: 'Street 3',
-          type: 'text',
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('city')]: {
-          label: 'City',
-          type: 'text',
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('province')]: {
-          label: 'Province',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Alberta',
-            'British Columbia',
-            'Manitoba',
-            'New Brunswick',
-            'Newfoundland & Labrador',
-            'Northwest Teritories',
-            'Nova Scotia',
-            'Nunavut',
-            'Ontario',
-            'Prince Edward Island',
-            'Québec',
-            'Saskatchewan',
-            'Yukon',
-          ],
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('country')]: {
-          label: 'Country',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Canada',
-            'United States',
-          ],
-          validators: {
-            notEmpty: {},
-          },
-        },
-        [prefixer.set('postalCode')]: {
-          label: 'Postal Code',
-          type: 'text',
-          validators: {
-            notEmpty: {},
-          },
-        },
-      },
-      prefixed: prefixer.prefixed,
+      }
     }
   },
+
   computed: {
-    commonBind() {
-      return {
-        language: this.language,
-        validated: this.validated,
-        values: this.values,
-        fields: this.fields,
-      }
-    },
+    _header() {
+      return this.localize(this.header)
+    }
   },
+
   methods: {
-    getValidations() {
+    validate() {
       return Object.keys(this.$refs).reduce((acc, cur) => {
-        acc[cur] = this.$refs[cur].validation
+        if (this.$refs[cur].validate) {
+          acc[cur] = this.$refs[cur].validate()
+        }
         return acc
       }, {})
-    },
-  },
+    }
+  }
 }
 </script>

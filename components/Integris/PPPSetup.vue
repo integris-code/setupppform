@@ -177,8 +177,8 @@
         <JnInputField
           ref="existingPlanName"
           v-model="value.existingPlanName"
-          type="text"
           :label="{ en: 'Existing Plan Name' }"
+          type="text"
           :validators="{
             notEmpty: {}
           }"
@@ -189,8 +189,8 @@
         <JnInputField
           ref="existingCraPlanNo"
           v-model="value.existingCraPlanNo"
-          type="text"
           :label="{ en: 'Existing CRA Plan No' }"
+          type="text"
           :validators="{
             notEmpty: {}
           }"
