@@ -489,7 +489,7 @@
 
 <script>
 import { BIcon, BIconPlusCircle } from 'bootstrap-vue'
-import Template from './Template.vue'
+// import Template from './Template.vue'
 export default {
   components: {
     BIcon,

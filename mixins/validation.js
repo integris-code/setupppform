@@ -18,7 +18,7 @@ export default {
 
   computed: {
     validation() {
-      const value = this[valueProp]
+      const value = this[this.valueProp]
       const {
         notEmpty: notEmptyValidator
       } = this.validators

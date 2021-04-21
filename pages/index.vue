@@ -35,7 +35,9 @@
             <b-icon icon="chevron-right"></b-icon>Third Sponsor
           </a>
           <a class="nav-link" href="#Custodian">Custodian</a>
-          <a class="nav-link" href="#trust1">Corporate Trustee/Individual Trustee #1</a>
+          <a class="nav-link" href="#trust1"
+            >Corporate Trustee/Individual Trustee #1</a
+          >
           <a class="nav-link" href="#trust2">Individual Trustee #2</a>
           <a class="nav-link" href="#trust3">Individual Trustee #3</a>
           <a class="nav-link" href="#t4income">Current & Historical Income</a>
@@ -61,7 +63,7 @@
             ref="pppSetup"
             v-model="value.pppSetup"
             :language="language"
-            class="mb-3"
+            class="mb-3 pb-5"
             :header="{ en: 'Personal Pension Plan (PPP) Setup' }"
           ></IntegrisPPPSetup>
 
@@ -70,7 +72,7 @@
             v-model="value.clientsInvestmentAdvisor"
             :language="language"
             id="advisor"
-            class="my-3"
+            class="mb-3 pb-5"
             :header="{ en: 'Client(s) Investment Advisor' }"
           ></IntegrisClientsInvestmentAdvisor>
 
@@ -156,7 +158,7 @@
             ref="custodian"
             v-model="value.custodian"
             :language="language"
-            class="mb-3"
+            class="mb-3 pb-5"
             :header="{ en: 'Custodian' }"
           ></IntegrisCustodianTrustee>
 
@@ -164,7 +166,7 @@
             ref="corporateIndividualTrustee"
             v-model="value.corporateIndividualTrustee"
             :language="language"
-            class="mb-3"
+            class="mb-3 pb-5"
             :header="{ en: 'Corporate Trustee/Individual Trustee #1' }"
           ></IntegrisCustodianTrustee>
 
@@ -172,7 +174,7 @@
             ref="individualTrustee2"
             v-model="value.individualTrustee2"
             :language="language"
-            class="mb-3"
+            class="mb-3 pb-5"
             :header="{ en: 'Individual Trustee #2' }"
           ></IntegrisCustodianTrustee>
 
@@ -180,7 +182,7 @@
             ref="individualTrustee3"
             v-model="value.individualTrustee3"
             :language="language"
-            class="mb-3"
+            class="mb-3 pb-5"
             :header="{ en: 'Individual Trustee #3' }"
           ></IntegrisCustodianTrustee>
 
@@ -188,8 +190,11 @@
             ref="currentYearEstimate"
             v-model="value.currentYearEstimate"
             :language="language"
-            class="mb-3"
-            :header="{ en: 'Current Year Estimate &amp; Historical T4 (Box 14)/T4PS Income' }"
+            class="mb-3 pb-5"
+            :header="{
+              en:
+                'Current Year Estimate &amp; Historical T4 (Box 14)/T4PS Income'
+            }"
           ></IntegrisCurrentYearEstimate>
 
           <b-card class="my-3" header="Data">
@@ -215,7 +220,7 @@ export default {
   data() {
     const currentYear = new Date().getFullYear()
     const currentYearEstimate = {}
-    for (let index = 0, length = 30; index <  length; index++) {
+    for (let index = 0, length = 30; index < length; index++) {
       currentYearEstimate[String(currentYear - index)] = {}
     }
 
@@ -368,7 +373,7 @@ body {
 }
 .card {
   transition: box-shadow 0.5s;
-  margin-bottom: 2em !important;
+  /* margin-bottom: 2em !important; */
 }
 .card:hover {
   box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
