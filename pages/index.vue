@@ -3,7 +3,11 @@
     <h1 class="mb-5">PPP&reg; Setup Request Form</h1>
 
     <div class="row">
-      <div class="col-lg-1 pl-0 ml-0" style="position: fixed; top: 200px" id="formSections">
+      <div
+        class="col-lg-1 pl-0 ml-0"
+        style="position: fixed; top: 200px"
+        id="formSections"
+      >
         <nav class="nav flex-column pl-0 ml-0">
           <a class="nav-link active" href="#">Main</a>
           <a class="nav-link" href="#advisor">Client(s) Investment Advisor</a>
@@ -32,39 +36,35 @@
           </a>
           <a class="nav-link" href="#">Custodian</a>
           <a class="nav-link" href="#">Member</a>
-          <a class="nav-link" href="#">Corporate Trustee/Individual Trustee #1</a>
-          <a class="nav-link" href="#">Current Year Estimate & Historical T4 (Box 14)/T4PS Income</a>
+          <a class="nav-link" href="#"
+            >Corporate Trustee/Individual Trustee #1</a
+          >
+          <a class="nav-link" href="#"
+            >Current Year Estimate & Historical T4 (Box 14)/T4PS Income</a
+          >
         </nav>
       </div>
       <div class="col-lg-9 offset-lg-2">
         <b-form :novalidate="true" @submit="onSubmit">
           <!-- Let's comment out languages for now until we get french
-      <b-row>
-        <b-col cols="12" md="6" offset-md="6" lg="3" offset-lg="9">
-          <b-form-group :label="languageLabel">
-            <b-form-radio-group
-              v-model="language"
-              :options="languageOptions"
-            ></b-form-radio-group>
-          </b-form-group>
-        </b-col>
-      </b-row>
+          <b-row>
+            <b-col cols="12" md="6" offset-md="6" lg="3" offset-lg="9">
+              <b-form-group :label="languageLabel">
+                <b-form-radio-group
+                  v-model="language"
+                  :options="languageOptions"
+                ></b-form-radio-group>
+              </b-form-group>
+            </b-col>
+          </b-row>
           -->
 
           <IntegrisPPPSetup
             ref="pppSetup"
+            v-model="value.pppSetup"
+            :language="language"
             class="mb-3"
-            :header="
-          $localize(
-            {
-              en: 'Personal Pension Plan (PPP) Setup',
-              fr: 'Personal Pension Plan (PPP) Setup (FR)',
-            },
-            language
-          )
-        "
-            prefix="pppSetup"
-            v-bind="commonBind"
+            :header="{ en: 'Personal Pension Plan (PPP) Setup' }"
           ></IntegrisPPPSetup>
 
           <IntegrisClientsInvestmentAdvisor
@@ -82,7 +82,7 @@
             prefix="memberEmployee1"
             v-bind="commonBind"
             :showNextMemberBtn="!show.member2"
-            @showNext="show.member2=true"
+            @showNext="show.member2 = true"
             :hideRemove="true"
           ></IntegrisMemberEmployee>
 
@@ -92,9 +92,9 @@
             prefix="memberEmployee2"
             v-bind="commonBind"
             v-show="show.member2"
-            @removeMember="show.member2=false"
+            @removeMember="show.member2 = false"
             :showNextMemberBtn="!show.member3"
-            @showNext="show.member3=true"
+            @showNext="show.member3 = true"
             :hideRemove="show.member3"
           ></IntegrisMemberEmployee>
 
@@ -104,9 +104,9 @@
             prefix="memberEmployee3"
             v-bind="commonBind"
             v-show="show.member3"
-            @removeMember="show.member3=false"
+            @removeMember="show.member3 = false"
             :showNextMemberBtn="!show.member4"
-            @showNext="show.member4=true"
+            @showNext="show.member4 = true"
             :hideRemove="show.member4"
           ></IntegrisMemberEmployee>
 
@@ -116,7 +116,7 @@
             prefix="memberEmployee4"
             v-bind="commonBind"
             v-show="show.member4"
-            @removeMember="show.member4=false"
+            @removeMember="show.member4 = false"
             :showNextMemberBtn="false"
           ></IntegrisMemberEmployee>
 
@@ -127,7 +127,7 @@
             prefix="sponsorEmployer1"
             v-bind="commonBind"
             :showNextSponsorBtn="!show.sponsor2"
-            @showNext="show.sponsor2=true"
+            @showNext="show.sponsor2 = true"
             :hideRemove="true"
           ></IntegrisSponsorEmployer>
 
@@ -138,9 +138,9 @@
             prefix="sponsorEmployer2"
             v-bind="commonBind"
             v-show="show.sponsor2"
-            @removeSponsor="show.sponsor2=false"
+            @removeSponsor="show.sponsor2 = false"
             :showNextSponsorBtn="!show.sponsor3"
-            @showNext="show.sponsor3=true"
+            @showNext="show.sponsor3 = true"
           ></IntegrisSponsorEmployer>
 
           <IntegrisSponsorEmployer
@@ -150,7 +150,7 @@
             prefix="sponsorEmployer3"
             v-bind="commonBind"
             v-show="show.sponsor3"
-            @removeSponsor="show.sponsor3=false"
+            @removeSponsor="show.sponsor3 = false"
             :showNextSponsorBtn="false"
           ></IntegrisSponsorEmployer>
 
@@ -196,7 +196,10 @@
 
           <b-card class="my-3" header="Data">
             <b-form-group label="Model">
-              <b-form-textarea rows="20" :value="JSON.stringify(values, null, 5)"></b-form-textarea>
+              <b-form-textarea
+                rows="20"
+                :value="JSON.stringify(value, null, 5)"
+              ></b-form-textarea>
             </b-form-group>
           </b-card>
 
@@ -216,8 +219,17 @@ export default {
     BIcon,
     BIconChevronRight
   },
+
   data() {
     return {
+      value: {
+        pppSetup: {
+          provincialAuthority: 'Ontario',
+          productPlatform: 'Insurrance (iA)',
+          normalRetirementAge: 65
+        }
+      },
+
       language: this.$localize_defaultlanguage,
       validated: false,
       values: {},
@@ -232,6 +244,7 @@ export default {
       }
     }
   },
+
   watch: {
     'show.member2'(newItem, old) {
       if (newItem) {

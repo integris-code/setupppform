@@ -1,245 +1,247 @@
 <template>
-  <b-card :header="header" header-tag="h2" header-class="h5">
+  <b-card :header="localize(header)" header-tag="h2" header-class="h5">
     <b-form-row>
       <b-col cols="12" md="6">
-        <FormField
+        <JnSelectField
           ref="provincialAuthority"
-          :name="prefixed.provincialAuthority"
-          v-bind="commonBind"
-        ></FormField>
+          v-model="value.provincialAuthority"
+          :language="language"
+          :label="{ en: 'Provincial Authority' }"
+          :options="[
+            {
+              text: { en: 'Alberta' },
+              value: 'Alberta'
+            },
+            {
+              text: { en: 'British Columbia' },
+              value: 'British Columbia'
+            },
+            {
+              text: { en: 'Manitoba' },
+              value: 'Manitoba'
+            },
+            {
+              text: { en: 'New Brunswick' },
+              value: 'New Brunswick'
+            },
+            {
+              text: { en: 'Newfoundland & Labrador' },
+              value: 'Newfoundland & Labrador'
+            },
+            {
+              text: { en: 'Northwest Teritories' },
+              value: 'Northwest Teritories'
+            },
+            {
+              text: { en: 'Nova Scotia' },
+              value: 'Nova Scotia'
+            },
+            {
+              text: { en: 'Nunavut' },
+              value: 'Nunavut'
+            },
+            {
+              text: { en: 'Ontario' },
+              value: 'Ontario'
+            },
+            {
+              text: { en: 'Prince Edward Island' },
+              value: 'Prince Edward Island'
+            },
+            {
+              text: { en: 'Québec' },
+              value: 'Québec'
+            },
+            {
+              text: { en: 'Saskatchewan' },
+              value: 'Saskatchewan'
+            },
+            {
+              text: { en: 'Yukon' },
+              value: 'Yukon'
+            },
+            {
+              text: { en: 'Federal' },
+              value: 'Federal'
+            }
+          ]"
+          :validators="{}"
+        ></JnSelectField>
       </b-col>
 
       <b-col cols="12" md="6">
-        <FormField ref="productPlatform" :name="prefixed.productPlatform" v-bind="commonBind"></FormField>
+        <JnSelectField
+          ref="productPlatform"
+          v-model="value.productPlatform"
+          :language="language"
+          :label="{ en: 'Product Platform' }"
+          :options="[
+            {
+              text: { en: 'Insurrance (Assumption Life)' },
+              value: 'Insurrance (Assumption Life)'
+            },
+            // { text: { en: 'Insurrance (Desjardins)' }, value: 'Insurrance (Desjardins)' },
+            {
+              text: { en: 'Insurrance (iA)' },
+              value: 'Insurrance (iA)'
+            },
+            {
+              text: { en: 'Trust - 3 Individual Trustees' },
+              value: 'Trust - 3 Individual Trustees'
+            },
+            {
+              text: { en: 'Trust - Corporate Trustees' },
+              value: 'Trust - Corporate Trustees'
+            }
+          ]"
+          :validators="{}"
+        ></JnSelectField>
       </b-col>
+    </b-form-row>
 
+    <b-form-row>
       <b-col cols="12" md="6">
-        <FormField
+        <JnInputField
           ref="normalRetirementAge"
-          :name="prefixed.normalRetirementAge"
-          v-bind="commonBind"
-        ></FormField>
+          v-model="value.normalRetirementAge"
+          :language="language"
+          :label="{ en: 'Normal Retirement Age' }"
+          type="number"
+          :readonly="true"
+          :validators="{}"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" md="6">
-        <FormField
+        <JnSelectField
           ref="languageOfCorrespondence"
-          :name="prefixed.languageOfCorrespondence"
-          v-bind="commonBind"
-        ></FormField>
+          v-model="value.languageOfCorrespondence"
+          :language="language"
+          :label="{ en: 'Language of Correspondence' }"
+          :options="[
+            {
+              text: { en: 'English' },
+              value: 'English'
+            },
+            {
+              text: { en: 'French' },
+              value: 'French'
+            }
+          ]"
+          :validators="{}"
+        ></JnSelectField>
       </b-col>
     </b-form-row>
 
     <b-form-row>
       <b-col cols="12">
-        <FormField ref="requestFor" :name="prefixed.requestFor" v-bind="commonBind"></FormField>
+        <JnSelectField
+          ref="requestFor"
+          v-model="value.requestFor"
+          :label="{ en: 'This PPP Setup is for (select one)' }"
+          :options="[
+            {
+              text: { en: 'Setup of a new PPP\u00AE' },
+              value: 'Setup of a new PPP\u00AE'
+            },
+            {
+              text: { en: 'Conversion of an existing IPP to a PPP\u00AE' },
+              value: 'Conversion of an existing IPP to a PPP\u00AE'
+            },
+            {
+              text: {
+                en:
+                  'Commutted Value Transfer from an existing Pension Plan to a new PPP\u00AE'
+              },
+              value:
+                'Commutted Value Transfer from an existing Pension Plan to a new PPP\u00AE'
+            }
+          ]"
+          :validators="{}"
+        ></JnSelectField>
       </b-col>
     </b-form-row>
 
     <b-form-row>
       <b-col cols="12" md="6" lg="9">
-        <FormField ref="existingPlanName" :name="prefixed.existingPlanName" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="existingPlanName"
+          v-model="value.existingPlanName"
+          type="text"
+          :label="{ en: 'Existing Plan Name' }"
+          :validators="{}"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
-        <FormField ref="existingCraPlanNo" :name="prefixed.existingCraPlanNo" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="existingCraPlanNo"
+          v-model="value.existingCraPlanNo"
+          type="text"
+          :label="{ en: 'Existing CRA Plan No' }"
+          :validators="{}"
+        ></JnInputField>
       </b-col>
     </b-form-row>
 
-    <!-- Not needed anymore since we have amost "dynamic" sections now -->
-    <div v-show="false">
-      <b-form-row>
-        <b-col cols="12">
-          <FormField
-            ref="membersEmployeesParticipatingInThePlan"
-            :name="prefixed.membersEmployeesParticipatingInThePlan"
-            v-bind="commonBind"
-          ></FormField>
-        </b-col>
-      </b-form-row>
+    <b-form-row v-show="false">
+      <b-col cols="12">
+        <JnCheckboxGroupField
+          ref="membersEmployeesParticipatingInThePlan"
+          v-model="value.membersEmployeesParticipatingInThePlan"
+          :label="{ en: 'Member(s)/Employee(s) participating in the Plan' }"
+          :options="[
+            { text: { en: 'Member #1 (Primary)' }, value: 'Member #1' },
+            { text: { en: 'Member #2' }, value: 'Member #2' },
+            { text: { en: 'Member #3' }, value: 'Member #3' },
+            { text: { en: 'Member #4' }, value: 'Member #4' }
+          ]"
+          :validators="{}"
+        ></JnCheckboxGroupField>
+      </b-col>
+    </b-form-row>
 
-      <b-form-row>
-        <b-col cols="12">
-          <FormField
-            ref="sponsorsEmployersParticipatingInThePlan"
-            :name="prefixed.sponsorsEmployersParticipatingInThePlan"
-            v-bind="commonBind"
-          ></FormField>
-        </b-col>
-      </b-form-row>
-    </div>
+    <b-form-row v-show="false">
+      <b-col cols="12">
+        <JnCheckboxGroupField
+          ref="sponsorsEmployersParticipatingInThePlan"
+          v-model="value.sponsorsEmployersParticipatingInThePlan"
+          :label="{ en: 'Sponsor(s)/Employer(s) participating in the Plan' }"
+          :options="[
+            { text: { en: 'Sponsor #1 (Primary)' }, value: 'Sponsor #1' },
+            { text: { en: 'Sponsor #2' }, value: 'Sponsor #2' },
+            { text: { en: 'Sponsor #3' }, value: 'Sponsor #3' }
+          ]"
+          :validators="{}"
+        ></JnCheckboxGroupField>
+      </b-col>
+    </b-form-row>
   </b-card>
 </template>
 
 <script>
+import localizeMixin from '~/mixins/localize'
+
 export default {
+  mixins: [localizeMixin],
+
   props: {
-    language: {
-      type: String,
-      default() {
-        return this.$localize_defaultlanguage
-      }
+    header: {
+      type: [String, Object],
+      default: null
     },
-    validated: {
-      type: Boolean,
-      default: false
-    },
-    values: {
+    value: {
       type: Object,
       default() {
         return {}
       }
-    },
-    header: {
-      type: String,
-      default: 'Untitled'
-    },
-    prefix: {
-      type: String,
-      default: ''
     }
   },
-  data() {
-    const prefixer = this.$prefixer(this.prefix)
-    return {
-      fields: {
-        [prefixer.set('provincialAuthority')]: {
-          label: 'Provincial Authority',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Alberta',
-            'British Columbia',
-            'Manitoba',
-            'New Brunswick',
-            'Newfoundland & Labrador',
-            'Northwest Teritories',
-            'Nova Scotia',
-            'Nunavut',
-            'Ontario',
-            'Prince Edward Island',
-            'Québec',
-            'Saskatchewan',
-            'Yukon',
-            'Federal'
-          ],
-          defaultValue: 'Ontario',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('productPlatform')]: {
-          label: 'Product Platform',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Insurrance (Assumption Life)',
-            'Insurrance (Desjardins)',
-            'Insurrance (iA)',
-            'Trust - 3 Individual Trustees',
-            'Trust - Corporate Trustees'
-          ],
-          defaultValue: 'Insurrance (iA)',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('normalRetirementAge')]: {
-          label: 'Normal Retirement Age',
-          type: 'number',
-          readonly: true,
-          defaultValue: 65,
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('languageOfCorrespondence')]: {
-          label: 'Language of Correspondence',
-          type: 'select',
-          choices: [{ text: 'Select\u2026', value: '' }, 'English', 'French'],
-          defaultValue: 'English',
-          validators: {
-            notEmpty: {
-              invalidFeedback: this.$localize(
-                { en: 'INVALID', fr: 'invalid fr' },
-                this.language
-              )
-            }
-          }
-        },
-        [prefixer.set('requestFor')]: {
-          label: 'This PPP Setup is for (select one)',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Setup of a new PPP\u00AE',
-            'Conversion of an existing IPP to a PPP\u00AE',
-            'Commutted Value Transfer from an existing Pension Plan to a new PPP\u00AE'
-          ],
-          defaultValue: 'Setup of a new PPP\u00AE',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('existingPlanName')]: {
-          label: 'Existing Plan Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('existingCraPlanNo')]: {
-          label: 'Existing CRA Plan No',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('membersEmployeesParticipatingInThePlan')]: {
-          label: 'Member(s)/Employee(s) participating in the Plan',
-          type: 'checkbox-group',
-          choices: [
-            { text: 'Member #1 (Primary)', value: 'Member #1' },
-            'Member #2',
-            'Member #3',
-            'Member #4'
-          ],
-          defaultValue: ['Member #1'],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('sponsorsEmployersParticipatingInThePlan')]: {
-          label: 'Sponsor(s)/Employer(s) participating in the Plan',
-          type: 'checkbox-group',
-          choices: [
-            { text: 'Sponsor #1 (Primary)', value: 'Sponsor #1' },
-            'Sponsor #2',
-            'Sponsor #3'
-          ],
-          defaultValue: ['Sponsor #1'],
-          validators: {
-            notEmpty: {}
-          }
-        }
-      },
-      prefixed: prefixer.prefixed
-    }
-  },
-  computed: {
-    commonBind() {
-      return {
-        language: this.language,
-        validated: this.validated,
-        values: this.values,
-        fields: this.fields
-      }
-    }
-  },
+
   methods: {
-    getValidations() {
+    validate() {
       return Object.keys(this.$refs).reduce((acc, cur) => {
-        acc[cur] = this.$refs[cur].validation
+        acc[cur] = this.$refs[cur].validate()
         return acc
       }, {})
     }
