@@ -222,15 +222,22 @@ export default {
 
   data() {
     return {
+      language: 'en',
       value: {
         pppSetup: {
           provincialAuthority: 'Ontario',
           productPlatform: 'Insurrance (iA)',
-          normalRetirementAge: 65
+          normalRetirementAge: 65,
+          languageOfCorrespondence: 'English',
+          requestFor: 'Setup of a new PPP\u00AE',
+          existingPlanName: '',
+          existingCraPlanNo: '',
+          membersEmployeesParticipatingInThePlan: ['Member #1'],
+          sponsorsEmployersParticipatingInThePlan: ['Sponsor #1']
         }
       },
 
-      language: this.$localize_defaultlanguage,
+
       validated: false,
       values: {},
       show: {
