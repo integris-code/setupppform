@@ -2,7 +2,7 @@
   <b-card :header="_header" header-tag="h2" header-class="h5">
     <template v-for="count in 30">
       <IntegrisCurrentYearEstimateYear
-        :ref="year"
+        ref="year"
         :key="String(currentYear - (count - 1))"
         v-model="value[String(currentYear - (count - 1))]"
         :language="language"

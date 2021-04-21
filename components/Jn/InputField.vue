@@ -34,6 +34,10 @@ export default {
     readonly: {
       type: Boolean,
       default: false
+    },
+    value: {
+      type: [Number, String],
+      default: null
     }
   },
 

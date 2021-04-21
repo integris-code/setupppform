@@ -1,8 +1,8 @@
 export default {
   props: {
-    value: {
-      type: [Number, String, Array],
-      default: null
+    valueProp: {
+      type: String,
+      default: 'value'
     },
     validFeedback: {
       type: [String, Object],
@@ -18,6 +18,7 @@ export default {
 
   computed: {
     validation() {
+      const value = this[valueProp]
       const {
         notEmpty: notEmptyValidator
       } = this.validators
@@ -30,9 +31,9 @@ export default {
           trim = false
         } = notEmptyValidator
 
-        if (this.value == null || this.value === '' ||
-          (trim && typeof this.value === string && this.value.trim() === '') ||
-          (Array.isArray(this.value) && this.value.length === 0)) {
+        if (value == null || value === '' ||
+          (trim && typeof value === string && value.trim() === '') ||
+          (Array.isArray(value) && value.length === 0)) {
 
           return {
             state: false,

@@ -37,6 +37,12 @@ export default {
     readonly: {
       type: Boolean,
       default: false
+    },
+    value: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
 
