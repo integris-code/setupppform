@@ -42,7 +42,8 @@ export default {
 
   data() {
     return {
-      model: this.value
+      model: this.value,
+      validated: false
     }
   },
 

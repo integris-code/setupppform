@@ -1,137 +1,135 @@
 <template>
-  <b-card :header="header" header-tag="h2" header-class="h5">
+  <b-card :header="_header" header-tag="h2" header-class="h5">
     <b-form-row>
       <b-col cols="12" md="6">
-        <FormField :name="prefixed.firstName" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="firstName"
+          v-model="value.firstName"
+          :language="language"
+          :label="{ en: 'First Name' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" md="6">
-        <FormField :name="prefixed.lastName" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="lastName"
+          v-model="value.lastName"
+          :language="language"
+          :label="{ en: 'Last Name' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
+      </b-col>
+    </b-form-row>
+
+    <b-form-row>
+      <b-col cols="12" md="6">
+        <JnInputField
+          ref="title"
+          v-model="value.title"
+          :language="language"
+          :label="{ en: 'Title' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" md="6">
-        <FormField :name="prefixed.title" v-bind="commonBind"></FormField>
-      </b-col>
-      <b-col cols="12" md="6">
-        <FormField :name="prefixed.companyName" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="companyName"
+          v-model="value.companyName"
+          :language="language"
+          :label="{ en: 'Company Name' }"
+          type="text"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
     </b-form-row>
 
     <b-form-row>
       <b-col cols="12" lg="6">
-        <FormField :name="prefixed.emailAddress" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="emailAddress"
+          v-model="value.emailAddress"
+          :language="language"
+          :label="{ en: 'Email Address' }"
+          type="email"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
-        <FormField :name="prefixed.phoneNumber" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="phoneNumber"
+          v-model="value.phoneNumber"
+          :language="language"
+          :label="{ en: 'Phone Number' }"
+          type="tel"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
 
       <b-col cols="12" md="6" lg="3">
-        <FormField :name="prefixed.faxNumber" v-bind="commonBind"></FormField>
+        <JnInputField
+          ref="faxNumber"
+          v-model="value.faxNumber"
+          :language="language"
+          :label="{ en: 'Fax Number' }"
+          type="tel"
+          :validators="{
+            notEmpty: {}
+          }"
+        ></JnInputField>
       </b-col>
     </b-form-row>
   </b-card>
 </template>
 
 <script>
+import localizeMixin from '~/mixins/localize'
+
 export default {
+  mixins: [localizeMixin],
+
   props: {
-    language: {
-      type: String,
-      default() {
-        return this.$localize_defaultlanguage
-      }
+    header: {
+      type: [String, Object],
+      default: null
     },
-    validated: {
-      type: Boolean,
-      default: false
-    },
-    values: {
+    value: {
       type: Object,
       default() {
         return {}
       }
-    },
-    header: {
-      type: String,
-      default: 'Untitled'
-    },
-    prefix: {
-      type: String,
-      default: ''
     }
   },
-  data() {
-    const prefixer = this.$prefixer(this.prefix)
-    return {
-      fields: {
-        [prefixer.set('firstName')]: {
-          label: 'First Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('lastName')]: {
-          label: 'Last Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('title')]: {
-          label: 'Title',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('companyName')]: {
-          label: 'Company Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('emailAddress')]: {
-          label: 'Email Address',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('phoneNumber')]: {
-          label: 'Phone Number',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('faxNumber')]: {
-          label: 'Fax Number',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        }
-      },
-      prefixed: prefixer.prefixed
-    }
-  },
+
   computed: {
-    commonBind() {
-      return {
-        language: this.language,
-        validated: this.validated,
-        values: this.values,
-        fields: this.fields
-      }
+    _header() {
+      return this.localize(this.header)
     }
   },
+
   methods: {
-    getValidations() {
+    validate() {
       return Object.keys(this.$refs).reduce((acc, cur) => {
-        acc[cur] = this.$refs[cur].validation
+        if (this.$refs[cur].validate) {
+          acc[cur] = this.$refs[cur].validate()
+        }
         return acc
       }, {})
     }

@@ -1,5 +1,5 @@
 <template>
-  <b-card :header="localize(header)" header-tag="h2" header-class="h5">
+  <b-card :header="_header" header-tag="h2" header-class="h5">
     <b-form-row>
       <b-col cols="12" md="6">
         <JnSelectField
@@ -65,7 +65,9 @@
               value: 'Federal'
             }
           ]"
-          :validators="{}"
+          :validators="{
+            notEmpty: {}
+          }"
         ></JnSelectField>
       </b-col>
 
@@ -94,7 +96,9 @@
               value: 'Trust - Corporate Trustees'
             }
           ]"
-          :validators="{}"
+          :validators="{
+            notEmpty: {}
+          }"
         ></JnSelectField>
       </b-col>
     </b-form-row>
@@ -108,7 +112,9 @@
           :label="{ en: 'Normal Retirement Age' }"
           type="number"
           :readonly="true"
-          :validators="{}"
+          :validators="{
+            notEmpty: {}
+          }"
         ></JnInputField>
       </b-col>
 
@@ -128,7 +134,9 @@
               value: 'French'
             }
           ]"
-          :validators="{}"
+          :validators="{
+            notEmpty: {}
+          }"
         ></JnSelectField>
       </b-col>
     </b-form-row>
@@ -157,7 +165,9 @@
                 'Commutted Value Transfer from an existing Pension Plan to a new PPP\u00AE'
             }
           ]"
-          :validators="{}"
+          :validators="{
+            notEmpty: {}
+          }"
         ></JnSelectField>
       </b-col>
     </b-form-row>
@@ -169,7 +179,9 @@
           v-model="value.existingPlanName"
           type="text"
           :label="{ en: 'Existing Plan Name' }"
-          :validators="{}"
+          :validators="{
+            notEmpty: {}
+          }"
         ></JnInputField>
       </b-col>
 
@@ -179,7 +191,9 @@
           v-model="value.existingCraPlanNo"
           type="text"
           :label="{ en: 'Existing CRA Plan No' }"
-          :validators="{}"
+          :validators="{
+            notEmpty: {}
+          }"
         ></JnInputField>
       </b-col>
     </b-form-row>
@@ -196,7 +210,9 @@
             { text: { en: 'Member #3' }, value: 'Member #3' },
             { text: { en: 'Member #4' }, value: 'Member #4' }
           ]"
-          :validators="{}"
+          :validators="{
+            notEmpty: {}
+          }"
         ></JnCheckboxGroupField>
       </b-col>
     </b-form-row>
@@ -212,7 +228,9 @@
             { text: { en: 'Sponsor #2' }, value: 'Sponsor #2' },
             { text: { en: 'Sponsor #3' }, value: 'Sponsor #3' }
           ]"
-          :validators="{}"
+          :validators="{
+            notEmpty: {}
+          }"
         ></JnCheckboxGroupField>
       </b-col>
     </b-form-row>
@@ -238,10 +256,18 @@ export default {
     }
   },
 
+  computed: {
+    _header() {
+      return this.localize(this.header)
+    }
+  },
+
   methods: {
     validate() {
       return Object.keys(this.$refs).reduce((acc, cur) => {
-        acc[cur] = this.$refs[cur].validate()
+        if (this.$refs[cur].validate) {
+          acc[cur] = this.$refs[cur].validate()
+        }
         return acc
       }, {})
     }

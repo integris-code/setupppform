@@ -44,6 +44,7 @@
           >
         </nav>
       </div>
+
       <div class="col-lg-9 offset-lg-2">
         <b-form :novalidate="true" @submit="onSubmit">
           <!-- Let's comment out languages for now until we get french
@@ -69,11 +70,11 @@
 
           <IntegrisClientsInvestmentAdvisor
             ref="clientsInvestmentAdvisor"
-            class="my-3"
-            header="Client(s) Investment Advisor"
-            prefix="clientsInvestmentAdvisor"
-            v-bind="commonBind"
+            v-model="value.clientsInvestmentAdvisor"
+            :language="language"
             id="advisor"
+            class="my-3"
+            :header="{ en: 'Client(s) Investment Advisor' }"
           ></IntegrisClientsInvestmentAdvisor>
 
           <IntegrisMemberEmployee
@@ -213,13 +214,7 @@
 </template>
 
 <script>
-import { BIcon, BIconChevronRight } from 'bootstrap-vue'
 export default {
-  components: {
-    BIcon,
-    BIconChevronRight
-  },
-
   data() {
     return {
       language: 'en',
@@ -234,9 +229,9 @@ export default {
           existingCraPlanNo: '',
           membersEmployeesParticipatingInThePlan: ['Member #1'],
           sponsorsEmployersParticipatingInThePlan: ['Sponsor #1']
-        }
+        },
+        clientsInvestmentAdvisor: {}
       },
-
 
       validated: false,
       values: {},
@@ -342,14 +337,24 @@ export default {
   methods: {
     onSubmit(event) {
       event.preventDefault()
-      this.validated = true
+      // this.validated = true
 
-      console.log(this.getValidations()) // eslint-disable-line no-console
+      // console.log(this.getValidations()) // eslint-disable-line no-console
+      console.log(this.validate())
     },
 
-    getValidations() {
+    // getValidations() {
+    //   return Object.keys(this.$refs).reduce((acc, cur) => {
+    //     acc[cur] = this.$refs[cur].getValidations()
+    //     return acc
+    //   }, {})
+    // },
+
+    validate() {
       return Object.keys(this.$refs).reduce((acc, cur) => {
-        acc[cur] = this.$refs[cur].getValidations()
+        if (this.$refs[cur].validate) {
+          acc[cur] = this.$refs[cur].validate()
+        }
         return acc
       }, {})
     }
