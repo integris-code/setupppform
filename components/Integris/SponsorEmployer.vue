@@ -1,9 +1,10 @@
 <template>
   <div :id="prefix" class="py-3">
-    <b-card header-tag="header" footer-tag="footer">
+    <b-card header-tag="header" footer-tag="footer" header-class="pb-0">
       <template #header>
         <h2 class="h5">
           {{header}}
+          <span v-show="!!values[prefixed.companyName]">({{values[prefixed.companyName]}})</span>
           <b-button
             @click="$emit('removeSponsor')"
             variant="danger"
@@ -12,33 +13,34 @@
             v-show="!hideRemove"
           >Remove this Member</b-button>
         </h2>
+        <p
+          class="text-muted"
+        >A sponsor can be an employer/company that will be contributing to the plan member's pension plan.</p>
       </template>
+
       <b-form-row>
-        <b-col cols="12" md="6" lg="9">
+        <b-col cols="12">
           <FormField :name="prefixed.companyName" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.field" v-bind="commonBind"></FormField>
         </b-col>
-      </b-form-row>
-
-      <b-form-row>
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.incorporationDate" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.fiscalYearEnd" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.payrollSubAccountNo" v-bind="commonBind"></FormField>
         </b-col>
       </b-form-row>
 
       <b-form-row>
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.companyType" v-bind="commonBind"></FormField>
         </b-col>
 
@@ -46,7 +48,7 @@
           <FormField :name="prefixed.natureOfBusiness" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.naicsCode" v-bind="commonBind"></FormField>
         </b-col>
       </b-form-row>
@@ -68,29 +70,29 @@
       </b-form-row>
 
       <b-form-row>
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.city" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.province" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.country" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.postalCode" v-bind="commonBind"></FormField>
         </b-col>
       </b-form-row>
 
       <b-form-row>
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.phoneNumber" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.faxNumber" v-bind="commonBind"></FormField>
         </b-col>
       </b-form-row>
@@ -99,15 +101,15 @@
       <h3 class="h5">Contact Person</h3>
 
       <b-form-row>
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.contactPerson_firstName" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.contactPerson_lastName" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" lg="6">
+        <b-col cols="12">
           <FormField :name="prefixed.contactPerson_title" v-bind="commonBind"></FormField>
         </b-col>
       </b-form-row>
@@ -117,11 +119,7 @@
           <FormField :name="prefixed.contactPerson_primaryPhoneNumber" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.contactPerson_primaryPhoneNumber" v-bind="commonBind"></FormField>
-        </b-col>
-
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.contactPerson_faxNumber" v-bind="commonBind"></FormField>
         </b-col>
       </b-form-row>
@@ -131,7 +129,7 @@
           <FormField :name="prefixed.contactPerson_alternateEmailAddress" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.contactPerson_alternatePhoneNumber" v-bind="commonBind"></FormField>
         </b-col>
       </b-form-row>
@@ -149,15 +147,15 @@
       </b-form-row>
 
       <b-form-row>
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.authorizedSigningOfficer_firstName" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.authorizedSigningOfficer_lastName" v-bind="commonBind"></FormField>
         </b-col>
 
-        <b-col cols="12" lg="6">
+        <b-col cols="12">
           <FormField :name="prefixed.authorizedSigningOfficer_title" v-bind="commonBind"></FormField>
         </b-col>
       </b-form-row>
@@ -170,14 +168,7 @@
           ></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
-          <FormField
-            :name="prefixed.authorizedSigningOfficer_primaryPhoneNumber"
-            v-bind="commonBind"
-          ></FormField>
-        </b-col>
-
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField :name="prefixed.authorizedSigningOfficer_faxNumber" v-bind="commonBind"></FormField>
         </b-col>
       </b-form-row>
@@ -190,7 +181,7 @@
           ></FormField>
         </b-col>
 
-        <b-col cols="12" md="6" lg="3">
+        <b-col cols="12" md="6">
           <FormField
             :name="prefixed.authorizedSigningOfficer_alternatePhoneNumber"
             v-bind="commonBind"
@@ -199,71 +190,52 @@
       </b-form-row>
 
       <hr />
-      <h3 class="h5">Employment Dates/Connected &amp; Related Persons</h3>
+      <h3 class="h5 mb-4">Employment Dates/Connected &amp; Related Persons</h3>
 
-      <h4 class="h6">Member #1</h4>
+      <b-row>
+        <b-col cols="12" lg="6" v-show="show.member1">
+          <b-card header-tag="header">
+            <template #header class="pb-0">
+              <h3
+                class="h6"
+                v-show="!!values['memberEmployee1_lastName'] && !!values['memberEmployee1_firstName']"
+              >{{values['memberEmployee1_lastName']}}, {{values['memberEmployee1_firstName']}}</h3>
+            </template>
+            <FormField :name="prefixed.employmentDates1_employmentSince" v-bind="commonBind"></FormField>
 
-      <b-form-row>
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates1_employmentSince" v-bind="commonBind"></FormField>
+            <FormField :name="prefixed.employmentDates1_contactPerson" v-bind="commonBind"></FormField>
+
+            <FormField :name="prefixed.employmentDates1_relatedPerson" v-bind="commonBind"></FormField>
+          </b-card>
         </b-col>
+        <b-col cols="12" lg="6" v-show="show.member2">
+          <b-card header-class="h6" header="Member #2" header-tag="h3">
+            <FormField :name="prefixed.employmentDates2_employmentSince" v-bind="commonBind"></FormField>
 
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates1_contactPerson" v-bind="commonBind"></FormField>
+            <FormField :name="prefixed.employmentDates2_contactPerson" v-bind="commonBind"></FormField>
+
+            <FormField :name="prefixed.employmentDates2_relatedPerson" v-bind="commonBind"></FormField>
+          </b-card>
         </b-col>
+        <b-col cols="12" lg="6" v-show="show.member3">
+          <b-card header-class="h6" header="Member #3" header-tag="h3">
+            <FormField :name="prefixed.employmentDates3_employmentSince" v-bind="commonBind"></FormField>
 
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates1_relatedPerson" v-bind="commonBind"></FormField>
+            <FormField :name="prefixed.employmentDates3_contactPerson" v-bind="commonBind"></FormField>
+
+            <FormField :name="prefixed.employmentDates3_relatedPerson" v-bind="commonBind"></FormField>
+          </b-card>
         </b-col>
-      </b-form-row>
+        <b-col cols="12" lg="6" v-show="show.member4">
+          <b-card header-class="h6" header="Member #4" header-tag="h3">
+            <FormField :name="prefixed.employmentDates4_employmentSince" v-bind="commonBind"></FormField>
 
-      <h4 class="h6">Member #2</h4>
+            <FormField :name="prefixed.employmentDates4_contactPerson" v-bind="commonBind"></FormField>
 
-      <b-form-row>
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates2_employmentSince" v-bind="commonBind"></FormField>
+            <FormField :name="prefixed.employmentDates4_relatedPerson" v-bind="commonBind"></FormField>
+          </b-card>
         </b-col>
-
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates2_contactPerson" v-bind="commonBind"></FormField>
-        </b-col>
-
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates2_relatedPerson" v-bind="commonBind"></FormField>
-        </b-col>
-      </b-form-row>
-
-      <h4 class="h6">Member #3</h4>
-
-      <b-form-row>
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates3_employmentSince" v-bind="commonBind"></FormField>
-        </b-col>
-
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates3_contactPerson" v-bind="commonBind"></FormField>
-        </b-col>
-
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates3_relatedPerson" v-bind="commonBind"></FormField>
-        </b-col>
-      </b-form-row>
-
-      <h4 class="h6">Member #4</h4>
-
-      <b-form-row>
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates4_employmentSince" v-bind="commonBind"></FormField>
-        </b-col>
-
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates4_contactPerson" v-bind="commonBind"></FormField>
-        </b-col>
-
-        <b-col cols="12" md="6" lg="3">
-          <FormField :name="prefixed.employmentDates4_relatedPerson" v-bind="commonBind"></FormField>
-        </b-col>
-      </b-form-row>
+      </b-row>
       <template #footer class="p-0">
         <b-button v-show="showNextSponsorBtn" @click="$emit('showNext')" variant="primary" block>
           <b-icon icon="plus-circle" class="mr-1"></b-icon>Add another Sponsor Company
@@ -287,6 +259,9 @@ export default {
     hideRemove: {
       type: Boolean,
       default: false
+    },
+    show: {
+      type: Object
     },
     language: {
       type: String,

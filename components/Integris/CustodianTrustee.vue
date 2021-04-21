@@ -36,9 +36,7 @@
           }"
         ></JnInputField>
       </b-col>
-    </b-form-row>
 
-    <b-form-row>
       <b-col cols="12" lg="6">
         <JnInputField
           ref="primaryEmailAddress"
@@ -74,9 +72,6 @@
           }"
         ></JnInputField>
       </b-col>
-    </b-form-row>
-
-    <b-form-row>
       <b-col cols="12">
         <JnInputField
           ref="street1"
@@ -88,9 +83,6 @@
           }"
         ></JnInputField>
       </b-col>
-    </b-form-row>
-
-    <b-form-row>
       <b-col cols="12" lg="6">
         <JnInputField
           ref="street2"

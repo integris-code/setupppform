@@ -1,9 +1,12 @@
 <template>
   <div :id="prefix" class="pb-3">
-    <b-card header-tag="header" footer-tag="footer">
-      <template #header>
+    <b-card header-tag="header" footer-tag="footer" header-class="pb-0">
+      <template #header class="pb-0">
         <h2 class="h5">
           {{header}}
+          <span
+            v-show="!!values[prefixed.lastName] && !!values[prefixed.firstName]"
+          >({{values[prefixed.lastName]}}, {{values[prefixed.firstName]}})</span>
           <b-button
             @click="$emit('removeMember')"
             variant="danger"
@@ -12,6 +15,9 @@
             v-show="!hideRemove"
           >Remove this Member</b-button>
         </h2>
+        <p
+          class="text-muted"
+        >A plan member can be an employee or anyone receiving a T4 income from one of the sponsoring companies.</p>
       </template>
       <b-card-body>
         <b-form-row>
@@ -216,7 +222,7 @@
             </b-button>
           </template>
         </b-card>
-        <b-card v-show="show.ben2" header-tag="header" footer-tag="footer">
+        <b-card v-show="show.ben2" header-tag="header" header-class="pb-0" footer-tag="footer">
           <template #header>
             <h3 class="h6">
               Beneficiary Designation #2
@@ -229,7 +235,7 @@
             </h3>
           </template>
           <b-row>
-            <b-col cols="8">
+            <b-col cols="10">
               <b-form-row>
                 <b-col cols="12" md="6">
                   <FormField :name="prefixed.beneficiaryDesignation2_firstName" v-bind="commonBind"></FormField>
@@ -267,7 +273,7 @@
                 </b-col>
               </b-form-row>
             </b-col>
-            <b-col cols="4">
+            <b-col cols="2">
               <FormField :name="prefixed.beneficiaryDesignation2_share" v-bind="commonBind"></FormField>
             </b-col>
           </b-row>
@@ -278,7 +284,7 @@
             </b-button>
           </template>
         </b-card>
-        <b-card v-show="show.ben3" header-tag="header" footer-tag="footer">
+        <b-card v-show="show.ben3" header-tag="header" header-class="pb-0" footer-tag="footer">
           <template #header>
             <h3 class="h6">
               Beneficiary Designation #3
@@ -291,7 +297,7 @@
             </h3>
           </template>
           <b-row>
-            <b-col cols="8">
+            <b-col cols="10">
               <b-form-row>
                 <b-col cols="12" md="6">
                   <FormField :name="prefixed.beneficiaryDesignation3_firstName" v-bind="commonBind"></FormField>
@@ -329,7 +335,7 @@
                 </b-col>
               </b-form-row>
             </b-col>
-            <b-col cols="4">
+            <b-col cols="2">
               <FormField :name="prefixed.beneficiaryDesignation3_share" v-bind="commonBind"></FormField>
             </b-col>
           </b-row>
@@ -339,7 +345,7 @@
             </b-button>
           </template>
         </b-card>
-        <b-card header-tag="header" footer-tag="footer" v-show="show.ben4">
+        <b-card header-tag="header" header-class="pb-0" footer-tag="footer" v-show="show.ben4">
           <template #header>
             <h3 class="h6">
               Beneficiary Designation #4
@@ -352,7 +358,7 @@
             </h3>
           </template>
           <b-row>
-            <b-col cols="8">
+            <b-col cols="10">
               <b-form-row>
                 <b-col cols="12" md="6">
                   <FormField :name="prefixed.beneficiaryDesignation4_firstName" v-bind="commonBind"></FormField>
@@ -390,7 +396,7 @@
                 </b-col>
               </b-form-row>
             </b-col>
-            <b-col cols="4">
+            <b-col cols="2">
               <FormField :name="prefixed.beneficiaryDesignation4_share" v-bind="commonBind"></FormField>
             </b-col>
           </b-row>
@@ -400,7 +406,7 @@
             </b-button>
           </template>
         </b-card>
-        <b-card v-show="show.ben5" header-tag="header">
+        <b-card v-show="show.ben5" header-tag="header" header-class="pb-0">
           <template #header>
             <h3 class="h6">
               Beneficiary Designation #5
@@ -413,7 +419,7 @@
             </h3>
           </template>
           <b-form-row>
-            <b-col cols="8">
+            <b-col cols="10">
               <b-form-row>
                 <b-col cols="12" md="6">
                   <FormField :name="prefixed.beneficiaryDesignation5_firstName" v-bind="commonBind"></FormField>
@@ -451,15 +457,24 @@
                 </b-col>
               </b-form-row>
             </b-col>
-            <b-col cols="4">
+            <b-col cols="2">
               <FormField :name="prefixed.beneficiaryDesignation5_share" v-bind="commonBind"></FormField>
             </b-col>
           </b-form-row>
         </b-card>
 
-        <b-form-row>
-          <b-col cols="4" offset="8">
-            <FormField :name="prefixed.beneficiaryDesignation_totalShare" v-bind="commonBind"></FormField>
+        <b-form-row v-show="shareTotal >0">
+          <b-col cols="4" offset="8" class="text-right">
+            Total Shares:
+            <strong>{{shareTotal}} %</strong>
+            <strong
+              class="danger"
+              v-show="shareTotal>100"
+            >Please note that Total Shares are greater than 100%</strong>
+            <span
+              class="d-none"
+            >Need here so that the calculateTotal function gets executed however it doesn't want to show on screen so we need to hide it {{calculateTotal}}</span>
+            <!-- <FormField :name="prefixed.beneficiaryDesignation_totalShare" v-bind="commonBind"></FormField> -->
           </b-col>
         </b-form-row>
       </b-card-body>
@@ -523,6 +538,7 @@ export default {
         ben4: false,
         ben5: false
       },
+      shareTotal: 0,
       fields: {
         [prefixer.set('salutation')]: {
           label: 'Salutation',
@@ -1104,6 +1120,45 @@ export default {
         values: this.values,
         fields: this.fields
       }
+    },
+    calculateTotal() {
+      this.values[this.prefixed.beneficiaryDesignation_totalShare] = parseInt(
+        this.values[this.prefixed.beneficiaryDesignation1_share]
+      )
+      if (
+        parseInt(this.values[this.prefixed.beneficiaryDesignation2_share]) > 0
+      )
+        this.values[
+          this.prefixed.beneficiaryDesignation_totalShare
+        ] += parseInt(this.values[this.prefixed.beneficiaryDesignation2_share])
+
+      if (
+        parseInt(this.values[this.prefixed.beneficiaryDesignation3_share]) > 0
+      )
+        this.values[
+          this.prefixed.beneficiaryDesignation_totalShare
+        ] += parseInt(this.values[this.prefixed.beneficiaryDesignation3_share])
+
+      if (
+        parseInt(this.values[this.prefixed.beneficiaryDesignation4_share]) > 0
+      )
+        this.values[
+          this.prefixed.beneficiaryDesignation_totalShare
+        ] += parseInt(this.values[this.prefixed.beneficiaryDesignation4_share])
+
+      if (
+        parseInt(this.values[this.prefixed.beneficiaryDesignation5_share]) > 0
+      )
+        this.values[
+          this.prefixed.beneficiaryDesignation_totalShare
+        ] += parseInt(this.values[this.prefixed.beneficiaryDesignation5_share])
+      console.log(
+        'all values',
+        this.values[this.prefixed.beneficiaryDesignation_totalShare]
+      )
+      this.shareTotal = this.values[
+        this.prefixed.beneficiaryDesignation_totalShare
+      ]
     }
   },
   methods: {
