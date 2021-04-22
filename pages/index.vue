@@ -357,9 +357,19 @@ export default {
     },
     validate() {
       return Object.keys(this.$refs).reduce((acc, cur) => {
-        if (this.$refs[cur].validate) {
-          acc[cur] = this.$refs[cur].validate()
+        let refs = this.$refs[cur]
+        if (!Array.isArray(refs)) {
+          refs = [refs]
         }
+
+        acc[cur] = []
+        for (let index = 0, length = refs.length; index < length; index++) {
+          const ref = refs[index]
+          if (ref.validate) {
+            acc[cur].push(ref.validate())
+          }
+        }
+
         return acc
       }, {})
     }

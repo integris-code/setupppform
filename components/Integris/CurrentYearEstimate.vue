@@ -1,16 +1,22 @@
 <template>
   <div>
-    <b-card :header="_header" header-tag="h2" header-class="h5">
-      <template v-for="count in 30">
-        <IntegrisCurrentYearEstimateYear
-          ref="year"
-          :key="String(currentYear - (count - 1))"
-          v-model="value[String(currentYear - (count - 1))]"
-          :language="language"
-          class="mb-3"
-          :year="currentYear - (count - 1)"
-        ></IntegrisCurrentYearEstimateYear>
+    <b-card :no-body="true">
+      <template #header>
+        <h2 class="h5 m-0">{{ _header }}</h2>
       </template>
+
+      <b-card-body>
+        <template v-for="count in 30">
+          <IntegrisCurrentYearEstimateYear
+            ref="year"
+            :key="String(currentYear - (count - 1))"
+            v-model="value[String(currentYear - (count - 1))]"
+            :language="language"
+            class="mb-3"
+            :year="currentYear - (count - 1)"
+          ></IntegrisCurrentYearEstimateYear>
+        </template>
+      </b-card-body>
     </b-card>
   </div>
 </template>
@@ -49,10 +55,19 @@ export default {
   methods: {
     validate() {
       return Object.keys(this.$refs).reduce((acc, cur) => {
-        ppable_
-        if (this.$refs[cur].validate) {
-          acc[cur] = this.$refs[cur].validate()
+        let refs = this.$refs[cur]
+        if (!Array.isArray(refs)) {
+          refs = [refs]
         }
+
+        acc[cur] = []
+        for (let index = 0, length = refs.length; index < length; index++) {
+          const ref = refs[index]
+          if (ref.validate) {
+            acc[cur].push(ref.validate())
+          }
+        }
+
         return acc
       }, {})
     }
