@@ -170,12 +170,12 @@
 </template>
 
 <script>
-import localizeMixin from '~/mixins/localize'
+// import localizeMixin from '~/mixins/localize'
 import validateMixin from '~/mixins/validate'
 import uuidMixin from '~/mixins/uuidv4'
 
 export default {
-  mixins: [localizeMixin, validateMixin, uuidMixin],
+  mixins: [validateMixin, uuidMixin],
 
   data() {
     // const currentYear = new Date().getFullYear()
@@ -186,26 +186,26 @@ export default {
 
     return {
       language: 'en',
-      languageLabel: {
-        en: 'Language',
-        fr: 'Langue'
-      },
-      languageOptions: [
-        {
-          text: {
-            en: 'English',
-            fr: 'Anglais'
-          },
-          value: 'en'
-        },
-        {
-          text: {
-            en: 'French',
-            fr: 'Français'
-          },
-          value: 'fr'
-        }
-      ],
+      // languageLabel: {
+      //   en: 'Language',
+      //   fr: 'Langue'
+      // },
+      // languageOptions: [
+      //   {
+      //     text: {
+      //       en: 'English',
+      //       fr: 'Anglais'
+      //     },
+      //     value: 'en'
+      //   },
+      //   {
+      //     text: {
+      //       en: 'French',
+      //       fr: 'Français'
+      //     },
+      //     value: 'fr'
+      //   }
+      // ],
       pppSetup: {},
       clientsInvestmentAdvisor: {},
       memberEmployees: [{ key: this.uuidv4() }],
@@ -282,12 +282,12 @@ export default {
   },
 
   computed: {
-    _languageLabel() {
-      return this.$localize(this.languageLabel, this.language)
-    },
-    _languageOptions() {
-      return this.$localize(this.languageOptions, this.language)
-    },
+    // _languageLabel() {
+    //   return this.$localize(this.languageLabel, this.language)
+    // },
+    // _languageOptions() {
+    //   return this.$localize(this.languageOptions, this.language)
+    // },
     individualTrusteeRemovable() {
       return this.individualTrustees.length > 1
     },
