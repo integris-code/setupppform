@@ -10,7 +10,7 @@
           <b-col cols="12" md="6">
             <JnSelectField
               ref="provincialAuthority"
-              v-model="value.provincialAuthority"
+              v-model="provincialAuthority"
               :language="language"
               :label="{ en: 'Provincial Authority' }"
               :options="[
@@ -74,13 +74,14 @@
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnSelectField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnSelectField
               ref="productPlatform"
-              v-model="value.productPlatform"
+              v-model="productPlatform"
               :language="language"
               :label="{ en: 'Product Platform' }"
               :options="[
@@ -102,6 +103,7 @@
                   value: 'Trust - Corporate Trustees'
                 }
               ]"
+              @input="onInput"
               :validators="{
                 notEmpty: {}
               }"
@@ -113,7 +115,7 @@
           <b-col cols="12" md="6">
             <JnInputField
               ref="normalRetirementAge"
-              v-model="value.normalRetirementAge"
+              v-model="normalRetirementAge"
               :language="language"
               :label="{ en: 'Normal Retirement Age' }"
               type="number"
@@ -121,13 +123,14 @@
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnSelectField
               ref="languageOfCorrespondence"
-              v-model="value.languageOfCorrespondence"
+              v-model="languageOfCorrespondence"
               :language="language"
               :label="{ en: 'Language of Correspondence' }"
               :options="[
@@ -143,6 +146,7 @@
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -151,7 +155,7 @@
           <b-col cols="12">
             <JnSelectField
               ref="requestFor"
-              v-model="value.requestFor"
+              v-model="requestFor"
               :label="{ en: 'This PPP Setup is for (select one)' }"
               :options="[
                 {
@@ -174,6 +178,7 @@
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -182,64 +187,27 @@
           <b-col cols="12" md="6" lg="9">
             <JnInputField
               ref="existingPlanName"
-              v-model="value.existingPlanName"
+              v-model="existingPlanName"
               :label="{ en: 'Existing Plan Name' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
               ref="existingCraPlanNo"
-              v-model="value.existingCraPlanNo"
+              v-model="existingCraPlanNo"
               :label="{ en: 'Existing CRA Plan No' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
-          </b-col>
-        </b-form-row>
-
-        <b-form-row v-show="false">
-          <b-col cols="12">
-            <JnCheckboxGroupField
-              ref="membersEmployeesParticipatingInThePlan"
-              v-model="value.membersEmployeesParticipatingInThePlan"
-              :label="{ en: 'Member(s)/Employee(s) participating in the Plan' }"
-              :options="[
-                { text: { en: 'Member #1 (Primary)' }, value: 'Member #1' },
-                { text: { en: 'Member #2' }, value: 'Member #2' },
-                { text: { en: 'Member #3' }, value: 'Member #3' },
-                { text: { en: 'Member #4' }, value: 'Member #4' }
-              ]"
-              :validators="{
-                notEmpty: {}
-              }"
-            ></JnCheckboxGroupField>
-          </b-col>
-        </b-form-row>
-
-        <b-form-row v-show="false">
-          <b-col cols="12">
-            <JnCheckboxGroupField
-              ref="sponsorsEmployersParticipatingInThePlan"
-              v-model="value.sponsorsEmployersParticipatingInThePlan"
-              :label="{
-                en: 'Sponsor(s)/Employer(s) participating in the Plan'
-              }"
-              :options="[
-                { text: { en: 'Sponsor #1 (Primary)' }, value: 'Sponsor #1' },
-                { text: { en: 'Sponsor #2' }, value: 'Sponsor #2' },
-                { text: { en: 'Sponsor #3' }, value: 'Sponsor #3' }
-              ]"
-              :validators="{
-                notEmpty: {}
-              }"
-            ></JnCheckboxGroupField>
           </b-col>
         </b-form-row>
       </b-card-body>
@@ -249,20 +217,31 @@
 
 <script>
 import localizeMixin from '~/mixins/localize'
+import validateMixin from '~/mixins/validate'
 
 export default {
-  mixins: [localizeMixin],
+  mixins: [localizeMixin, validateMixin],
 
   props: {
-    header: {
-      type: [String, Object],
-      default: null
-    },
     value: {
       type: Object,
       default() {
         return {}
       }
+    }
+  },
+
+  data() {
+    return {
+      header: { en: 'Personal Pension Plan (PPP) Setup' },
+      provincialAuthority: this.value.provincialAuthority || 'Ontario',
+      productPlatform: this.value.productPlatform || 'Insurrance (iA)',
+      normalRetirementAge: this.value.normalRetirementAge || 65,
+      languageOfCorrespondence:
+        this.value.languageOfCorrespondence || 'English',
+      requestFor: this.value.requestFor || 'Setup of a new PPP\u00AE',
+      existingPlanName: this.value.existingPlanName || '',
+      existingCraPlanNo: this.value.existingCraPlanNo || ''
     }
   },
 
@@ -273,23 +252,16 @@ export default {
   },
 
   methods: {
-    validate() {
-      return Object.keys(this.$refs).reduce((acc, cur) => {
-        let refs = this.$refs[cur]
-        if (!Array.isArray(refs)) {
-          refs = [refs]
-        }
-
-        acc[cur] = []
-        for (let index = 0, length = refs.length; index < length; index++) {
-          const ref = refs[index]
-          if (ref.validate) {
-            acc[cur].push(ref.validate())
-          }
-        }
-
-        return acc
-      }, {})
+    onInput() {
+      this.$emit('input', {
+        provincialAuthority: this.provincialAuthority,
+        productPlatform: this.productPlatform,
+        normalRetirementAge: this.normalRetirementAge,
+        languageOfCorrespondence: this.languageOfCorrespondence,
+        requestFor: this.requestFor,
+        existingPlanName: this.existingPlanName,
+        existingCraPlanNo: this.existingCraPlanNo
+      })
     }
   }
 }

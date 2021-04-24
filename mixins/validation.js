@@ -31,7 +31,7 @@ export default {
           trim = false
         } = notEmptyValidator
 
-        if (value == null || value === '' ||
+        if (value == null || value === '' || value === false ||
           (trim && typeof value === string && value.trim() === '') ||
           (Array.isArray(value) && value.length === 0)) {
 

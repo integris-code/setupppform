@@ -10,26 +10,28 @@
           <b-col cols="12" md="6">
             <JnInputField
               ref="firstName"
-              v-model="value.firstName"
+              v-model="firstName"
               :language="language"
               :label="{ en: 'First Name' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
               ref="lastName"
-              v-model="value.lastName"
+              v-model="lastName"
               :language="language"
               :label="{ en: 'Last Name' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -38,26 +40,28 @@
           <b-col cols="12" md="6">
             <JnInputField
               ref="title"
-              v-model="value.title"
+              v-model="title"
               :language="language"
               :label="{ en: 'Title' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
               ref="companyName"
-              v-model="value.companyName"
+              v-model="companyName"
               :language="language"
               :label="{ en: 'Company Name' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -66,39 +70,42 @@
           <b-col cols="12" lg="6">
             <JnInputField
               ref="emailAddress"
-              v-model="value.emailAddress"
+              v-model="emailAddress"
               :language="language"
               :label="{ en: 'Email Address' }"
               type="email"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
               ref="phoneNumber"
-              v-model="value.phoneNumber"
+              v-model="phoneNumber"
               :language="language"
               :label="{ en: 'Phone Number' }"
               type="tel"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
               ref="faxNumber"
-              v-model="value.faxNumber"
+              v-model="faxNumber"
               :language="language"
               :label="{ en: 'Fax Number' }"
               type="tel"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -109,20 +116,30 @@
 
 <script>
 import localizeMixin from '~/mixins/localize'
+import validateMixin from '~/mixins/validate'
 
 export default {
-  mixins: [localizeMixin],
+  mixins: [localizeMixin, validateMixin],
 
   props: {
-    header: {
-      type: [String, Object],
-      default: null
-    },
     value: {
       type: Object,
       default() {
         return {}
       }
+    }
+  },
+
+  data() {
+    return {
+      header: { en: 'Client(s) Investment Advisor' },
+      firstName: this.value.firstName,
+      lastName: this.value.lastName,
+      title: this.value.title,
+      companyName: this.value.companyName,
+      emailAddress: this.value.emailAddress,
+      phoneNumber: this.value.phoneNumber,
+      faxNumber: this.value.faxNumber
     }
   },
 
@@ -133,23 +150,16 @@ export default {
   },
 
   methods: {
-    validate() {
-      return Object.keys(this.$refs).reduce((acc, cur) => {
-        let refs = this.$refs[cur]
-        if (!Array.isArray(refs)) {
-          refs = [refs]
-        }
-
-        acc[cur] = []
-        for (let index = 0, length = refs.length; index < length; index++) {
-          const ref = refs[index]
-          if (ref.validate) {
-            acc[cur].push(ref.validate())
-          }
-        }
-
-        return acc
-      }, {})
+    onInput() {
+      this.$emit('input', {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        title: this.title,
+        companyName: this.companyName,
+        emailAddress: this.emailAddress,
+        phoneNumber: this.phoneNumber,
+        faxNumber: this.faxNumber
+      })
     }
   }
 }

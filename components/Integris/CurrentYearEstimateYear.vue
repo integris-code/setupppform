@@ -12,7 +12,7 @@
           <b-col cols="12" md="4">
             <JnInputField
               ref="member1Sponsor1"
-              v-model="value.member1_sponsor1"
+              v-model="member1Sponsor1"
               :language="language"
               :label="{ en: 'Sponsor #1' }"
               type="text"
@@ -23,7 +23,7 @@
           <b-col cols="12" md="4">
             <JnInputField
               ref="member1Sponsor2"
-              v-model="value.member1_sponsor2"
+              v-model="member1Sponsor2"
               :language="language"
               :label="{ en: 'Sponsor #2' }"
               type="text"
@@ -34,7 +34,7 @@
           <b-col cols="12" md="4">
             <JnInputField
               ref="member1Sponsor3"
-              v-model="value.member1_sponsor3"
+              v-model="member1Sponsor3"
               :language="language"
               :label="{ en: 'Sponsor #3' }"
               type="text"

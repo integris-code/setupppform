@@ -6,16 +6,15 @@
       </template>
 
       <b-card-body>
-        <template v-for="count in 30">
-          <IntegrisCurrentYearEstimateYear
-            ref="year"
-            :key="String(currentYear - (count - 1))"
-            v-model="value[String(currentYear - (count - 1))]"
-            :language="language"
-            class="mb-3"
-            :year="currentYear - (count - 1)"
-          ></IntegrisCurrentYearEstimateYear>
-        </template>
+        <IntegrisCurrentYearEstimateYear
+          v-for="count in 30"
+          ref="year"
+          :key="String(currentYear - (count - 1))"
+          :value="value[String(currentYear - (count - 1))]"
+          :language="language"
+          class="mb-3"
+          :year="currentYear - (count - 1)"
+        ></IntegrisCurrentYearEstimateYear>
       </b-card-body>
     </b-card>
   </div>

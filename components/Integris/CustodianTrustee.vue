@@ -2,7 +2,18 @@
   <div>
     <b-card :no-body="true">
       <template #header>
-        <h2 class="h5 m-0">{{ _header }}</h2>
+        <h2 class="h5 m-0">
+          {{ _header }}
+          <button
+            v-if="removable"
+            class="btn btn-danger float-right"
+            type="button"
+            @click="onRemoveClick"
+          >
+            <b-icon icon="x-circle"></b-icon>
+            Remove
+          </button>
+        </h2>
       </template>
 
       <b-card-body>
@@ -10,106 +21,115 @@
           <b-col cols="12" md="6" lg="3">
             <JnInputField
               ref="firstName"
-              v-model="value.firstName"
+              v-model="firstName"
               :label="{ en: 'First Name' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
               ref="lastName"
-              v-model="value.lastName"
+              v-model="lastName"
               :label="{ en: 'Last Name' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" lg="6">
             <JnInputField
               ref="title"
-              v-model="value.title"
+              v-model="title"
               :label="{ en: 'Title' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" lg="6">
             <JnInputField
               ref="primaryEmailAddress"
-              v-model="value.primaryEmailAddress"
+              v-model="primaryEmailAddress"
               :label="{ en: 'Primary Email Address' }"
               type="email"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
               ref="primaryPhoneNumber"
-              v-model="value.primaryPhoneNumber"
+              v-model="primaryPhoneNumber"
               :label="{ en: 'Primary Phone Number' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
               ref="faxNumber"
-              v-model="value.faxNumber"
+              v-model="faxNumber"
               :label="{ en: 'Fax Number' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
           <b-col cols="12">
             <JnInputField
               ref="street1"
-              v-model="value.street1"
+              v-model="street1"
               :label="{ en: 'Street 1' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
           <b-col cols="12" lg="6">
             <JnInputField
               ref="street2"
-              v-model="value.street2"
+              v-model="street2"
               :label="{ en: 'Street 2' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" lg="6">
             <JnInputField
               ref="street3"
-              v-model="value.street3"
+              v-model="street3"
               :label="{ en: 'Street 3' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -118,19 +138,20 @@
           <b-col cols="12" md="6" lg="3">
             <JnInputField
               ref="city"
-              v-model="value.city"
+              v-model="city"
               :label="{ en: 'City' }"
               type="text"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnSelectField
               ref="province"
-              v-model="value.province"
+              v-model="province"
               :label="{ en: 'Province' }"
               :options="[
                 {
@@ -189,13 +210,14 @@
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnSelectField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnSelectField
               ref="country"
-              v-model="value.country"
+              v-model="country"
               :label="{ en: 'Country' }"
               :options="[
                 {
@@ -210,18 +232,20 @@
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnSelectField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
               ref="postalCode"
-              v-model="value.postalCode"
+              v-model="postalCode"
               type="text"
               :label="{ en: 'Postal Code' }"
               :validators="{
                 notEmpty: {}
               }"
+              @input="onInput"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -232,20 +256,43 @@
 
 <script>
 import localizeMixin from '~/mixins/localize'
+import validateMixin from '~/mixins/validate'
 
 export default {
-  mixins: [localizeMixin],
+  mixins: [localizeMixin, validateMixin],
 
   props: {
     header: {
       type: [String, Object],
       default: null
     },
+    removable: {
+      type: Boolean,
+      default: false
+    },
     value: {
       type: Object,
       default() {
         return {}
       }
+    }
+  },
+
+  data() {
+    return {
+      firstName: this.value.firstName,
+      lastName: this.value.lastName,
+      title: this.value.title,
+      primaryEmailAddress: this.value.primaryEmailAddress,
+      primaryPhoneNumber: this.value.primaryPhoneNumber,
+      faxNumber: this.value.faxNumber,
+      street1: this.value.street1,
+      street2: this.value.street2,
+      street3: this.value.street3,
+      city: this.value.city,
+      province: this.value.province,
+      country: this.value.country,
+      postalCode: this.value.postalCode
     }
   },
 
@@ -256,23 +303,25 @@ export default {
   },
 
   methods: {
-    validate() {
-      return Object.keys(this.$refs).reduce((acc, cur) => {
-        let refs = this.$refs[cur]
-        if (!Array.isArray(refs)) {
-          refs = [refs]
-        }
-
-        acc[cur] = []
-        for (let index = 0, length = refs.length; index < length; index++) {
-          const ref = refs[index]
-          if (ref.validate) {
-            acc[cur].push(ref.validate())
-          }
-        }
-
-        return acc
-      }, {})
+    onRemoveClick() {
+      this.$emit('remove')
+    },
+    onInput() {
+      this.$emit('input', {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        title: this.title,
+        primaryEmailAddress: this.primaryEmailAddress,
+        primaryPhoneNumber: this.primaryPhoneNumber,
+        faxNumber: this.faxNumber,
+        street1: this.street1,
+        street2: this.street2,
+        street3: this.street3,
+        city: this.city,
+        province: this.province,
+        country: this.country,
+        postalCode: this.postalCode
+      })
     }
   }
 }
