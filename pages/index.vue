@@ -148,17 +148,13 @@
               Add Individual Trustee
             </button>
           </div>
-          <!--
+
           <IntegrisCurrentYearEstimate
             ref="currentYearEstimate"
-            :value="value.currentYearEstimate"
+            v-model="currentYearEstimate"
             :language="language"
             class="mb-3 pb-5"
-            :header="{
-              en:
-                'Current Year Estimate &amp; Historical T4 (Box 14)/T4PS Income'
-            }"
-          ></IntegrisCurrentYearEstimate> -->
+          ></IntegrisCurrentYearEstimate>
 
           <p>
             <b-button type="submit" variant="primary">Submit</b-button>
@@ -172,10 +168,10 @@
 <script>
 // import localizeMixin from '~/mixins/localize'
 import validateMixin from '~/mixins/validate'
-import uuidMixin from '~/mixins/uuidv4'
+import uuidv4Mixin from '~/mixins/uuidv4'
 
 export default {
-  mixins: [validateMixin, uuidMixin],
+  mixins: [validateMixin, uuidv4Mixin],
 
   data() {
     // const currentYear = new Date().getFullYear()
@@ -214,10 +210,7 @@ export default {
       corporateIndividualTrustee: {},
       additionalIndividualTrustees: [],
       individualTrustees: [{ key: this.uuidv4() }],
-
-      value: {
-        // currentYearEstimate
-      },
+      currentYearEstimate: {},
 
       validated: false,
       values: {},

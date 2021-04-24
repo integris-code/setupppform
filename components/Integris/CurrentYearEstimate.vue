@@ -7,13 +7,14 @@
 
       <b-card-body>
         <IntegrisCurrentYearEstimateYear
-          v-for="count in 30"
-          ref="year"
-          :key="String(currentYear - (count - 1))"
-          :value="value[String(currentYear - (count - 1))]"
+          v-for="year in years"
+          ref="years"
+          v-model="model[year]"
+          :key="year"
           :language="language"
           class="mb-3"
-          :year="currentYear - (count - 1)"
+          :year="year"
+          @input="onInput"
         ></IntegrisCurrentYearEstimateYear>
       </b-card-body>
     </b-card>
@@ -22,9 +23,10 @@
 
 <script>
 import localizeMixin from '~/mixins/localize'
+import validateMixin from '~/mixins/validate'
 
 export default {
-  mixins: [localizeMixin],
+  mixins: [localizeMixin, validateMixin],
 
   props: {
     header: {
@@ -40,8 +42,21 @@ export default {
   },
 
   data() {
+    const currentYear = new Date().getFullYear()
+    const years = []
+    for (let index = 0, length = 30; index < length; index++) {
+      years.push(String(currentYear - index))
+    }
+
     return {
-      currentYear: new Date().getFullYear()
+      header: {
+        en: 'Current Year Estimate &amp; Historical T4 (Box 14)/T4PS Income'
+      },
+      years,
+      model: years.reduce((acc, cur) => {
+        acc[cur] = this.value[cur] || {}
+        return acc
+      }, {})
     }
   },
 
@@ -52,23 +67,8 @@ export default {
   },
 
   methods: {
-    validate() {
-      return Object.keys(this.$refs).reduce((acc, cur) => {
-        let refs = this.$refs[cur]
-        if (!Array.isArray(refs)) {
-          refs = [refs]
-        }
-
-        acc[cur] = []
-        for (let index = 0, length = refs.length; index < length; index++) {
-          const ref = refs[index]
-          if (ref.validate) {
-            acc[cur].push(ref.validate())
-          }
-        }
-
-        return acc
-      }, {})
+    onInput() {
+      this.$emit('input', { ...this.model })
     }
   }
 }
