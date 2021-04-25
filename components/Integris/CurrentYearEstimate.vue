@@ -1,193 +1,74 @@
 <template>
-  <b-card :header="header" header-tag="h2" header-class="h5">
-    <div v-for="yearIndex in endYear - startYear" :key="yearIndex" class="mb-3">
-      <hr v-if="yearIndex > 1" />
+  <div>
+    <b-card :no-body="true">
+      <template #header>
+        <h2 class="h5 m-0">{{ _header }}</h2>
+      </template>
 
-      <!-- <b-card class="bg-light"> -->
-      <b-form-row>
-        <b-col cols="12" lg="3">
-          <h3 class="h5">{{ endYear - (yearIndex - 1) }}</h3>
-        </b-col>
-
-        <b-col cols="12" lg="9">
-          <b-card
-            header-tag="h3"
-            header-class="h6 mb-0"
-            v-for="mIndex in 4"
-            :key="`${yearIndex}_${mIndex}`"
-          >
-            <template #header>
-              <h3 class="h6">
-                {{'Member #'+ mIndex}}
-                <span
-                  v-show="!!values['memberEmployee'+mIndex+'_lastName']"
-                >({{values['memberEmployee'+mIndex+'_lastName']}}, {{values['memberEmployee'+mIndex+'_firstName']}})</span>
-              </h3>
-            </template>
-
-            <b-form-row>
-              <b-col cols="12" md="6" lg="4">
-                <FormField
-                  :ref="
-                    [
-                      `year${endYear - (yearIndex - 1)}`,
-                      `member${mIndex}`,
-                      `sponsor1`,
-                    ].join('_')
-                  "
-                  :name="
-                    prefixed[
-                      [
-                        `year${endYear - (yearIndex - 1)}`,
-                        `member${mIndex}`,
-                        `sponsor1`,
-                      ].join('_')
-                    ]
-                  "
-                  v-bind="commonBind"
-                ></FormField>
-              </b-col>
-
-              <b-col cols="12" md="6" lg="4">
-                <FormField
-                  :ref="
-                    [
-                      `year${endYear - (yearIndex - 1)}`,
-                      `member${mIndex}`,
-                      `sponsor2`,
-                    ].join('_')
-                  "
-                  :name="
-                    prefixed[
-                      [
-                        `year${endYear - (yearIndex - 1)}`,
-                        `member${mIndex}`,
-                        `sponsor2`,
-                      ].join('_')
-                    ]
-                  "
-                  v-bind="commonBind"
-                ></FormField>
-              </b-col>
-
-              <b-col cols="12" md="6" lg="4">
-                <FormField
-                  :ref="
-                    [
-                      `year${endYear - (yearIndex - 1)}`,
-                      `member${mIndex}`,
-                      `sponsor3`,
-                    ].join('_')
-                  "
-                  :name="
-                    prefixed[
-                      [
-                        `year${endYear - (yearIndex - 1)}`,
-                        `member${mIndex}`,
-                        `sponsor3`,
-                      ].join('_')
-                    ]
-                  "
-                  v-bind="commonBind"
-                ></FormField>
-              </b-col>
-            </b-form-row>
-          </b-card>
-        </b-col>
-      </b-form-row>
-      <!-- </b-card> -->
-    </div>
-  </b-card>
+      <b-card-body>
+        <IntegrisCurrentYearEstimateYear
+          v-for="year in years"
+          ref="years"
+          v-model="model[year]"
+          :key="year"
+          :validated="validated"
+          :language="language"
+          class="mb-3"
+          :year="year"
+          @input="onInput"
+        ></IntegrisCurrentYearEstimateYear>
+      </b-card-body>
+    </b-card>
+  </div>
 </template>
 
 <script>
+import localizeMixin from '~/mixins/localize'
+
 export default {
+  mixins: [localizeMixin],
+
   props: {
-    show: {
-      type: Object
-    },
-    language: {
-      type: String,
-      default() {
-        return this.$localize_defaultlanguage
-      }
-    },
     validated: {
       type: Boolean,
-      default: false
+      default: true
     },
-    values: {
+    value: {
       type: Object,
       default() {
         return {}
       }
-    },
-    header: {
-      type: String,
-      default: 'Untitled'
-    },
-    prefix: {
-      type: String,
-      default: ''
     }
   },
+
   data() {
-    const prefixer = this.$prefixer(this.prefix)
-
-    const endYear = new Date().getFullYear()
-    const startYear = endYear - 30
-
-    const fields = {}
-
-    for (let year = startYear; year < endYear; year++) {
-      for (let mIndex = 0, mLength = 4; mIndex < mLength; mIndex++) {
-        for (let sIndex = 0, sLength = 4; sIndex < sLength; sIndex++) {
-          const name = [
-            `year${year + 1}`,
-            `member${mIndex + 1}`,
-            `sponsor${sIndex + 1}`
-          ].join('_')
-
-          fields[prefixer.set(name)] = {
-            label: `Sponsor #${sIndex + 1}`,
-            type: 'text',
-            validators: {}
-          }
-        }
-      }
+    const currentYear = new Date().getFullYear()
+    const years = []
+    for (let index = 0, length = 30; index < length; index++) {
+      years.push(currentYear - index)
     }
 
     return {
-      startYear,
-      endYear,
-      fields,
-      prefixed: prefixer.prefixed
-    }
-  },
-  computed: {
-    commonBind() {
-      return {
-        language: this.language,
-        validated: this.validated,
-        values: this.values,
-        fields: this.fields
-      }
-    },
-    test() {
-      // var sponsorName = ''
-      // if (!!this.values['sponsorEmployer' + sIndex + '_companyName']) {
-      //   sponsorName = this.values[
-      //     'sponsorEmployer' + sIndex + '_companyName'
-      //   ]
-      // }
-    }
-  },
-  methods: {
-    getValidations() {
-      return Object.keys(this.$refs).reduce((acc, cur) => {
-        acc[cur] = this.$refs[cur].validation
+      header: {
+        en: 'Current Year Estimate \u0026 Historical T4 (Box 14)/T4PS Income'
+      },
+      years,
+      model: years.reduce((acc, cur) => {
+        acc[cur] = this.value[cur] || {}
         return acc
       }, {})
+    }
+  },
+
+  computed: {
+    _header() {
+      return this.localize(this.header)
+    }
+  },
+
+  methods: {
+    onInput() {
+      this.$emit('input', this.model)
     }
   }
 }

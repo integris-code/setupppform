@@ -1,1172 +1,788 @@
 <template>
-  <div :id="prefix" class="pb-3">
-    <b-card header-tag="header" footer-tag="footer" header-class="pb-0">
-      <template #header class="pb-0">
-        <h2 class="h5">
-          {{header}}
+  <div>
+    <b-card :no-body="true">
+      <template #header>
+        <button
+          v-if="removable"
+          class="btn btn-danger float-right"
+          type="button"
+          @click="onRemoveClick"
+        >
+          <b-icon icon="x-circle"></b-icon> Remove
+        </button>
+
+        <h2 class="h5 mt-0">
+          {{ _header }}
           <span
-            v-show="!!values[prefixed.lastName] && !!values[prefixed.firstName]"
-          >({{values[prefixed.lastName]}}, {{values[prefixed.firstName]}})</span>
-          <b-button
-            @click="$emit('removeMember')"
-            variant="danger"
-            size="sm"
-            class="m-0 ml-3"
-            v-show="!hideRemove"
-          >Remove this Member</b-button>
+            v-show="!!lastName && !!firstName"
+          >({{ lastName }}, {{ firstName }})</span>
         </h2>
-        <p
-          class="text-muted"
-        >A plan member can be an employee or anyone receiving a T4 income from one of the sponsoring companies.</p>
+
+        <p class="text-muted mb-0">
+          A plan member can be an employee or anyone receiving a T4 income from
+          one of the sponsoring companies.
+        </p>
       </template>
+
       <b-card-body>
         <b-form-row>
-          <b-col cols="12" md="auto">
-            <FormField :name="prefixed.salutation" v-bind="commonBind"></FormField>
-          </b-col>
-        </b-form-row>
-        <b-form-row>
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.firstName" v-bind="commonBind"></FormField>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.lastName" v-bind="commonBind"></FormField>
-          </b-col>
-          <b-col cols="12">
-            <FormField :name="prefixed.otherNames" v-bind="commonBind"></FormField>
-          </b-col>
-        </b-form-row>
-
-        <b-form-row>
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.dateOfBirth" v-bind="commonBind"></FormField>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.gender" v-bind="commonBind"></FormField>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.socialInsurranceNumber" v-bind="commonBind"></FormField>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.maritalStatus" v-bind="commonBind"></FormField>
+          <b-col cols="12" md="6" lg="3">
+            <JnSelectField
+              ref="salutation"
+              v-model="salutation"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Salutation' }"
+              :options="[
+                { text: { en: 'Mr' }, value: 'Mr' },
+                { text: { en: 'Ms' }, value: 'Ms' },
+                { text: { en: 'Dr' }, value: 'Dr' },
+                { text: { en: 'Mrs' }, value: 'Mrs' }
+              ]"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnSelectField>
           </b-col>
         </b-form-row>
 
         <b-form-row>
           <b-col cols="12" md="6">
-            <FormField :name="prefixed.firstYearPppProvisionType" v-bind="commonBind"></FormField>
+            <JnInputField
+              ref="firstName"
+              v-model="firstName"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'First Name' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
-            <FormField :name="prefixed.expectedYearOfRetirement" v-bind="commonBind"></FormField>
-          </b-col>
-        </b-form-row>
-
-        <b-form-row>
-          <b-col cols="12" lg="6">
-            <FormField :name="prefixed.primaryEmailAddress" v-bind="commonBind"></FormField>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.primaryPhoneNumber" v-bind="commonBind"></FormField>
-          </b-col>
-        </b-form-row>
-
-        <b-form-row>
-          <b-col cols="12" lg="6">
-            <FormField :name="prefixed.alternateEmailAddress" v-bind="commonBind"></FormField>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.alternatePhoneNumber" v-bind="commonBind"></FormField>
+            <JnInputField
+              ref="lastName"
+              v-model="lastName"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Last Name' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
           </b-col>
         </b-form-row>
 
         <b-form-row>
           <b-col cols="12">
-            <FormField :name="prefixed.street1" v-bind="commonBind"></FormField>
+            <JnInputField
+              ref="otherNames"
+              v-model="otherNames"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Other Name(s)' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
           </b-col>
         </b-form-row>
 
         <b-form-row>
-          <b-col cols="12" lg="6">
-            <FormField :name="prefixed.street2" v-bind="commonBind"></FormField>
+          <b-col cols="12" md="6">
+            <JnDatePickerField
+              ref="dateOfBirth"
+              v-model="dateOfBirth"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Date of Birth' }"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnDatePickerField>
           </b-col>
 
-          <b-col cols="12" lg="6">
-            <FormField :name="prefixed.street3" v-bind="commonBind"></FormField>
+          <b-col cols="12" md="6">
+            <JnSelectField
+              ref="gender"
+              v-model="gender"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Gender' }"
+              :options="[
+                { text: { en: 'Male' }, value: 'Male' },
+                { text: { en: 'Female' }, value: 'Female' }
+              ]"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnSelectField>
           </b-col>
         </b-form-row>
 
         <b-form-row>
           <b-col cols="12" md="6">
-            <FormField :name="prefixed.city" v-bind="commonBind"></FormField>
+            <JnInputField
+              ref="socialInsurranceNumber"
+              v-model="socialInsurranceNumber"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Social Insurrance Number' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
-            <FormField :name="prefixed.province" v-bind="commonBind"></FormField>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.country" v-bind="commonBind"></FormField>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.postalCode" v-bind="commonBind"></FormField>
+            <JnSelectField
+              ref="maritalStatus"
+              v-model="maritalStatus"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Marital Status' }"
+              :options="[
+                { text: { en: 'Single' }, value: 'Single' },
+                { text: { en: 'Married' }, value: 'Married' },
+                {
+                  text: { en: 'Common-Law/Civily United' },
+                  value: 'Common-Law/Civily United'
+                },
+                { text: { en: 'Separated' }, value: 'Separated' },
+                { text: { en: 'Divorced' }, value: 'Divorced' },
+                { text: { en: 'Widowed' }, value: 'Widowed' }
+              ]"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnSelectField>
           </b-col>
         </b-form-row>
 
-        <hr />
+        <b-form-row>
+          <b-col cols="12" md="6">
+            <JnSelectField
+              ref="firstYearPppProvisionType"
+              v-model="firstYearPppProvisionType"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'First Year PPP Provision Type' }"
+              :options="[
+                {
+                  text: { en: 'Defined Benefit (DB)' },
+                  value: 'Defined Benefit (DB)'
+                },
+                {
+                  text: { en: 'Defined Contribution (DC)' },
+                  value: 'Defined Contribution (DC)'
+                }
+              ]"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnSelectField>
+          </b-col>
+
+          <b-col cols="12" md="6">
+            <JnInputField
+              ref="expectedYearOfRetirement"
+              v-model="expectedYearOfRetirement"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Expected Year of Retirement' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+        </b-form-row>
+
+        <b-form-row>
+          <b-col cols="12" md="6">
+            <JnInputField
+              ref="primaryEmailAddress"
+              v-model="primaryEmailAddress"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Primary Email Address' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+
+          <b-col cols="12" md="6">
+            <JnInputField
+              ref="primaryEmailAddress"
+              v-model="primaryEmailAddress"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Primary Email Address' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+        </b-form-row>
+
+        <b-form-row>
+          <b-col cols="12" md="6">
+            <JnInputField
+              ref="alternateEmailAddress"
+              v-model="alternateEmailAddress"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Alternate Email Address' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+
+          <b-col cols="12" md="6">
+            <JnInputField
+              ref="alternatePhoneNumber"
+              v-model="alternatePhoneNumber"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Alternate Phone Number' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+        </b-form-row>
+
+        <b-form-row>
+          <b-col cols="12">
+            <JnInputField
+              ref="street1"
+              v-model="street1"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Street 1' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+        </b-form-row>
+
+        <b-form-row>
+          <b-col cols="12" md="6">
+            <JnInputField
+              ref="street2"
+              v-model="street2"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Street 2' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+
+          <b-col cols="12" md="6">
+            <JnInputField
+              ref="street3"
+              v-model="street3"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Street 3' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+        </b-form-row>
+
+        <b-form-row>
+          <b-col cols="12" md="6">
+            <JnInputField
+              ref="city"
+              v-model="city"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'City' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+
+          <b-col cols="12" md="6">
+            <JnSelectField
+              ref="province"
+              v-model="province"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Province' }"
+              :options="[
+                {
+                  text: { en: 'Alberta' },
+                  value: 'Alberta'
+                },
+                {
+                  text: { en: 'British Columbia' },
+                  value: 'British Columbia'
+                },
+                {
+                  text: { en: 'Manitoba' },
+                  value: 'Manitoba'
+                },
+                {
+                  text: { en: 'New Brunswick' },
+                  value: 'New Brunswick'
+                },
+                {
+                  text: { en: 'Newfoundland & Labrador' },
+                  value: 'Newfoundland & Labrador'
+                },
+                {
+                  text: { en: 'Northwest Teritories' },
+                  value: 'Northwest Teritories'
+                },
+                {
+                  text: { en: 'Nova Scotia' },
+                  value: 'Nova Scotia'
+                },
+                {
+                  text: { en: 'Nunavut' },
+                  value: 'Nunavut'
+                },
+                {
+                  text: { en: 'Ontario' },
+                  value: 'Ontario'
+                },
+                {
+                  text: { en: 'Prince Edward Island' },
+                  value: 'Prince Edward Island'
+                },
+                {
+                  text: { en: 'Québec' },
+                  value: 'Québec'
+                },
+                {
+                  text: { en: 'Saskatchewan' },
+                  value: 'Saskatchewan'
+                },
+                {
+                  text: { en: 'Yukon' },
+                  value: 'Yukon'
+                }
+              ]"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnSelectField>
+          </b-col>
+        </b-form-row>
+
+        <b-form-row>
+          <b-col cols="12" md="6">
+            <JnSelectField
+              ref="country"
+              v-model="country"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Country' }"
+              :options="[
+                {
+                  text: { en: 'Canada' },
+                  value: 'Canada'
+                },
+                {
+                  text: { en: 'United States' },
+                  value: 'United States'
+                }
+              ]"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnSelectField>
+          </b-col>
+
+          <b-col cols="12" md="6">
+            <JnInputField
+              ref="postalCode"
+              v-model="postalCode"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Postal Code' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+        </b-form-row>
+
+        <hr class="pb-2">
         <h3 class="h5">Buy Back of Past Service</h3>
 
         <b-form-row>
-          <b-col cols="12" lg="6">
-            <FormField :name="prefixed.buyingBackPastService" v-bind="commonBind"></FormField>
-            <div cols="auto">
-              <FormField :name="prefixed.buyingBackPastService_yearsRecognized" v-bind="commonBind"></FormField>
-            </div>
+          <b-col cols="12">
+            <JnCheckboxField
+              ref="buyingBackPastService"
+              v-model="buyingBackPastService"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Check this box if buying back past service' }"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnCheckboxField>
           </b-col>
         </b-form-row>
 
-        <hr />
+        <b-form-row>
+          <b-col cols="12">
+            <JnInputField
+              ref="buyingBackPastService_yearsRecognized"
+              v-model="buyingBackPastService_yearsRecognized"
+              :validated="validated"
+              :language="language"
+              :label="{
+                en:
+                  'If checked, Indicate the year(s) or range(s) of years to be recognized'
+              }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+        </b-form-row>
+
+        <hr class="pb-2">
         <h3 class="h5">Spouse</h3>
 
         <b-form-row>
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.spouse_salutation" v-bind="commonBind"></FormField>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.spouse_firstName" v-bind="commonBind"></FormField>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.spouse_otherNames" v-bind="commonBind"></FormField>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <FormField :name="prefixed.spouse_lastName" v-bind="commonBind"></FormField>
+          <b-col cols="12" md="3">
+            <JnSelectField
+              ref="spouse_salutation"
+              v-model="spouse_salutation"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Salutation' }"
+              :options="[
+                { text: { en: 'Mr' }, value: 'Mr' },
+                { text: { en: 'Ms' }, value: 'Ms' },
+                { text: { en: 'Dr' }, value: 'Dr' },
+                { text: { en: 'Mrs' }, value: 'Mrs' }
+              ]"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnSelectField>
           </b-col>
         </b-form-row>
 
         <b-form-row>
           <b-col cols="12" md="6">
-            <FormField :name="prefixed.spouse_dateOfBirth" v-bind="commonBind"></FormField>
+            <JnInputField
+              ref="spouse_firstName"
+              v-model="spouse_firstName"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'First Name' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
-            <FormField :name="prefixed.spouse_gender" v-bind="commonBind"></FormField>
+            <JnInputField
+              ref="spouse_lastName"
+              v-model="spouse_lastName"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Last Name' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
           </b-col>
         </b-form-row>
 
-        <hr />
+        <b-form-row>
+          <b-col cols="12">
+            <JnInputField
+              ref="spouse_otherNames"
+              v-model="spouse_otherNames"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Other Name(s)' }"
+              type="text"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnInputField>
+          </b-col>
+        </b-form-row>
+
+        <b-form-row>
+          <b-col cols="12" md="6">
+            <JnDatePickerField
+              ref="spouse_dateOfBirth"
+              v-model="value.spouse_dateOfBirth"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Date of Birth' }"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnDatePickerField>
+          </b-col>
+
+          <b-col cols="12" md="6">
+            <JnSelectField
+              ref="spouse_gender"
+              v-model="spouse_gender"
+              :validated="validated"
+              :language="language"
+              :label="{ en: 'Gender' }"
+              :options="[
+                { text: { en: 'Male' }, value: 'Male' },
+                { text: { en: 'Female' }, value: 'Female' }
+              ]"
+              :validators="{
+                notEmpty: {}
+              }"
+              @input="onInput"
+            ></JnSelectField>
+          </b-col>
+        </b-form-row>
+
+        <hr class="pb-2">
         <h3 class="h5 mb-4">Beneficiary Designation</h3>
 
-        <b-card
-          v-show="show.ben1"
-          header="Beneficiary Designation #1"
-          header-class="h6"
-          footer-tag="footer"
-        >
-          <b-row>
-            <b-col cols="8">
-              <b-form-row>
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation1_firstName" v-bind="commonBind"></FormField>
-                </b-col>
+        <template v-for="({ key }, index) in beneficiaryDesignations">
+          <IntegrisMemberEmployeeBeneficiary
+            ref="beneficiaryDesignations"
+            v-model="beneficiaryDesignations[index]"
+            :key="key"
+            :validated="validated"
+            :language="language"
+            class="mb-3"
+            :header="{ en: `Beneficiary Designation #${index + 1}` }"
+            :removable="beneficiaryDesignationRemovable"
+            :totalshare="beneficiaryDesignation_totalShare"
+            @remove="onRemoveBeneficiaryDesignation(index)"
+            @input="onInput"
+          ></IntegrisMemberEmployeeBeneficiary>
+        </template>
 
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation1_lastName" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation1_dateOfBirth"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation1_relationship"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-              </b-form-row>
-
-              <b-form-row>
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation1_type" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation1_revocability"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-              </b-form-row>
-            </b-col>
-            <b-col cols="4">
-              <FormField :name="prefixed.beneficiaryDesignation1_share" v-bind="commonBind"></FormField>
-            </b-col>
-          </b-row>
-
-          <template #footer class="p-0">
-            <b-button variant="secondary" block @click="show.ben2=true" v-show="!show.ben2">
-              <b-icon icon="plus-circle" class="mr-1"></b-icon>Add another Beneficiary
-            </b-button>
-          </template>
-        </b-card>
-        <b-card v-show="show.ben2" header-tag="header" header-class="pb-0" footer-tag="footer">
-          <template #header>
-            <h3 class="h6">
-              Beneficiary Designation #2
-              <b-button
-                @click="show.ben2=false"
-                variant="danger"
-                size="sm"
-                class="m-0 ml-3"
-              >Remove this Beneficiary</b-button>
-            </h3>
-          </template>
-          <b-row>
-            <b-col cols="10">
-              <b-form-row>
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation2_firstName" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation2_lastName" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation2_dateOfBirth"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation2_relationship"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-              </b-form-row>
-
-              <b-form-row>
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation2_type" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation2_revocability"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-              </b-form-row>
-            </b-col>
-            <b-col cols="2">
-              <FormField :name="prefixed.beneficiaryDesignation2_share" v-bind="commonBind"></FormField>
-            </b-col>
-          </b-row>
-
-          <template #footer class="p-0">
-            <b-button variant="secondary" block v-show="!show.ben3" @click="show.ben3=true">
-              <b-icon icon="plus-circle" class="mr-1"></b-icon>Add another Beneficiary
-            </b-button>
-          </template>
-        </b-card>
-        <b-card v-show="show.ben3" header-tag="header" header-class="pb-0" footer-tag="footer">
-          <template #header>
-            <h3 class="h6">
-              Beneficiary Designation #3
-              <b-button
-                @click="show.ben3=false"
-                variant="danger"
-                size="sm"
-                class="m-0 ml-3"
-              >Remove this Beneficiary</b-button>
-            </h3>
-          </template>
-          <b-row>
-            <b-col cols="10">
-              <b-form-row>
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation3_firstName" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation3_lastName" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation3_dateOfBirth"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation3_relationship"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-              </b-form-row>
-
-              <b-form-row>
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation3_type" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation3_revocability"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-              </b-form-row>
-            </b-col>
-            <b-col cols="2">
-              <FormField :name="prefixed.beneficiaryDesignation3_share" v-bind="commonBind"></FormField>
-            </b-col>
-          </b-row>
-          <template #footer class="p-0">
-            <b-button variant="secondary" block v-show="!show.ben4" @click="show.ben4=true">
-              <b-icon icon="plus-circle" class="mr-1"></b-icon>Add another Beneficiary
-            </b-button>
-          </template>
-        </b-card>
-        <b-card header-tag="header" header-class="pb-0" footer-tag="footer" v-show="show.ben4">
-          <template #header>
-            <h3 class="h6">
-              Beneficiary Designation #4
-              <b-button
-                @click="show.ben4=false"
-                variant="danger"
-                size="sm"
-                class="m-0 ml-3"
-              >Remove this Beneficiary</b-button>
-            </h3>
-          </template>
-          <b-row>
-            <b-col cols="10">
-              <b-form-row>
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation4_firstName" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation4_lastName" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation4_dateOfBirth"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation4_relationship"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-              </b-form-row>
-
-              <b-form-row>
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation4_type" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation4_revocability"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-              </b-form-row>
-            </b-col>
-            <b-col cols="2">
-              <FormField :name="prefixed.beneficiaryDesignation4_share" v-bind="commonBind"></FormField>
-            </b-col>
-          </b-row>
-          <template #footer class="p-0">
-            <b-button variant="secondary" block v-show="!show.ben5" @click="show.ben5=true">
-              <b-icon icon="plus-circle" class="mr-1"></b-icon>Add another Beneficiary
-            </b-button>
-          </template>
-        </b-card>
-        <b-card v-show="show.ben5" header-tag="header" header-class="pb-0">
-          <template #header>
-            <h3 class="h6">
-              Beneficiary Designation #5
-              <b-button
-                @click="show.ben5=false"
-                variant="danger"
-                size="sm"
-                class="m-0 ml-3"
-              >Remove this Beneficiary</b-button>
-            </h3>
-          </template>
-          <b-form-row>
-            <b-col cols="10">
-              <b-form-row>
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation5_firstName" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation5_lastName" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation5_dateOfBirth"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation5_relationship"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-              </b-form-row>
-
-              <b-form-row>
-                <b-col cols="12" md="6">
-                  <FormField :name="prefixed.beneficiaryDesignation5_type" v-bind="commonBind"></FormField>
-                </b-col>
-
-                <b-col cols="12" md="6">
-                  <FormField
-                    :name="prefixed.beneficiaryDesignation5_revocability"
-                    v-bind="commonBind"
-                  ></FormField>
-                </b-col>
-              </b-form-row>
-            </b-col>
-            <b-col cols="2">
-              <FormField :name="prefixed.beneficiaryDesignation5_share" v-bind="commonBind"></FormField>
-            </b-col>
-          </b-form-row>
-        </b-card>
-
-        <b-form-row v-show="shareTotal >0">
-          <b-col cols="4" offset="8" class="text-right">
+        <b-form-row v-show="beneficiaryDesignation_totalShare > 0">
+          <b-col cols="12" class="text-right">
             Total Shares:
-            <strong>{{shareTotal}} %</strong>
+            <strong>{{ beneficiaryDesignation_totalShare }}%</strong>
             <strong
               class="danger"
-              v-show="shareTotal>100"
-            >Please note that Total Shares are greater than 100%</strong>
-            <span
-              class="d-none"
-            >Need here so that the calculateTotal function gets executed however it doesn't want to show on screen so we need to hide it {{calculateTotal}}</span>
+              v-show="beneficiaryDesignation_totalShare > 100"
+              ><br />Please note that Total Shares are greater than 100%</strong
+            >
+            <!-- <span class="d-none"
+              >Need here so that the calculateTotal function gets executed
+              however it doesn't want to show on screen so we need to hide it
+              {{ calculateTotal }}</span
+            > -->
             <!-- <FormField :name="prefixed.beneficiaryDesignation_totalShare" v-bind="commonBind"></FormField> -->
           </b-col>
         </b-form-row>
+
+        <div v-if="beneficiaryDesignations.length < 5" class="my-3">
+          <button
+            class="btn btn-primary btn-block"
+            type="button"
+            @click="onAddBeneficiaryDesignation"
+          >
+            <b-icon icon="plus-circle"></b-icon>
+            Add Beneficiary Designation
+          </button>
+        </div>
       </b-card-body>
-      <template #footer class="p-0">
-        <b-button v-show="showNextMemberBtn" @click="$emit('showNext')" variant="primary" block>
-          <b-icon icon="plus-circle" class="mr-1"></b-icon>Add another Plan Member / Employee
-        </b-button>
-      </template>
     </b-card>
   </div>
 </template>
 
 <script>
-import { BIcon, BIconPlusCircle } from 'bootstrap-vue'
-import Template from './Template.vue'
+import localizeMixin from '~/mixins/localize'
+import uuidv4Mixin from '~/mixins/uuidv4'
+
 export default {
-  components: {
-    BIcon,
-    BIconPlusCircle
-  },
+  mixins: [localizeMixin, uuidv4Mixin],
+
   props: {
-    showNextMemberBtn: {
-      type: Boolean
-    },
-    hideRemove: {
-      type: Boolean,
-      default: false
-    },
-    language: {
-      type: String,
-      default() {
-        return this.$localize_defaultlanguage
-      }
-    },
     validated: {
       type: Boolean,
+      default: true
+    },
+    header: {
+      type: [String, Object],
+      default: null
+    },
+    removable: {
+      type: Boolean,
       default: false
     },
-    values: {
+    value: {
       type: Object,
       default() {
         return {}
       }
-    },
-    header: {
-      type: String,
-      default: 'Untitled'
-    },
-    prefix: {
-      type: String,
-      default: ''
     }
   },
+
   data() {
-    const prefixer = this.$prefixer(this.prefix)
     return {
-      show: {
-        ben1: true,
-        ben2: false,
-        ben3: false,
-        ben4: false,
-        ben5: false
-      },
-      shareTotal: 0,
-      fields: {
-        [prefixer.set('salutation')]: {
-          label: 'Salutation',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Mr',
-            'Ms',
-            'Dr',
-            'Mrs'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('firstName')]: {
-          label: 'First Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('otherNames')]: {
-          label: 'Other Name(s)',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('lastName')]: {
-          label: 'Last Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('dateOfBirth')]: {
-          label: 'Date of Birth',
-          type: 'datepicker',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('gender')]: {
-          label: 'Gender',
-          type: 'select',
-          choices: [{ text: 'Select\u2026', value: '' }, 'Male', 'Female'],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('socialInsurranceNumber')]: {
-          label: 'Social Insurrance Number',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('maritalStatus')]: {
-          label: 'Marital Status',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Single',
-            'Married',
-            'Common-Law/Civily United',
-            'Separated',
-            'Divorced',
-            'Widowed'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('firstYearPppProvisionType')]: {
-          label: 'First Year PPP Provision Type',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Defined Benefit (DB)',
-            'Defined Contribution (DC)'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('expectedYearOfRetirement')]: {
-          label: 'Expected Year of Retirement',
-          type: 'select',
-          choices: [{ text: 'Select\u2026', value: '' }],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('primaryEmailAddress')]: {
-          label: 'Primary Email Address',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('primaryPhoneNumber')]: {
-          label: 'Primary Phone Number',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('alternateEmailAddress')]: {
-          label: 'Alternate Email Address',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('alternatePhoneNumber')]: {
-          label: 'Alternate Phone Number',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('street1')]: {
-          label: 'Street 1',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('street2')]: {
-          label: 'Street 2',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('street3')]: {
-          label: 'Street 3',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('city')]: {
-          label: 'City',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('province')]: {
-          label: 'Province',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Alberta',
-            'British Columbia',
-            'Manitoba',
-            'New Brunswick',
-            'Newfoundland & Labrador',
-            'Northwest Teritories',
-            'Nova Scotia',
-            'Nunavut',
-            'Ontario',
-            'Prince Edward Island',
-            'Québec',
-            'Saskatchewan',
-            'Yukon'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('country')]: {
-          label: 'Country',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Canada',
-            'United States'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('postalCode')]: {
-          label: 'Postal Code',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('buyingBackPastService')]: {
-          label: 'Check this box if buying back past service',
-          type: 'checkbox',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('buyingBackPastService_yearsRecognized')]: {
-          label:
-            'If checked, Indicate the year(s) or range(s) of years to be recognized',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('spouse_salutation')]: {
-          label: 'Salutation',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Mr',
-            'Ms',
-            'Dr',
-            'Mrs'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('spouse_firstName')]: {
-          label: 'First Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('spouse_otherNames')]: {
-          label: 'Other Name(s)',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('spouse_lastName')]: {
-          label: 'Last Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('spouse_dateOfBirth')]: {
-          label: 'Date of Birth',
-          type: 'datepicker',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('spouse_gender')]: {
-          label: 'Gender',
-          type: 'select',
-          choices: [{ text: 'Select\u2026', value: '' }, 'Male', 'Female'],
-          validators: {
-            notEmpty: {}
-          }
-        },
-
-        [prefixer.set('beneficiaryDesignation1_firstName')]: {
-          label: 'First Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation1_lastName')]: {
-          label: 'Last Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation1_dateOfBirth')]: {
-          label: 'Date of Birth',
-          type: 'datepicker',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation1_relationship')]: {
-          label: 'Relationship',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation1_type')]: {
-          label: 'Type',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Primary',
-            'Contingent'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation1_share')]: {
-          label: 'Share %',
-          type: 'number',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation1_revocability')]: {
-          label: 'Revocability',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Revocable',
-            'Irrevocable'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-
-        [prefixer.set('beneficiaryDesignation2_firstName')]: {
-          label: 'First Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation2_lastName')]: {
-          label: 'Last Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation2_dateOfBirth')]: {
-          label: 'Date of Birth',
-          type: 'datepicker',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation2_relationship')]: {
-          label: 'Relationship',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation2_type')]: {
-          label: 'Type',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Primary',
-            'Contingent'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation2_share')]: {
-          label: 'Share %',
-          type: 'number',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation2_revocability')]: {
-          label: 'Revocability',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Revocable',
-            'Irrevocable'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-
-        [prefixer.set('beneficiaryDesignation3_firstName')]: {
-          label: 'First Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation3_lastName')]: {
-          label: 'Last Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation3_dateOfBirth')]: {
-          label: 'Date of Birth',
-          type: 'datepicker',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation3_relationship')]: {
-          label: 'Relationship',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation3_type')]: {
-          label: 'Type',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Primary',
-            'Contingent'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation3_share')]: {
-          label: 'Share %',
-          type: 'number',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation3_revocability')]: {
-          label: 'Revocability',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Revocable',
-            'Irrevocable'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-
-        [prefixer.set('beneficiaryDesignation4_firstName')]: {
-          label: 'First Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation4_lastName')]: {
-          label: 'Last Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation4_dateOfBirth')]: {
-          label: 'Date of Birth',
-          type: 'datepicker',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation4_relationship')]: {
-          label: 'Relationship',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation4_type')]: {
-          label: 'Type',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Primary',
-            'Contingent'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation4_share')]: {
-          label: 'Share %',
-          type: 'number',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation4_revocability')]: {
-          label: 'Revocability',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Revocable',
-            'Irrevocable'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-
-        [prefixer.set('beneficiaryDesignation5_firstName')]: {
-          label: 'First Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation5_lastName')]: {
-          label: 'Last Name',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation5_dateOfBirth')]: {
-          label: 'Date of Birth',
-          type: 'datepicker',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation5_relationship')]: {
-          label: 'Relationship',
-          type: 'text',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation5_type')]: {
-          label: 'Type',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Primary',
-            'Contingent'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation5_share')]: {
-          label: 'Share %',
-          type: 'number',
-          validators: {
-            notEmpty: {}
-          }
-        },
-        [prefixer.set('beneficiaryDesignation5_revocability')]: {
-          label: 'Revocability',
-          type: 'select',
-          choices: [
-            { text: 'Select\u2026', value: '' },
-            'Revocable',
-            'Irrevocable'
-          ],
-          validators: {
-            notEmpty: {}
-          }
-        },
-
-        [prefixer.set('beneficiaryDesignation_totalShare')]: {
-          label: 'Total Share',
-          type: 'number',
-          readonly: true,
-          defaultValue: 0,
-          validators: {
-            notEmpty: {}
-          }
-        },
-
-        [prefixer.set('field')]: {}
-      },
-      prefixed: prefixer.prefixed
-    }
-  },
-  computed: {
-    commonBind() {
-      return {
-        language: this.language,
-        validated: this.validated,
-        values: this.values,
-        fields: this.fields
-      }
-    },
-    calculateTotal() {
-      this.values[this.prefixed.beneficiaryDesignation_totalShare] = parseInt(
-        this.values[this.prefixed.beneficiaryDesignation1_share]
-      )
-      if (
-        parseInt(this.values[this.prefixed.beneficiaryDesignation2_share]) > 0
-      )
-        this.values[
-          this.prefixed.beneficiaryDesignation_totalShare
-        ] += parseInt(this.values[this.prefixed.beneficiaryDesignation2_share])
-
-      if (
-        parseInt(this.values[this.prefixed.beneficiaryDesignation3_share]) > 0
-      )
-        this.values[
-          this.prefixed.beneficiaryDesignation_totalShare
-        ] += parseInt(this.values[this.prefixed.beneficiaryDesignation3_share])
-
-      if (
-        parseInt(this.values[this.prefixed.beneficiaryDesignation4_share]) > 0
-      )
-        this.values[
-          this.prefixed.beneficiaryDesignation_totalShare
-        ] += parseInt(this.values[this.prefixed.beneficiaryDesignation4_share])
-
-      if (
-        parseInt(this.values[this.prefixed.beneficiaryDesignation5_share]) > 0
-      )
-        this.values[
-          this.prefixed.beneficiaryDesignation_totalShare
-        ] += parseInt(this.values[this.prefixed.beneficiaryDesignation5_share])
-      console.log(
-        'all values',
-        this.values[this.prefixed.beneficiaryDesignation_totalShare]
-      )
-      this.shareTotal = this.values[
-        this.prefixed.beneficiaryDesignation_totalShare
+      salutation: this.value.salutation,
+      firstName: this.value.firstName,
+      lastName: this.value.lastName,
+      otherNames: this.value.otherNames,
+      dateOfBirth: this.value.dateOfBirth,
+      gender: this.value.gender,
+      socialInsurranceNumber: this.value.socialInsurranceNumber,
+      maritalStatus: this.value.maritalStatus,
+      firstYearPppProvisionType: this.value.firstYearPppProvisionType,
+      expectedYearOfRetirement: this.value.expectedYearOfRetirement,
+      primaryEmailAddress: this.value.primaryEmailAddress,
+      primaryPhoneNumber: this.value.primaryPhoneNumber,
+      alternateEmailAddress: this.value.alternateEmailAddress,
+      alternatePhoneNumber: this.value.alternatePhoneNumber,
+      street1: this.value.street1,
+      street2: this.value.street2,
+      street3: this.value.street3,
+      city: this.value.city,
+      province: this.value.province,
+      country: this.value.country,
+      postalCode: this.value.postalCode,
+      buyingBackPastService: this.value.buyingBackPastService,
+      buyingBackPastService_yearsRecognized: this.value
+        .buyingBackPastService_yearsRecognized,
+      spouse_salutation: this.value.spouse_salutation,
+      spouse_firstName: this.value.spouse_firstName,
+      spouse_lastName: this.value.spouse_lastName,
+      spouse_otherNames: this.value.spouse_otherNames,
+      spouse_dateOfBirth: this.value.spouse_dateOfBirth,
+      spouse_gender: this.value.spouse_gender,
+      beneficiaryDesignations: this.value.beneficiaryDesignations || [
+        { key: this.uuidv4() }
       ]
     }
   },
-  methods: {
-    getValidations() {
-      return Object.keys(this.$refs).reduce((acc, cur) => {
-        acc[cur] = this.$refs[cur].validation
+
+  computed: {
+    _header() {
+      return this.localize(this.header)
+    },
+    beneficiaryDesignationRemovable() {
+      return this.beneficiaryDesignations.length > 1
+    },
+    beneficiaryDesignation_totalShare() {
+      return this.beneficiaryDesignations.reduce((acc, cur) => {
+        if (+cur.share) {
+          acc = acc + cur.share
+        }
         return acc
-      }, {})
+      }, 0)
+    }
+  },
+
+  methods: {
+    onRemoveClick() {
+      this.$emit('remove')
+    },
+    onInput() {
+      this.$emit('input', {
+        key: this.value.key,
+        salutation: this.salutation,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        otherNames: this.otherNames,
+        dateOfBirth: this.dateOfBirth,
+        gender: this.gender,
+        socialInsurranceNumber: this.socialInsurranceNumber,
+        maritalStatus: this.maritalStatus,
+        firstYearPppProvisionType: this.firstYearPppProvisionType,
+        expectedYearOfRetirement: this.expectedYearOfRetirement,
+        primaryEmailAddress: this.primaryEmailAddress,
+        primaryPhoneNumber: this.primaryPhoneNumber,
+        alternateEmailAddress: this.alternateEmailAddress,
+        alternatePhoneNumber: this.alternatePhoneNumber,
+        street1: this.street1,
+        street2: this.street2,
+        street3: this.street3,
+        city: this.city,
+        province: this.province,
+        country: this.country,
+        postalCode: this.postalCode,
+        buyingBackPastService: this.buyingBackPastService,
+        buyingBackPastService_yearsRecognized: this
+          .buyingBackPastService_yearsRecognized,
+        spouse_salutation: this.spouse_salutation,
+        spouse_firstName: this.spouse_firstName,
+        spouse_lastName: this.spouse_lastName,
+        spouse_otherNames: this.spouse_otherNames,
+        spouse_dateOfBirth: this.spouse_dateOfBirth,
+        spouse_gender: this.spouse_gender,
+        beneficiaryDesignations: this.beneficiaryDesignations
+      })
+    },
+    onRemoveBeneficiaryDesignation(index) {
+      this.beneficiaryDesignations.splice(index, 1)
+    },
+    onAddBeneficiaryDesignation() {
+      if (this.beneficiaryDesignations.length < 5) {
+        this.beneficiaryDesignations.push({
+          key: this.uuidv4()
+        })
+      }
     }
   }
 }
