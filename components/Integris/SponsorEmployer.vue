@@ -2,14 +2,16 @@
   <div>
     <b-card :no-body="true">
       <template #header>
-        <button
+        <b-button
           v-if="removable"
-          class="btn btn-danger float-right"
+          variant="danger"
+          size="sm"
+          class="float-right"
           type="button"
           @click="onRemoveClick"
         >
-          <b-icon icon="x-circle"></b-icon> Remove
-        </button>
+          <b-icon icon="x-circle" class="mr-1"></b-icon>Remove
+        </b-button>
 
         <h4 class="h5 mt-0">
           {{ _header }}
@@ -413,7 +415,7 @@
           </b-col>
         </b-form-row>
 
-        <hr class="pb-2">
+        <hr class="pb-2" />
         <h3 class="h5">Contact Person</h3>
 
         <b-form-row>
@@ -529,7 +531,7 @@
           </b-col>
         </b-form-row>
 
-        <hr class="pb-2">
+        <hr class="pb-2" />
         <h3 class="h5">Authorized Signing Officer</h3>
 
         <b-form-row>
@@ -661,7 +663,7 @@
           </b-col>
         </b-form-row>
 
-        <hr class="pb-2">
+        <hr class="pb-2" />
         <h3 class="h5">Employment Dates/Connected &amp; Related Persons</h3>
 
         <b-row v-show="memberEmployeesLength >= 1">

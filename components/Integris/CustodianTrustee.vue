@@ -2,14 +2,16 @@
   <div>
     <b-card :no-body="true">
       <template #header>
-        <button
+        <b-button
+          variant="danger"
+          size="sm"
           v-if="removable"
-          class="btn btn-danger float-right"
+          class="float-right"
           type="button"
           @click="onRemoveClick"
         >
-          <b-icon icon="x-circle"></b-icon> Remove
-        </button>
+          <b-icon icon="x-circle" class="mr-1"></b-icon>Remove
+        </b-button>
 
         <h2 class="h5 m-0">{{ _header }}</h2>
       </template>
