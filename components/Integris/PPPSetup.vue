@@ -11,6 +11,7 @@
             <JnSelectField
               ref="provincialAuthority"
               v-model="provincialAuthority"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Provincial Authority' }"
               :options="[
@@ -82,6 +83,7 @@
             <JnSelectField
               ref="productPlatform"
               v-model="productPlatform"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Product Platform' }"
               :options="[
@@ -116,6 +118,7 @@
             <JnInputField
               ref="normalRetirementAge"
               v-model="normalRetirementAge"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Normal Retirement Age' }"
               type="number"
@@ -131,6 +134,7 @@
             <JnSelectField
               ref="languageOfCorrespondence"
               v-model="languageOfCorrespondence"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Language of Correspondence' }"
               :options="[
@@ -156,6 +160,8 @@
             <JnSelectField
               ref="requestFor"
               v-model="requestFor"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'This PPP Setup is for (select one)' }"
               :options="[
                 {
@@ -188,6 +194,8 @@
             <JnInputField
               ref="existingPlanName"
               v-model="existingPlanName"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Existing Plan Name' }"
               type="text"
               :validators="{
@@ -201,6 +209,8 @@
             <JnInputField
               ref="existingCraPlanNo"
               v-model="existingCraPlanNo"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Existing CRA Plan No' }"
               type="text"
               :validators="{
@@ -217,12 +227,15 @@
 
 <script>
 import localizeMixin from '~/mixins/localize'
-import validateMixin from '~/mixins/validate'
 
 export default {
-  mixins: [localizeMixin, validateMixin],
+  mixins: [localizeMixin],
 
   props: {
+    validated: {
+      type: Boolean,
+      default: true
+    },
     value: {
       type: Object,
       default() {

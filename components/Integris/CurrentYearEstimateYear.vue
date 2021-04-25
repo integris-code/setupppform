@@ -13,6 +13,7 @@
             <JnInputField
               ref="member1Sponsor1"
               v-model="member1Sponsor1"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #1' }"
               type="text"
@@ -25,6 +26,7 @@
             <JnInputField
               ref="member1Sponsor2"
               v-model="member1Sponsor2"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #2' }"
               type="text"
@@ -37,6 +39,7 @@
             <JnInputField
               ref="member1Sponsor3"
               v-model="member1Sponsor3"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #3' }"
               type="text"
@@ -53,6 +56,7 @@
             <JnInputField
               ref="member2Sponsor1"
               v-model="member1Sponsor1"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #1' }"
               type="text"
@@ -65,6 +69,7 @@
             <JnInputField
               ref="member2Sponsor2"
               v-model="member2Sponsor2"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #2' }"
               type="text"
@@ -77,6 +82,7 @@
             <JnInputField
               ref="member2Sponsor3"
               v-model="member2Sponsor3"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #3' }"
               type="text"
@@ -93,6 +99,7 @@
             <JnInputField
               ref="member3Sponsor1"
               v-model="member3Sponsor1"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #1' }"
               type="text"
@@ -105,6 +112,7 @@
             <JnInputField
               ref="member3Sponsor2"
               v-model="member3Sponsor2"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #2' }"
               type="text"
@@ -117,6 +125,7 @@
             <JnInputField
               ref="member3Sponsor3"
               v-model="member3Sponsor3"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #3' }"
               type="text"
@@ -133,6 +142,7 @@
             <JnInputField
               ref="member4Sponsor1"
               v-model="member4Sponsor1"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #1' }"
               type="text"
@@ -145,6 +155,7 @@
             <JnInputField
               ref="member4Sponsor2"
               v-model="member4Sponsor2"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #2' }"
               type="text"
@@ -157,6 +168,7 @@
             <JnInputField
               ref="member4Sponsor3"
               v-model="member4Sponsor3"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Sponsor #3' }"
               type="text"
@@ -172,12 +184,15 @@
 
 <script>
 import localizeMixin from '~/mixins/localize'
-import validateMixin from '~/mixins/validate'
 
 export default {
-  mixins: [localizeMixin, validateMixin],
+  mixins: [localizeMixin],
 
   props: {
+    validated: {
+      type: Boolean,
+      default: true
+    },
     year: {
       type: Number,
       default: 0
@@ -218,6 +233,15 @@ export default {
     _member1Header() {
       return this.localize(this.member1Header)
     },
+    _member2Header() {
+      return this.localize(this.member1Header)
+    },
+    _member3Header() {
+      return this.localize(this.member1Header)
+    },
+    _member4Header() {
+      return this.localize(this.member1Header)
+    }
   },
 
   methods: {

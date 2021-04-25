@@ -64,6 +64,7 @@
           <IntegrisPPPSetup
             ref="pppSetup"
             v-model="pppSetup"
+            :validated="validated"
             :language="language"
             class="mb-3 pb-5"
           ></IntegrisPPPSetup>
@@ -71,6 +72,7 @@
           <IntegrisClientsInvestmentAdvisor
             ref="clientsInvestmentAdvisor"
             v-model="clientsInvestmentAdvisor"
+            :validated="validated"
             :language="language"
             id="advisor"
             class="mb-3 pb-5"
@@ -79,18 +81,26 @@
           <IntegrisMemberEmployee
             v-for="(memberEmployee, index) in memberEmployees"
             ref="memberEmployees"
-            :value="memberEmployee"
-            :key="'memberEmployee' + index"
+            v-model="memberEmployees[index]"
+            :key="memberEmployee.key"
+            :validated="validated"
             :language="language"
             class="mb-3 pb-5"
-            :header="{ en: 'Primary Member' }"
-            :showNextMemberBtn="!show.member2"
-            @showNext="show.member2 = true"
-            :hideRemove="true"
+            :header="
+              index === 0
+                ? { en: 'Primary Member' }
+                : { en: 'Member #' + (index + 1) }
+            "
+            :removable="index !== 0 && (index + 1) === memberEmployees.length"
+            @remove="onRemoveMemberEmployee(index)"
           ></IntegrisMemberEmployee>
 
-          <div v-if="memberEmployees.length < 3" class="mb-3 pb-5 px-3">
-            <button class="btn btn-primary btn-block" type="button">
+          <div v-if="memberEmployees.length < 4" class="mb-3 pb-5">
+            <button
+              class="btn btn-primary btn-block"
+              type="button"
+              @click="onAddMemberEmployee"
+            >
               <b-icon icon="plus-circle"></b-icon>
               Add Member/Employee
             </button>
@@ -117,6 +127,7 @@
           <IntegrisCustodianTrustee
             ref="custodian"
             v-model="custodian"
+            :validated="validated"
             :language="language"
             class="mb-3 pb-5"
             :header="{ en: 'Custodian' }"
@@ -127,6 +138,7 @@
             ref="individualTrustees"
             v-model="individualTrustees[index]"
             :key="key"
+            :validated="validated"
             :language="language"
             class="mb-3 pb-5"
             :header="
@@ -134,11 +146,11 @@
                 ? { en: 'Corporate Trustee/Individual Trustee #1' }
                 : { en: `Individual Trustee #${index + 1}` }
             "
-            :removable="individualTrusteeRemovable"
+            :removable="index !== 0 && (index + 1) === individualTrustees.length"
             @remove="onRemoveIndividualTrustee(index)"
           ></IntegrisCustodianTrustee>
 
-          <div v-if="individualTrustees.length < 3" class="mb-3 pb-5 px-3">
+          <div v-if="individualTrustees.length < 3" class="mb-3 pb-5">
             <button
               class="btn btn-primary btn-block"
               type="button"
@@ -152,6 +164,7 @@
           <IntegrisCurrentYearEstimate
             ref="currentYearEstimate"
             v-model="currentYearEstimate"
+            :validated="validated"
             :language="language"
             class="mb-3 pb-5"
           ></IntegrisCurrentYearEstimate>
@@ -166,21 +179,14 @@
 </template>
 
 <script>
-// import localizeMixin from '~/mixins/localize'
-import validateMixin from '~/mixins/validate'
 import uuidv4Mixin from '~/mixins/uuidv4'
 
 export default {
-  mixins: [validateMixin, uuidv4Mixin],
+  mixins: [uuidv4Mixin],
 
   data() {
-    // const currentYear = new Date().getFullYear()
-    // const currentYearEstimate = {}
-    // for (let index = 0, length = 30; index < length; index++) {
-    //   currentYearEstimate[String(currentYear - index)] = {}
-    // }
-
     return {
+      validated: false,
       language: 'en',
       // languageLabel: {
       //   en: 'Language',
@@ -208,11 +214,10 @@ export default {
       sponsorEmployers: [{ key: this.uuidv4() }],
       custodian: {},
       corporateIndividualTrustee: {},
-      additionalIndividualTrustees: [],
       individualTrustees: [{ key: this.uuidv4() }],
       currentYearEstimate: {},
 
-      validated: false,
+      // --- REMOVE:BEGIN ---
       values: {},
       show: {
         member1: true,
@@ -223,9 +228,11 @@ export default {
         sponsor2: false,
         sponsor3: false
       }
+      // --- REMOVE:END ---
     }
   },
 
+  // --- REMOVE:BEGIN ---
   watch: {
     'show.member2'(newItem, old) {
       if (newItem) {
@@ -273,6 +280,7 @@ export default {
       }
     }
   },
+  // --- REMOVE:END ---
 
   computed: {
     // _languageLabel() {
@@ -281,9 +289,14 @@ export default {
     // _languageOptions() {
     //   return this.$localize(this.languageOptions, this.language)
     // },
-    individualTrusteeRemovable() {
-      return this.individualTrustees.length > 1
-    },
+    // memberEmployeeRemovable() {
+    //   return this.memberEmployees.length > 1
+    // },
+    // individualTrusteeRemovable() {
+    //   return this.individualTrustees.length > 1
+    // },
+
+    // --- REMOVE:BEGIN ---
     commonBind() {
       return {
         language: this.language,
@@ -292,9 +305,19 @@ export default {
         show: this.show
       }
     }
+    // --- REMOVE:END ---
   },
-
   methods: {
+    onRemoveMemberEmployee(index) {
+      this.memberEmployees.splice(index, 1)
+    },
+    onAddMemberEmployee() {
+      if (this.memberEmployees.length < 4) {
+        this.memberEmployees.push({
+          key: this.uuidv4()
+        })
+      }
+    },
     onRemoveIndividualTrustee(index) {
       this.individualTrustees.splice(index, 1)
     },
@@ -307,7 +330,7 @@ export default {
     },
     onSubmit(event) {
       event.preventDefault()
-      this.validate()
+      this.validated = true
       this.$nextTick(() => {
         const invalid = document.querySelector('.form-group.is-invalid')
         if (invalid) {

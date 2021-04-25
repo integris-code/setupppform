@@ -11,6 +11,7 @@
           ref="years"
           v-model="model[year]"
           :key="year"
+          :validated="validated"
           :language="language"
           class="mb-3"
           :year="year"
@@ -23,15 +24,14 @@
 
 <script>
 import localizeMixin from '~/mixins/localize'
-import validateMixin from '~/mixins/validate'
 
 export default {
-  mixins: [localizeMixin, validateMixin],
+  mixins: [localizeMixin],
 
   props: {
-    header: {
-      type: [String, Object],
-      default: null
+    validated: {
+      type: Boolean,
+      default: true
     },
     value: {
       type: Object,
@@ -45,12 +45,12 @@ export default {
     const currentYear = new Date().getFullYear()
     const years = []
     for (let index = 0, length = 30; index < length; index++) {
-      years.push(String(currentYear - index))
+      years.push(currentYear - index)
     }
 
     return {
       header: {
-        en: 'Current Year Estimate &amp; Historical T4 (Box 14)/T4PS Income'
+        en: 'Current Year Estimate \u0026 Historical T4 (Box 14)/T4PS Income'
       },
       years,
       model: years.reduce((acc, cur) => {
@@ -68,7 +68,7 @@ export default {
 
   methods: {
     onInput() {
-      this.$emit('input', { ...this.model })
+      this.$emit('input', this.model)
     }
   }
 }

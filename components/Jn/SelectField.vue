@@ -23,6 +23,10 @@ export default {
   mixins: [localizeMixin, validationMixin],
 
   props: {
+    validated: {
+      type: Boolean,
+      default: true
+    },
     label: {
       type: [String, Object],
       default: 'Unlabelled'
@@ -45,8 +49,7 @@ export default {
 
   data() {
     return {
-      model: this.value,
-      validated: false
+      model: this.value
     }
   },
 
@@ -77,10 +80,6 @@ export default {
   methods: {
     onInput(value) {
       this.$emit('input', value)
-    },
-    validate() {
-      this.validated = true
-      return this.localize(this.validation)
     }
   }
 }

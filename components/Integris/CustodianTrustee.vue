@@ -2,18 +2,16 @@
   <div>
     <b-card :no-body="true">
       <template #header>
-        <h2 class="h5 m-0">
-          {{ _header }}
-          <button
-            v-if="removable"
-            class="btn btn-danger float-right"
-            type="button"
-            @click="onRemoveClick"
-          >
-            <b-icon icon="x-circle"></b-icon>
-            Remove
-          </button>
-        </h2>
+        <button
+          v-if="removable"
+          class="btn btn-danger float-right"
+          type="button"
+          @click="onRemoveClick"
+        >
+          <b-icon icon="x-circle"></b-icon> Remove
+        </button>
+
+        <h2 class="h5 m-0">{{ _header }}</h2>
       </template>
 
       <b-card-body>
@@ -22,6 +20,8 @@
             <JnInputField
               ref="firstName"
               v-model="firstName"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'First Name' }"
               type="text"
               :validators="{
@@ -35,6 +35,8 @@
             <JnInputField
               ref="lastName"
               v-model="lastName"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Last Name' }"
               type="text"
               :validators="{
@@ -48,6 +50,8 @@
             <JnInputField
               ref="title"
               v-model="title"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Title' }"
               type="text"
               :validators="{
@@ -61,6 +65,8 @@
             <JnInputField
               ref="primaryEmailAddress"
               v-model="primaryEmailAddress"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Primary Email Address' }"
               type="email"
               :validators="{
@@ -74,6 +80,8 @@
             <JnInputField
               ref="primaryPhoneNumber"
               v-model="primaryPhoneNumber"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Primary Phone Number' }"
               type="text"
               :validators="{
@@ -87,6 +95,8 @@
             <JnInputField
               ref="faxNumber"
               v-model="faxNumber"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Fax Number' }"
               type="text"
               :validators="{
@@ -99,6 +109,8 @@
             <JnInputField
               ref="street1"
               v-model="street1"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Street 1' }"
               type="text"
               :validators="{
@@ -111,6 +123,8 @@
             <JnInputField
               ref="street2"
               v-model="street2"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Street 2' }"
               type="text"
               :validators="{
@@ -124,6 +138,8 @@
             <JnInputField
               ref="street3"
               v-model="street3"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Street 3' }"
               type="text"
               :validators="{
@@ -139,6 +155,8 @@
             <JnInputField
               ref="city"
               v-model="city"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'City' }"
               type="text"
               :validators="{
@@ -152,6 +170,8 @@
             <JnSelectField
               ref="province"
               v-model="province"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Province' }"
               :options="[
                 {
@@ -218,6 +238,8 @@
             <JnSelectField
               ref="country"
               v-model="country"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Country' }"
               :options="[
                 {
@@ -240,8 +262,10 @@
             <JnInputField
               ref="postalCode"
               v-model="postalCode"
-              type="text"
+              :validated="validated"
+              :language="language"
               :label="{ en: 'Postal Code' }"
+              type="text"
               :validators="{
                 notEmpty: {}
               }"
@@ -256,12 +280,15 @@
 
 <script>
 import localizeMixin from '~/mixins/localize'
-import validateMixin from '~/mixins/validate'
 
 export default {
-  mixins: [localizeMixin, validateMixin],
+  mixins: [localizeMixin],
 
   props: {
+    validated: {
+      type: Boolean,
+      default: true
+    },
     header: {
       type: [String, Object],
       default: null
@@ -308,6 +335,7 @@ export default {
     },
     onInput() {
       this.$emit('input', {
+        key: this.value.key,
         firstName: this.firstName,
         lastName: this.lastName,
         title: this.title,

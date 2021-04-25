@@ -11,6 +11,7 @@
             <JnInputField
               ref="firstName"
               v-model="firstName"
+              :validated="validated"
               :language="language"
               :label="{ en: 'First Name' }"
               type="text"
@@ -25,6 +26,7 @@
             <JnInputField
               ref="lastName"
               v-model="lastName"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Last Name' }"
               type="text"
@@ -41,6 +43,7 @@
             <JnInputField
               ref="title"
               v-model="title"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Title' }"
               type="text"
@@ -55,6 +58,7 @@
             <JnInputField
               ref="companyName"
               v-model="companyName"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Company Name' }"
               type="text"
@@ -71,6 +75,7 @@
             <JnInputField
               ref="emailAddress"
               v-model="emailAddress"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Email Address' }"
               type="email"
@@ -85,6 +90,7 @@
             <JnInputField
               ref="phoneNumber"
               v-model="phoneNumber"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Phone Number' }"
               type="tel"
@@ -99,6 +105,7 @@
             <JnInputField
               ref="faxNumber"
               v-model="faxNumber"
+              :validated="validated"
               :language="language"
               :label="{ en: 'Fax Number' }"
               type="tel"
@@ -116,12 +123,15 @@
 
 <script>
 import localizeMixin from '~/mixins/localize'
-import validateMixin from '~/mixins/validate'
 
 export default {
-  mixins: [localizeMixin, validateMixin],
+  mixins: [localizeMixin],
 
   props: {
+    validated: {
+      type: Boolean,
+      default: true
+    },
     value: {
       type: Object,
       default() {
