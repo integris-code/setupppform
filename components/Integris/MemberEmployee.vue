@@ -452,6 +452,7 @@
           </b-col>
         </b-form-row>
 
+        <hr class="pb-2">
         <h3 class="h5">Buy Back of Past Service</h3>
 
         <b-form-row>
@@ -490,6 +491,7 @@
           </b-col>
         </b-form-row>
 
+        <hr class="pb-2">
         <h3 class="h5">Spouse</h3>
 
         <b-form-row>
@@ -597,6 +599,7 @@
           </b-col>
         </b-form-row>
 
+        <hr class="pb-2">
         <h3 class="h5 mb-4">Beneficiary Designation</h3>
 
         <template v-for="({ key }, index) in beneficiaryDesignations">

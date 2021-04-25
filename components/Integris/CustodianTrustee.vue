@@ -151,7 +151,7 @@
         </b-form-row>
 
         <b-form-row>
-          <b-col cols="12" md="6" lg="3">
+          <b-col cols="12" md="6">
             <JnInputField
               ref="city"
               v-model="city"
@@ -166,7 +166,7 @@
             ></JnInputField>
           </b-col>
 
-          <b-col cols="12" md="6" lg="3">
+          <b-col cols="12" md="6">
             <JnSelectField
               ref="province"
               v-model="province"
@@ -233,8 +233,10 @@
               @input="onInput"
             ></JnSelectField>
           </b-col>
+        </b-form-row>
 
-          <b-col cols="12" md="6" lg="3">
+        <b-form-row>
+          <b-col cols="12" md="6">
             <JnSelectField
               ref="country"
               v-model="country"
@@ -258,7 +260,7 @@
             ></JnSelectField>
           </b-col>
 
-          <b-col cols="12" md="6" lg="3">
+          <b-col cols="12" md="6">
             <JnInputField
               ref="postalCode"
               v-model="postalCode"
