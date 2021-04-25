@@ -2,20 +2,20 @@
   <div>
     <b-card :no-body="true">
       <template #header>
-        <button
+        <b-button
+          variant="danger"
+          size="sm"
           v-if="removable"
-          class="btn btn-danger float-right"
+          class="float-right"
           type="button"
           @click="onRemoveClick"
         >
-          <b-icon icon="x-circle"></b-icon> Remove
-        </button>
+          <b-icon icon="x-circle" class="mr-1"></b-icon>Remove
+        </b-button>
 
         <h2 class="h5 mt-0">
           {{ _header }}
-          <span
-            v-show="!!lastName && !!firstName"
-          >({{ lastName }}, {{ firstName }})</span>
+          <span v-show="!!lastName && !!firstName">({{ lastName }}, {{ firstName }})</span>
         </h2>
 
         <p class="text-muted mb-0">
@@ -452,7 +452,7 @@
           </b-col>
         </b-form-row>
 
-        <hr class="pb-2">
+        <hr class="pb-2" />
         <h3 class="h5">Buy Back of Past Service</h3>
 
         <b-form-row>
@@ -491,7 +491,7 @@
           </b-col>
         </b-form-row>
 
-        <hr class="pb-2">
+        <hr class="pb-2" />
         <h3 class="h5">Spouse</h3>
 
         <b-form-row>
@@ -599,7 +599,7 @@
           </b-col>
         </b-form-row>
 
-        <hr class="pb-2">
+        <hr class="pb-2" />
         <h3 class="h5 mb-4">Beneficiary Designation</h3>
 
         <template v-for="({ key }, index) in beneficiaryDesignations">
@@ -622,28 +622,25 @@
           <b-col cols="12" class="text-right">
             Total Shares:
             <strong>{{ beneficiaryDesignation_totalShare }}%</strong>
-            <strong
-              class="danger"
-              v-show="beneficiaryDesignation_totalShare > 100"
-              ><br />Please note that Total Shares are greater than 100%</strong
-            >
+            <strong class="danger" v-show="beneficiaryDesignation_totalShare > 100">
+              <br />Please note that Total Shares are greater than 100%
+            </strong>
             <!-- <span class="d-none"
               >Need here so that the calculateTotal function gets executed
               however it doesn't want to show on screen so we need to hide it
               {{ calculateTotal }}</span
-            > -->
+            >-->
             <!-- <FormField :name="prefixed.beneficiaryDesignation_totalShare" v-bind="commonBind"></FormField> -->
           </b-col>
         </b-form-row>
 
         <div v-if="beneficiaryDesignations.length < 5" class="my-3">
           <button
-            class="btn btn-primary btn-block"
+            class="btn btn-secondary btn-block"
             type="button"
             @click="onAddBeneficiaryDesignation"
           >
-            <b-icon icon="plus-circle"></b-icon>
-            Add Beneficiary Designation
+            <b-icon icon="plus-circle" class="mr-1"></b-icon>Add Beneficiary Designation
           </button>
         </div>
       </b-card-body>
