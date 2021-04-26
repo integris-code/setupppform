@@ -8,14 +8,16 @@
           v-if="removable"
           class="float-right"
           type="button"
-          @click="onRemoveClick"
+          @click="$emit('remove')"
         >
           <b-icon icon="x-circle" class="mr-1"></b-icon>Remove
         </b-button>
 
         <h2 class="h5 mt-0">
           {{ _header }}
-          <span v-show="!!lastName && !!firstName">({{ lastName }}, {{ firstName }})</span>
+          <span v-show="!!value.lastName && !!value.firstName"
+            >({{ value.lastName }}, {{ value.firstName }})</span
+          >
         </h2>
 
         <p class="text-muted mb-0">
@@ -28,8 +30,7 @@
         <b-form-row>
           <b-col cols="12" md="6" lg="3">
             <JnSelectField
-              ref="salutation"
-              v-model="salutation"
+              v-model="value.salutation"
               :validated="validated"
               :language="language"
               :label="{ en: 'Salutation' }"
@@ -39,10 +40,7 @@
                 { text: { en: 'Dr' }, value: 'Dr' },
                 { text: { en: 'Mrs' }, value: 'Mrs' }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -50,31 +48,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="firstName"
-              v-model="firstName"
+              v-model="value.firstName"
               :validated="validated"
               :language="language"
               :label="{ en: 'First Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="lastName"
-              v-model="lastName"
+              v-model="value.lastName"
               :validated="validated"
               :language="language"
               :label="{ en: 'Last Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -82,16 +72,12 @@
         <b-form-row>
           <b-col cols="12">
             <JnInputField
-              ref="otherNames"
-              v-model="otherNames"
+              v-model="value.otherNames"
               :validated="validated"
               :language="language"
               :label="{ en: 'Other Name(s)' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -99,22 +85,17 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnDatePickerField
-              ref="dateOfBirth"
-              v-model="dateOfBirth"
+              v-model="value.dateOfBirth"
               :validated="validated"
               :language="language"
               :label="{ en: 'Date of Birth' }"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnDatePickerField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="gender"
-              v-model="gender"
+              v-model="value.gender"
               :validated="validated"
               :language="language"
               :label="{ en: 'Gender' }"
@@ -122,10 +103,7 @@
                 { text: { en: 'Male' }, value: 'Male' },
                 { text: { en: 'Female' }, value: 'Female' }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -133,23 +111,18 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="socialInsurranceNumber"
-              v-model="socialInsurranceNumber"
+              v-model="value.socialInsurranceNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Social Insurrance Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="maritalStatus"
-              v-model="maritalStatus"
+              v-model="value.maritalStatus"
               :validated="validated"
               :language="language"
               :label="{ en: 'Marital Status' }"
@@ -164,10 +137,7 @@
                 { text: { en: 'Divorced' }, value: 'Divorced' },
                 { text: { en: 'Widowed' }, value: 'Widowed' }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -175,8 +145,7 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="firstYearPppProvisionType"
-              v-model="firstYearPppProvisionType"
+              v-model="value.firstYearPppProvisionType"
               :validated="validated"
               :language="language"
               :label="{ en: 'First Year PPP Provision Type' }"
@@ -190,25 +159,18 @@
                   value: 'Defined Contribution (DC)'
                 }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="expectedYearOfRetirement"
-              v-model="expectedYearOfRetirement"
+              v-model="value.expectedYearOfRetirement"
               :validated="validated"
               :language="language"
               :label="{ en: 'Expected Year of Retirement' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -216,31 +178,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="primaryEmailAddress"
-              v-model="primaryEmailAddress"
+              v-model="value.primaryEmailAddress"
               :validated="validated"
               :language="language"
               :label="{ en: 'Primary Email Address' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="primaryEmailAddress"
-              v-model="primaryEmailAddress"
+              v-model="value.primaryEmailAddress"
               :validated="validated"
               :language="language"
               :label="{ en: 'Primary Email Address' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -248,31 +202,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="alternateEmailAddress"
-              v-model="alternateEmailAddress"
+              v-model="value.alternateEmailAddress"
               :validated="validated"
               :language="language"
               :label="{ en: 'Alternate Email Address' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="alternatePhoneNumber"
-              v-model="alternatePhoneNumber"
+              v-model="value.alternatePhoneNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Alternate Phone Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -280,16 +226,12 @@
         <b-form-row>
           <b-col cols="12">
             <JnInputField
-              ref="street1"
-              v-model="street1"
+              v-model="value.street1"
               :validated="validated"
               :language="language"
               :label="{ en: 'Street 1' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -297,31 +239,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="street2"
-              v-model="street2"
+              v-model="value.street2"
               :validated="validated"
               :language="language"
               :label="{ en: 'Street 2' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="street3"
-              v-model="street3"
+              v-model="value.street3"
               :validated="validated"
               :language="language"
               :label="{ en: 'Street 3' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -329,23 +263,18 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="city"
-              v-model="city"
+              v-model="value.city"
               :validated="validated"
               :language="language"
               :label="{ en: 'City' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="province"
-              v-model="province"
+              v-model="value.province"
               :validated="validated"
               :language="language"
               :label="{ en: 'Province' }"
@@ -403,10 +332,7 @@
                   value: 'Yukon'
                 }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -414,8 +340,7 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="country"
-              v-model="country"
+              v-model="value.country"
               :validated="validated"
               :language="language"
               :label="{ en: 'Country' }"
@@ -429,25 +354,18 @@
                   value: 'United States'
                 }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="postalCode"
-              v-model="postalCode"
+              v-model="value.postalCode"
               :validated="validated"
               :language="language"
               :label="{ en: 'Postal Code' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -458,15 +376,11 @@
         <b-form-row>
           <b-col cols="12">
             <JnCheckboxField
-              ref="buyingBackPastService"
-              v-model="buyingBackPastService"
+              v-model="value.buyingBackPastService"
               :validated="validated"
               :language="language"
               :label="{ en: 'Check this box if buying back past service' }"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnCheckboxField>
           </b-col>
         </b-form-row>
@@ -474,8 +388,7 @@
         <b-form-row>
           <b-col cols="12">
             <JnInputField
-              ref="buyingBackPastService_yearsRecognized"
-              v-model="buyingBackPastService_yearsRecognized"
+              v-model="value.buyingBackPastService_yearsRecognized"
               :validated="validated"
               :language="language"
               :label="{
@@ -483,10 +396,7 @@
                   'If checked, Indicate the year(s) or range(s) of years to be recognized'
               }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -497,8 +407,7 @@
         <b-form-row>
           <b-col cols="12" md="3">
             <JnSelectField
-              ref="spouse_salutation"
-              v-model="spouse_salutation"
+              v-model="value.spouse_salutation"
               :validated="validated"
               :language="language"
               :label="{ en: 'Salutation' }"
@@ -508,10 +417,7 @@
                 { text: { en: 'Dr' }, value: 'Dr' },
                 { text: { en: 'Mrs' }, value: 'Mrs' }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -519,31 +425,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="spouse_firstName"
-              v-model="spouse_firstName"
+              v-model="value.spouse_firstName"
               :validated="validated"
               :language="language"
               :label="{ en: 'First Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="spouse_lastName"
-              v-model="spouse_lastName"
+              v-model="value.spouse_lastName"
               :validated="validated"
               :language="language"
               :label="{ en: 'Last Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -551,16 +449,12 @@
         <b-form-row>
           <b-col cols="12">
             <JnInputField
-              ref="spouse_otherNames"
-              v-model="spouse_otherNames"
+              v-model="value.spouse_otherNames"
               :validated="validated"
               :language="language"
               :label="{ en: 'Other Name(s)' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -568,22 +462,17 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnDatePickerField
-              ref="spouse_dateOfBirth"
               v-model="value.spouse_dateOfBirth"
               :validated="validated"
               :language="language"
               :label="{ en: 'Date of Birth' }"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnDatePickerField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="spouse_gender"
-              v-model="spouse_gender"
+              v-model="value.spouse_gender"
               :validated="validated"
               :language="language"
               :label="{ en: 'Gender' }"
@@ -591,10 +480,7 @@
                 { text: { en: 'Male' }, value: 'Male' },
                 { text: { en: 'Female' }, value: 'Female' }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -602,45 +488,41 @@
         <hr class="pb-2" />
         <h3 class="h5 mb-4">Beneficiary Designation</h3>
 
-        <template v-for="({ key }, index) in beneficiaryDesignations">
+        <template v-for="({ key }, index) in value.beneficiaryDesignations">
           <IntegrisMemberEmployeeBeneficiary
-            ref="beneficiaryDesignations"
-            v-model="beneficiaryDesignations[index]"
             :key="key"
             :validated="validated"
             :language="language"
             class="mb-3"
             :header="{ en: `Beneficiary Designation #${index + 1}` }"
             :removable="beneficiaryDesignationRemovable"
-            :totalshare="beneficiaryDesignation_totalShare"
+            :total-share="beneficiaryDesignationsTotalShare"
+            :value="value.beneficiaryDesignations[index]"
             @remove="onRemoveBeneficiaryDesignation(index)"
-            @input="onInput"
           ></IntegrisMemberEmployeeBeneficiary>
         </template>
 
-        <b-form-row v-show="beneficiaryDesignation_totalShare > 0">
+        <b-form-row v-show="beneficiaryDesignationsTotalShare > 0">
           <b-col cols="12" class="text-right">
             Total Shares:
-            <strong>{{ beneficiaryDesignation_totalShare }}%</strong>
-            <strong class="danger" v-show="beneficiaryDesignation_totalShare > 100">
+            <strong>{{ beneficiaryDesignationsTotalShare }}%</strong>
+            <strong
+              class="danger"
+              v-show="beneficiaryDesignationsTotalShare > 100"
+            >
               <br />Please note that Total Shares are greater than 100%
             </strong>
-            <!-- <span class="d-none"
-              >Need here so that the calculateTotal function gets executed
-              however it doesn't want to show on screen so we need to hide it
-              {{ calculateTotal }}</span
-            >-->
-            <!-- <FormField :name="prefixed.beneficiaryDesignation_totalShare" v-bind="commonBind"></FormField> -->
           </b-col>
         </b-form-row>
 
-        <div v-if="beneficiaryDesignations.length < 5" class="my-3">
+        <div v-if="value.beneficiaryDesignations.length < 5" class="my-3">
           <button
             class="btn btn-secondary btn-block"
             type="button"
             @click="onAddBeneficiaryDesignation"
           >
-            <b-icon icon="plus-circle" class="mr-1"></b-icon>Add Beneficiary Designation
+            <b-icon icon="plus-circle" class="mr-1"></b-icon>
+            Add Beneficiary Designation
           </button>
         </div>
       </b-card-body>
@@ -649,11 +531,11 @@
 </template>
 
 <script>
-import localizeMixin from '~/mixins/localize'
-import uuidv4Mixin from '~/mixins/uuidv4'
+import keymaker from '~/mixins/keymaker'
+import localizer from '~/mixins/localizer'
 
 export default {
-  mixins: [localizeMixin, uuidv4Mixin],
+  mixins: [keymaker, localizer],
 
   props: {
     validated: {
@@ -676,55 +558,17 @@ export default {
     }
   },
 
-  data() {
-    return {
-      salutation: this.value.salutation,
-      firstName: this.value.firstName,
-      lastName: this.value.lastName,
-      otherNames: this.value.otherNames,
-      dateOfBirth: this.value.dateOfBirth,
-      gender: this.value.gender,
-      socialInsurranceNumber: this.value.socialInsurranceNumber,
-      maritalStatus: this.value.maritalStatus,
-      firstYearPppProvisionType: this.value.firstYearPppProvisionType,
-      expectedYearOfRetirement: this.value.expectedYearOfRetirement,
-      primaryEmailAddress: this.value.primaryEmailAddress,
-      primaryPhoneNumber: this.value.primaryPhoneNumber,
-      alternateEmailAddress: this.value.alternateEmailAddress,
-      alternatePhoneNumber: this.value.alternatePhoneNumber,
-      street1: this.value.street1,
-      street2: this.value.street2,
-      street3: this.value.street3,
-      city: this.value.city,
-      province: this.value.province,
-      country: this.value.country,
-      postalCode: this.value.postalCode,
-      buyingBackPastService: this.value.buyingBackPastService,
-      buyingBackPastService_yearsRecognized: this.value
-        .buyingBackPastService_yearsRecognized,
-      spouse_salutation: this.value.spouse_salutation,
-      spouse_firstName: this.value.spouse_firstName,
-      spouse_lastName: this.value.spouse_lastName,
-      spouse_otherNames: this.value.spouse_otherNames,
-      spouse_dateOfBirth: this.value.spouse_dateOfBirth,
-      spouse_gender: this.value.spouse_gender,
-      beneficiaryDesignations: this.value.beneficiaryDesignations || [
-        { key: this.uuidv4() }
-      ]
-    }
-  },
-
   computed: {
     _header() {
       return this.localize(this.header)
     },
     beneficiaryDesignationRemovable() {
-      return this.beneficiaryDesignations.length > 1
+      return this.value.beneficiaryDesignations.length > 1
     },
-    beneficiaryDesignation_totalShare() {
-      return this.beneficiaryDesignations.reduce((acc, cur) => {
-        if (+cur.share) {
-          acc = acc + cur.share
+    beneficiaryDesignationsTotalShare() {
+      return this.value.beneficiaryDesignations.reduce((acc, cur) => {
+        if (cur.share != null && !isNaN(cur.share)) {
+          acc = acc + +cur.share
         }
         return acc
       }, 0)
@@ -732,54 +576,13 @@ export default {
   },
 
   methods: {
-    onRemoveClick() {
-      this.$emit('remove')
-    },
-    onInput() {
-      this.$emit('input', {
-        key: this.value.key,
-        salutation: this.salutation,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        otherNames: this.otherNames,
-        dateOfBirth: this.dateOfBirth,
-        gender: this.gender,
-        socialInsurranceNumber: this.socialInsurranceNumber,
-        maritalStatus: this.maritalStatus,
-        firstYearPppProvisionType: this.firstYearPppProvisionType,
-        expectedYearOfRetirement: this.expectedYearOfRetirement,
-        primaryEmailAddress: this.primaryEmailAddress,
-        primaryPhoneNumber: this.primaryPhoneNumber,
-        alternateEmailAddress: this.alternateEmailAddress,
-        alternatePhoneNumber: this.alternatePhoneNumber,
-        street1: this.street1,
-        street2: this.street2,
-        street3: this.street3,
-        city: this.city,
-        province: this.province,
-        country: this.country,
-        postalCode: this.postalCode,
-        buyingBackPastService: this.buyingBackPastService,
-        buyingBackPastService_yearsRecognized: this
-          .buyingBackPastService_yearsRecognized,
-        spouse_salutation: this.spouse_salutation,
-        spouse_firstName: this.spouse_firstName,
-        spouse_lastName: this.spouse_lastName,
-        spouse_otherNames: this.spouse_otherNames,
-        spouse_dateOfBirth: this.spouse_dateOfBirth,
-        spouse_gender: this.spouse_gender,
-        beneficiaryDesignations: this.beneficiaryDesignations
-      })
-    },
     onRemoveBeneficiaryDesignation(index) {
-      this.beneficiaryDesignations.splice(index, 1)
+      this.value.beneficiaryDesignations.splice(index, 1)
     },
     onAddBeneficiaryDesignation() {
-      if (this.beneficiaryDesignations.length < 5) {
-        this.beneficiaryDesignations.push({
-          key: this.uuidv4()
-        })
-      }
+      this.value.beneficiaryDesignations.push({
+        key: this.makeKey()
+      })
     }
   }
 }
