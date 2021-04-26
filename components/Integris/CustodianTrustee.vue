@@ -8,7 +8,7 @@
           v-if="removable"
           class="float-right"
           type="button"
-          @click="onRemoveClick"
+          @click="$emit('remove')"
         >
           <b-icon icon="x-circle" class="mr-1"></b-icon>Remove
         </b-button>
@@ -20,134 +20,98 @@
         <b-form-row>
           <b-col cols="12" md="6" lg="3">
             <JnInputField
-              ref="firstName"
-              v-model="firstName"
+              v-model="value.firstName"
               :validated="validated"
               :language="language"
               :label="{ en: 'First Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
-              ref="lastName"
-              v-model="lastName"
+              v-model="value.lastName"
               :validated="validated"
               :language="language"
               :label="{ en: 'Last Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" lg="6">
             <JnInputField
-              ref="title"
-              v-model="title"
+              v-model="value.title"
               :validated="validated"
               :language="language"
               :label="{ en: 'Title' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" lg="6">
             <JnInputField
-              ref="primaryEmailAddress"
-              v-model="primaryEmailAddress"
+              v-model="value.primaryEmailAddress"
               :validated="validated"
               :language="language"
               :label="{ en: 'Primary Email Address' }"
               type="email"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
-              ref="primaryPhoneNumber"
-              v-model="primaryPhoneNumber"
+              v-model="value.primaryPhoneNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Primary Phone Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
-              ref="faxNumber"
-              v-model="faxNumber"
+              v-model="value.faxNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Fax Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
           <b-col cols="12">
             <JnInputField
-              ref="street1"
-              v-model="street1"
+              v-model="value.street1"
               :validated="validated"
               :language="language"
               :label="{ en: 'Street 1' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
           <b-col cols="12" lg="6">
             <JnInputField
-              ref="street2"
-              v-model="street2"
+              v-model="value.street2"
               :validated="validated"
               :language="language"
               :label="{ en: 'Street 2' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" lg="6">
             <JnInputField
-              ref="street3"
-              v-model="street3"
+              v-model="value.street3"
               :validated="validated"
               :language="language"
               :label="{ en: 'Street 3' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -155,23 +119,18 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="city"
-              v-model="city"
+              v-model="value.city"
               :validated="validated"
               :language="language"
               :label="{ en: 'City' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="province"
-              v-model="province"
+              v-model="value.province"
               :validated="validated"
               :language="language"
               :label="{ en: 'Province' }"
@@ -229,10 +188,7 @@
                   value: 'Yukon'
                 }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -240,8 +196,7 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="country"
-              v-model="country"
+              v-model="value.country"
               :validated="validated"
               :language="language"
               :label="{ en: 'Country' }"
@@ -255,25 +210,18 @@
                   value: 'United States'
                 }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="postalCode"
-              v-model="postalCode"
+              v-model="value.postalCode"
               :validated="validated"
               :language="language"
               :label="{ en: 'Postal Code' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -283,10 +231,10 @@
 </template>
 
 <script>
-import localizeMixin from '~/mixins/localize'
+import localizer from '~/mixins/localizer'
 
 export default {
-  mixins: [localizeMixin],
+  mixins: [localizer],
 
   props: {
     validated: {
@@ -309,51 +257,9 @@ export default {
     }
   },
 
-  data() {
-    return {
-      firstName: this.value.firstName,
-      lastName: this.value.lastName,
-      title: this.value.title,
-      primaryEmailAddress: this.value.primaryEmailAddress,
-      primaryPhoneNumber: this.value.primaryPhoneNumber,
-      faxNumber: this.value.faxNumber,
-      street1: this.value.street1,
-      street2: this.value.street2,
-      street3: this.value.street3,
-      city: this.value.city,
-      province: this.value.province,
-      country: this.value.country,
-      postalCode: this.value.postalCode
-    }
-  },
-
   computed: {
     _header() {
       return this.localize(this.header)
-    }
-  },
-
-  methods: {
-    onRemoveClick() {
-      this.$emit('remove')
-    },
-    onInput() {
-      this.$emit('input', {
-        key: this.value.key,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        title: this.title,
-        primaryEmailAddress: this.primaryEmailAddress,
-        primaryPhoneNumber: this.primaryPhoneNumber,
-        faxNumber: this.faxNumber,
-        street1: this.street1,
-        street2: this.street2,
-        street3: this.street3,
-        city: this.city,
-        province: this.province,
-        country: this.country,
-        postalCode: this.postalCode
-      })
     }
   }
 }

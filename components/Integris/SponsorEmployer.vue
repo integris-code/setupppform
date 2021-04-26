@@ -8,14 +8,14 @@
           size="sm"
           class="float-right"
           type="button"
-          @click="onRemoveClick"
+          @click="$emit('remove')"
         >
           <b-icon icon="x-circle" class="mr-1"></b-icon>Remove
         </b-button>
 
         <h4 class="h5 mt-0">
           {{ _header }}
-          <span v-show="!!companyName">({{ companyName }})</span>
+          <span v-show="!!value.companyName">({{ value.companyName }})</span>
         </h4>
 
         <p class="text-muted mb-0">
@@ -28,16 +28,12 @@
         <b-form-row>
           <b-col cols="12">
             <JnInputField
-              ref="companyName"
-              v-model="companyName"
+              v-model="value.companyName"
               :validated="validated"
               :language="language"
               :label="{ en: 'Company Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -45,30 +41,22 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="businessNumber"
-              v-model="businessNumber"
+              v-model="value.businessNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Business Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnDatePickerField
-              ref="incorporationDate"
-              v-model="incorporationDate"
+              v-model="value.incorporationDate"
               :validated="validated"
               :language="language"
               :label="{ en: 'Incorporation Date' }"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnDatePickerField>
           </b-col>
         </b-form-row>
@@ -76,31 +64,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="fiscalYearEnd"
-              v-model="fiscalYearEnd"
+              v-model="value.fiscalYearEnd"
               :validated="validated"
               :language="language"
               :label="{ en: 'Fiscal Year End' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="payrollSubAccountNo"
-              v-model="payrollSubAccountNo"
+              v-model="value.payrollSubAccountNo"
               :validated="validated"
               :language="language"
               :label="{ en: 'Payroll Sub Account No' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -108,8 +88,7 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="companyType"
-              v-model="companyType"
+              v-model="value.companyType"
               :validated="validated"
               :language="language"
               :label="{ en: 'Company Type' }"
@@ -143,25 +122,18 @@
                   value: 'Federal Government/Agency/Corporation'
                 }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="natureOfBusiness"
-              v-model="natureOfBusiness"
+              v-model="value.natureOfBusiness"
               :validated="validated"
               :language="language"
               :label="{ en: 'Nature of Business' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -169,8 +141,7 @@
         <b-form-row>
           <b-col cols="12">
             <JnSelectField
-              ref="naicsCode"
-              v-model="naicsCode"
+              v-model="value.naicsCode"
               :validated="validated"
               :language="language"
               :label="{ en: 'NAICS Code' }"
@@ -200,10 +171,7 @@
                 '81 - Other services (except public administration)',
                 '91 - Public administration'
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -211,16 +179,12 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="street1"
-              v-model="street1"
+              v-model="value.street1"
               :validated="validated"
               :language="language"
               :label="{ en: 'Street 1' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -228,31 +192,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="street2"
-              v-model="street2"
+              v-model="value.street2"
               :validated="validated"
               :language="language"
               :label="{ en: 'Street 2' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="street3"
-              v-model="street3"
+              v-model="value.street3"
               :validated="validated"
               :language="language"
               :label="{ en: 'Street 3' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -260,23 +216,18 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="city"
-              v-model="city"
+              v-model="value.city"
               :validated="validated"
               :language="language"
               :label="{ en: 'City' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="province"
-              v-model="province"
+              v-model="value.province"
               :validated="validated"
               :language="language"
               :label="{ en: 'Province' }"
@@ -334,10 +285,7 @@
                   value: 'Yukon'
                 }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -345,8 +293,7 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="country"
-              v-model="country"
+              v-model="value.country"
               :validated="validated"
               :language="language"
               :label="{ en: 'Country' }"
@@ -360,25 +307,18 @@
                   value: 'United States'
                 }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="postalCode"
-              v-model="postalCode"
+              v-model="value.postalCode"
               :validated="validated"
               :language="language"
               :label="{ en: 'Postal Code' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -386,31 +326,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="phoneNumber"
-              v-model="phoneNumber"
+              v-model="value.phoneNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Phone Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="faxNumber"
-              v-model="faxNumber"
+              v-model="value.faxNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Fax Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -421,31 +353,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="contactPerson_firstName"
-              v-model="contactPerson_firstName"
+              v-model="value.contactPerson_firstName"
               :validated="validated"
               :language="language"
               :label="{ en: 'First Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="contactPerson_lastName"
-              v-model="contactPerson_lastName"
+              v-model="value.contactPerson_lastName"
               :validated="validated"
               :language="language"
               :label="{ en: 'Last Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -453,16 +377,12 @@
         <b-form-row>
           <b-col cols="12">
             <JnInputField
-              ref="contactPerson_title"
-              v-model="contactPerson_title"
+              v-model="value.contactPerson_title"
               :validated="validated"
               :language="language"
               :label="{ en: 'Title' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -470,31 +390,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="contactPerson_primaryPhoneNumber"
-              v-model="contactPerson_primaryPhoneNumber"
+              v-model="value.contactPerson_primaryPhoneNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Primary Phone Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="contactPerson_faxNumber"
-              v-model="contactPerson_faxNumber"
+              v-model="value.contactPerson_faxNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Fax Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -502,31 +414,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="contactPerson_alternateEmailAddress"
-              v-model="contactPerson_alternateEmailAddress"
+              v-model="value.contactPerson_alternateEmailAddress"
               :validated="validated"
               :language="language"
               :label="{ en: 'Alternate Email Address' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="contactPerson_alternatePhoneNumber"
-              v-model="contactPerson_alternatePhoneNumber"
+              v-model="value.contactPerson_alternatePhoneNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Alternate Phone Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -537,15 +441,11 @@
         <b-form-row>
           <b-col cols="12">
             <JnCheckboxField
-              ref="authorizedSigningOfficer_sameAsContactPerson"
-              v-model="authorizedSigningOfficer_sameAsContactPerson"
+              v-model="value.authorizedSigningOfficer_sameAsContactPerson"
               :validated="validated"
               :language="language"
               :label="{ en: 'Same as Contact Person above' }"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnCheckboxField>
           </b-col>
         </b-form-row>
@@ -553,31 +453,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="authorizedSigningOfficer_firstName"
-              v-model="authorizedSigningOfficer_firstName"
+              v-model="value.authorizedSigningOfficer_firstName"
               :validated="validated"
               :language="language"
               :label="{ en: 'First Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="authorizedSigningOfficer_lastName"
-              v-model="authorizedSigningOfficer_lastName"
+              v-model="value.authorizedSigningOfficer_lastName"
               :validated="validated"
               :language="language"
               :label="{ en: 'Last Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -585,16 +477,12 @@
         <b-form-row>
           <b-col cols="12">
             <JnInputField
-              ref="authorizedSigningOfficer_title"
-              v-model="authorizedSigningOfficer_title"
+              v-model="value.authorizedSigningOfficer_title"
               :validated="validated"
               :language="language"
               :label="{ en: 'Title' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -602,31 +490,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="authorizedSigningOfficer_primaryPhoneNumber"
-              v-model="authorizedSigningOfficer_primaryPhoneNumber"
+              v-model="value.authorizedSigningOfficer_primaryPhoneNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Primary Phone Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="authorizedSigningOfficer_faxNumber"
-              v-model="authorizedSigningOfficer_faxNumber"
+              v-model="value.authorizedSigningOfficer_faxNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Fax Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -634,31 +514,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="authorizedSigningOfficer_alternateEmailAddress"
-              v-model="authorizedSigningOfficer_alternateEmailAddress"
+              v-model="value.authorizedSigningOfficer_alternateEmailAddress"
               :validated="validated"
               :language="language"
               :label="{ en: 'Alternate Email Address' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="authorizedSigningOfficer_alternatePhoneNumber"
-              v-model="authorizedSigningOfficer_alternatePhoneNumber"
+              v-model="value.authorizedSigningOfficer_alternatePhoneNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Alternate Phone Number' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -672,15 +544,11 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnDatePickerField
-                    ref="employmentDates1_employmentSince"
-                    v-model="employmentDates1_employmentSince"
+                    v-model="value.employmentDates1_employmentSince"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Employment Since' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
+                    :not-empty-validator="true"
                   ></JnDatePickerField>
                 </b-col>
               </b-form-row>
@@ -688,15 +556,10 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnCheckboxField
-                    ref="employmentDates1_contactPerson"
-                    v-model="employmentDates1_contactPerson"
+                    v-model="value.employmentDates1_contactPerson"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Contact Person' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
                   ></JnCheckboxField>
                 </b-col>
               </b-form-row>
@@ -704,15 +567,10 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnCheckboxField
-                    ref="employmentDates1_relatedPerson"
-                    v-model="employmentDates1_relatedPerson"
+                    v-model="value.employmentDates1_relatedPerson"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Related Person' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
                   ></JnCheckboxField>
                 </b-col>
               </b-form-row>
@@ -724,15 +582,11 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnDatePickerField
-                    ref="employmentDates2_employmentSince"
-                    v-model="employmentDates2_employmentSince"
+                    v-model="value.employmentDates2_employmentSince"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Employment Since' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
+                    :not-empty-validator="true"
                   ></JnDatePickerField>
                 </b-col>
               </b-form-row>
@@ -740,15 +594,10 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnCheckboxField
-                    ref="employmentDates2_contactPerson"
-                    v-model="employmentDates2_contactPerson"
+                    v-model="value.employmentDates2_contactPerson"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Contact Person' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
                   ></JnCheckboxField>
                 </b-col>
               </b-form-row>
@@ -756,15 +605,10 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnCheckboxField
-                    ref="employmentDates2_relatedPerson"
-                    v-model="employmentDates2_relatedPerson"
+                    v-model="value.employmentDates2_relatedPerson"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Related Person' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
                   ></JnCheckboxField>
                 </b-col>
               </b-form-row>
@@ -778,15 +622,11 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnDatePickerField
-                    ref="employmentDates3_employmentSince"
-                    v-model="employmentDates3_employmentSince"
+                    v-model="value.employmentDates3_employmentSince"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Employment Since' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
+                    :not-empty-validator="true"
                   ></JnDatePickerField>
                 </b-col>
               </b-form-row>
@@ -794,15 +634,10 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnCheckboxField
-                    ref="employmentDates3_contactPerson"
-                    v-model="employmentDates3_contactPerson"
+                    v-model="value.employmentDates3_contactPerson"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Contact Person' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
                   ></JnCheckboxField>
                 </b-col>
               </b-form-row>
@@ -810,15 +645,10 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnCheckboxField
-                    ref="employmentDates3_relatedPerson"
-                    v-model="employmentDates3_relatedPerson"
+                    v-model="value.employmentDates3_relatedPerson"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Related Person' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
                   ></JnCheckboxField>
                 </b-col>
               </b-form-row>
@@ -830,15 +660,11 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnDatePickerField
-                    ref="employmentDates4_employmentSince"
-                    v-model="employmentDates4_employmentSince"
+                    v-model="value.employmentDates4_employmentSince"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Employment Since' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
+                    :not-empty-validator="true"
                   ></JnDatePickerField>
                 </b-col>
               </b-form-row>
@@ -846,15 +672,10 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnCheckboxField
-                    ref="employmentDates4_contactPerson"
-                    v-model="employmentDates4_contactPerson"
+                    v-model="value.employmentDates4_contactPerson"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Contact Person' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
                   ></JnCheckboxField>
                 </b-col>
               </b-form-row>
@@ -862,15 +683,10 @@
               <b-form-row>
                 <b-col cols="12">
                   <JnCheckboxField
-                    ref="employmentDates4_relatedPerson"
-                    v-model="employmentDates4_relatedPerson"
+                    v-model="value.employmentDates4_relatedPerson"
                     :validated="validated"
                     :language="language"
                     :label="{ en: 'Related Person' }"
-                    :validators="{
-                      notEmpty: {}
-                    }"
-                    @input="onInput"
                   ></JnCheckboxField>
                 </b-col>
               </b-form-row>
@@ -883,10 +699,10 @@
 </template>
 
 <script>
-import localizeMixin from '~/mixins/localize'
+import localizer from '~/mixins/localizer'
 
 export default {
-  mixins: [localizeMixin],
+  mixins: [localizer],
 
   props: {
     validated: {
@@ -912,73 +728,6 @@ export default {
       default() {
         return []
       }
-    }
-  },
-
-  data() {
-    return {
-      companyName: this.value.companyName,
-      businessNumber: this.value.businessNumber,
-      incorporationDate: this.value.incorporationDate,
-      fiscalYearEnd: this.value.fiscalYearEnd,
-      payrollSubAccountNo: this.value.payrollSubAccountNo,
-      companyType: this.value.companyType,
-      natureOfBusiness: this.value.natureOfBusiness,
-      naicsCode: this.value.naicsCode,
-      street1: this.value.street1,
-      street2: this.value.street2,
-      street3: this.value.street3,
-      city: this.value.city,
-      province: this.value.province,
-      country: this.value.country,
-      postalCode: this.value.postalCode,
-      phoneNumber: this.value.phoneNumber,
-      faxNumber: this.value.faxNumber,
-      contactPerson_firstName: this.value.contactPerson_firstName,
-      contactPerson_lastName: this.value.contactPerson_lastName,
-      contactPerson_title: this.value.contactPerson_title,
-      contactPerson_primaryEmailAddress: this.value
-        .contactPerson_primaryEmailAddress,
-      contactPerson_primaryPhoneNumber: this.value
-        .contactPerson_primaryPhoneNumber,
-      contactPerson_faxNumber: this.value.contactPerson_faxNumber,
-      contactPerson_alternateEmailAddress: this.value
-        .contactPerson_alternateEmailAddress,
-      contactPerson_alternatePhoneNumber: this.value
-        .contactPerson_alternatePhoneNumber,
-      authorizedSigningOfficer_sameAsContactPerson:
-        this.value.authorizedSigningOfficer_sameAsContactPerson || false,
-      authorizedSigningOfficer_firstName: this.value
-        .authorizedSigningOfficer_firstName,
-      authorizedSigningOfficer_lastName: this.value
-        .authorizedSigningOfficer_lastName,
-      authorizedSigningOfficer_title: this.value.authorizedSigningOfficer_title,
-      authorizedSigningOfficer_primaryEmailAddress: this.value
-        .authorizedSigningOfficer_primaryEmailAddress,
-      authorizedSigningOfficer_primaryPhoneNumber: this.value
-        .authorizedSigningOfficer_primaryPhoneNumber,
-      authorizedSigningOfficer_faxNumber: this.value
-        .authorizedSigningOfficer_faxNumber,
-      authorizedSigningOfficer_alternateEmailAddress: this.value
-        .authorizedSigningOfficer_alternateEmailAddress,
-      authorizedSigningOfficer_alternatePhoneNumber: this.value
-        .authorizedSigningOfficer_alternatePhoneNumber,
-      employmentDates1_employmentSince: this.value
-        .employmentDates1_employmentSince,
-      employmentDates1_contactPerson: this.value.employmentDates1_contactPerson,
-      employmentDates1_relatedPerson: this.value.employmentDates1_relatedPerson,
-      employmentDates2_employmentSince: this.value
-        .employmentDates2_employmentSince,
-      employmentDates2_contactPerson: this.value.employmentDates2_contactPerson,
-      employmentDates2_relatedPerson: this.value.employmentDates2_relatedPerson,
-      employmentDates3_employmentSince: this.value
-        .employmentDates3_employmentSince,
-      employmentDates3_contactPerson: this.value.employmentDates3_contactPerson,
-      employmentDates3_relatedPerson: this.value.employmentDates3_relatedPerson,
-      employmentDates4_employmentSince: this.value
-        .employmentDates4_employmentSince,
-      employmentDates4_contactPerson: this.value.employmentDates4_contactPerson,
-      employmentDates4_relatedPerson: this.value.employmentDates4_relatedPerson
     }
   },
 
@@ -1032,24 +781,6 @@ export default {
       }
 
       return 'Member #4'
-    }
-  },
-
-  methods: {
-    onRemoveClick() {
-      this.$emit('remove')
-    },
-    onInput() {
-      this.$emit('input', {
-        key: this.value.key,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        dateOfBirth: this.dateOfBirth,
-        relationship: this.relationship,
-        type: this.type,
-        revocability: this.revocability,
-        share: +this.share || 0
-      })
     }
   }
 }

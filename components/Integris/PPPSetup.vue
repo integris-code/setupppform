@@ -9,8 +9,7 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="provincialAuthority"
-              v-model="provincialAuthority"
+              v-model="value.provincialAuthority"
               :validated="validated"
               :language="language"
               :label="{ en: 'Provincial Authority' }"
@@ -72,17 +71,13 @@
                   value: 'Federal'
                 }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="productPlatform"
-              v-model="productPlatform"
+              v-model="value.productPlatform"
               :validated="validated"
               :language="language"
               :label="{ en: 'Product Platform' }"
@@ -105,10 +100,7 @@
                   value: 'Trust - Corporate Trustees'
                 }
               ]"
-              @input="onInput"
-              :validators="{
-                notEmpty: {}
-              }"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -116,24 +108,19 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="normalRetirementAge"
-              v-model="normalRetirementAge"
+              v-model="value.normalRetirementAge"
               :validated="validated"
               :language="language"
               :label="{ en: 'Normal Retirement Age' }"
               type="number"
               :readonly="true"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnSelectField
-              ref="languageOfCorrespondence"
-              v-model="languageOfCorrespondence"
+              v-model="value.languageOfCorrespondence"
               :validated="validated"
               :language="language"
               :label="{ en: 'Language of Correspondence' }"
@@ -147,10 +134,7 @@
                   value: 'French'
                 }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -158,8 +142,7 @@
         <b-form-row>
           <b-col cols="12">
             <JnSelectField
-              ref="requestFor"
-              v-model="requestFor"
+              v-model="value.requestFor"
               :validated="validated"
               :language="language"
               :label="{ en: 'This PPP Setup is for (select one)' }"
@@ -181,10 +164,7 @@
                     'Commutted Value Transfer from an existing Pension Plan to a new PPP\u00AE'
                 }
               ]"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnSelectField>
           </b-col>
         </b-form-row>
@@ -192,31 +172,23 @@
         <b-form-row>
           <b-col cols="12" md="6" lg="9">
             <JnInputField
-              ref="existingPlanName"
-              v-model="existingPlanName"
+              v-model="value.existingPlanName"
               :validated="validated"
               :language="language"
               :label="{ en: 'Existing Plan Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
-              ref="existingCraPlanNo"
-              v-model="existingCraPlanNo"
+              v-model="value.existingCraPlanNo"
               :validated="validated"
               :language="language"
               :label="{ en: 'Existing CRA Plan No' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -226,10 +198,10 @@
 </template>
 
 <script>
-import localizeMixin from '~/mixins/localize'
+import localizer from '~/mixins/localizer'
 
 export default {
-  mixins: [localizeMixin],
+  mixins: [localizer],
 
   props: {
     validated: {
@@ -245,36 +217,20 @@ export default {
   },
 
   data() {
+    this.value.provincialAuthority = this.value.provincialAuthority || 'Ontario'
+    this.value.productPlatform = this.value.productPlatform || 'Insurrance (iA)'
+    this.value.normalRetirementAge = this.value.normalRetirementAge || 65
+    this.value.languageOfCorrespondence = this.value.languageOfCorrespondence || 'English'
+    this.value.requestFor = this.value.requestFor || 'Setup of a new PPP\u00AE'
+
     return {
-      header: { en: 'Personal Pension Plan (PPP) Setup' },
-      provincialAuthority: this.value.provincialAuthority || 'Ontario',
-      productPlatform: this.value.productPlatform || 'Insurrance (iA)',
-      normalRetirementAge: this.value.normalRetirementAge || 65,
-      languageOfCorrespondence:
-        this.value.languageOfCorrespondence || 'English',
-      requestFor: this.value.requestFor || 'Setup of a new PPP\u00AE',
-      existingPlanName: this.value.existingPlanName || '',
-      existingCraPlanNo: this.value.existingCraPlanNo || ''
+      header: { en: 'Personal Pension Plan (PPP) Setup' }
     }
   },
 
   computed: {
     _header() {
       return this.localize(this.header)
-    }
-  },
-
-  methods: {
-    onInput() {
-      this.$emit('input', {
-        provincialAuthority: this.provincialAuthority,
-        productPlatform: this.productPlatform,
-        normalRetirementAge: this.normalRetirementAge,
-        languageOfCorrespondence: this.languageOfCorrespondence,
-        requestFor: this.requestFor,
-        existingPlanName: this.existingPlanName,
-        existingCraPlanNo: this.existingCraPlanNo
-      })
     }
   }
 }

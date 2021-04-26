@@ -9,23 +9,20 @@
       :readonly="readonly"
       :state="_validation.state"
       @input="onInput"
-      >{{ _label }}</b-form-checkbox
     >
+      {{ _label }}
+    </b-form-checkbox>
   </b-form-group>
 </template>
 
 <script>
-import localizeMixin from '~/mixins/localize'
-import validationMixin from '~/mixins/validation'
+import localizer from '~/mixins/localizer'
+import validator from '~/mixins/validator'
 
 export default {
-  mixins: [localizeMixin, validationMixin],
+  mixins: [localizer, validator],
 
   props: {
-    validated: {
-      type: Boolean,
-      default: true
-    },
     label: {
       type: [String, Object],
       default: 'Unlabelled'
@@ -51,13 +48,6 @@ export default {
       return this.localize(this.label)
     },
     _validation() {
-      if (!this.validated) {
-        return {
-          state: null,
-          invalidFeedback: null,
-          validFeedback: null
-        }
-      }
       return this.localize(this.validation)
     }
   },
