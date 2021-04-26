@@ -15,23 +15,47 @@
           <a class="nav-link" href="#memberEmployees1">
             <b-icon icon="chevron-right"></b-icon>Primary Member
           </a>
-          <a class="nav-link" v-show="memberEmployees.length >= 2" href="#memberEmployees2">
+          <a
+            class="nav-link"
+            v-show="memberEmployees.length >= 2"
+            href="#memberEmployees2"
+          >
             <b-icon icon="chevron-right"></b-icon>Second Member
           </a>
-          <a class="nav-link" v-show="memberEmployees.length >= 3" href="#memberEmployees3">
+          <a
+            class="nav-link"
+            v-show="memberEmployees.length >= 3"
+            href="#memberEmployees3"
+          >
             <b-icon icon="chevron-right"></b-icon>Third Member
           </a>
-          <a class="nav-link" v-show="memberEmployees.length >= 4" href="#memberEmployees4">
+          <a
+            class="nav-link"
+            v-show="memberEmployees.length >= 4"
+            href="#memberEmployees4"
+          >
             <b-icon icon="chevron-right"></b-icon>Forth Member
           </a>
           <a class="nav-link disabled" href="#">Sponsors Companies</a>
-          <a class="nav-link" v-show="sponsorEmployers.length >= 1" href="#sponsorEmployer1">
+          <a
+            class="nav-link"
+            v-show="sponsorEmployers.length >= 1"
+            href="#sponsorEmployer1"
+          >
             <b-icon icon="chevron-right"></b-icon>Primary Sponsor
           </a>
-          <a class="nav-link" v-show="sponsorEmployers.length >= 2" href="#sponsorEmployer2">
+          <a
+            class="nav-link"
+            v-show="sponsorEmployers.length >= 2"
+            href="#sponsorEmployer2"
+          >
             <b-icon icon="chevron-right"></b-icon>Second Sponsor
           </a>
-          <a class="nav-link" v-show="sponsorEmployers.length >= 3" href="#sponsorEmployer3">
+          <a
+            class="nav-link"
+            v-show="sponsorEmployers.length >= 3"
+            href="#sponsorEmployer3"
+          >
             <b-icon icon="chevron-right"></b-icon>Third Sponsor
           </a>
           <a class="nav-link" href="#Custodian">Custodian</a>
@@ -62,26 +86,22 @@
           -->
 
           <IntegrisPPPSetup
-            ref="pppSetup"
-            v-model="pppSetup"
             :validated="validated"
             :language="language"
             class="mb-3 pb-5"
+            :value="pppSetup"
           ></IntegrisPPPSetup>
 
           <IntegrisClientsInvestmentAdvisor
-            ref="clientsInvestmentAdvisor"
-            v-model="clientsInvestmentAdvisor"
+            id="advisor"
             :validated="validated"
             :language="language"
-            id="advisor"
             class="mb-3 pb-5"
+            :value="clientsInvestmentAdvisor"
           ></IntegrisClientsInvestmentAdvisor>
 
           <IntegrisMemberEmployee
             v-for="({ key }, index) in memberEmployees"
-            ref="memberEmployees"
-            v-model="memberEmployees[index]"
             :key="key"
             :validated="validated"
             :language="language"
@@ -92,6 +112,7 @@
                 : { en: 'Member #' + (index + 1) }
             "
             :removable="index !== 0 && index + 1 === memberEmployees.length"
+            :value="memberEmployees[index]"
             @remove="onRemoveMemberEmployee(index)"
           ></IntegrisMemberEmployee>
 
@@ -108,8 +129,6 @@
 
           <IntegrisSponsorEmployer
             v-for="({ key }, index) in sponsorEmployers"
-            ref="sponsorEmployers"
-            v-model="sponsorEmployers[index]"
             :key="key"
             :validated="validated"
             :language="language"
@@ -121,6 +140,7 @@
             "
             :removable="index !== 0 && index + 1 === sponsorEmployers.length"
             :memberemployees="memberEmployees"
+            :value="sponsorEmployers[index]"
             @remove="onRemoveSponsorEmployer(index)"
           ></IntegrisSponsorEmployer>
 
@@ -136,18 +156,15 @@
           </div>
 
           <IntegrisCustodianTrustee
-            ref="custodian"
-            v-model="custodian"
             :validated="validated"
             :language="language"
             class="mb-3 pb-5"
             :header="{ en: 'Custodian' }"
+            :value="custodian"
           ></IntegrisCustodianTrustee>
 
           <IntegrisCustodianTrustee
             v-for="({ key }, index) in individualTrustees"
-            ref="individualTrustees"
-            v-model="individualTrustees[index]"
             :key="key"
             :validated="validated"
             :language="language"
@@ -158,6 +175,7 @@
                 : { en: `Individual Trustee #${index + 1}` }
             "
             :removable="index !== 0 && index + 1 === individualTrustees.length"
+            :value="individualTrustees[index]"
             @remove="onRemoveIndividualTrustee(index)"
           ></IntegrisCustodianTrustee>
 
@@ -173,11 +191,11 @@
           </div>
 
           <IntegrisCurrentYearEstimate
-            ref="currentYearEstimate"
-            v-model="currentYearEstimate"
             :validated="validated"
             :language="language"
             class="mb-3 pb-5"
+            :years="currentYearEstimateYears"
+            :value="currentYearEstimate"
           ></IntegrisCurrentYearEstimate>
 
           <p>
@@ -190,52 +208,65 @@
 </template>
 
 <script>
-import uuidv4Mixin from '~/mixins/uuidv4'
+import keymaker from '~/mixins/keymaker'
 
 export default {
-  mixins: [uuidv4Mixin],
+  mixins: [keymaker],
 
   data() {
+    const currentYearEstimateCurrentYear = new Date().getFullYear()
+    const currentYearEstimateYears = []
+    const currentYearEstimate = {}
+    for (let index = 0, length = 30; index < length; index++) {
+      const year = currentYearEstimateCurrentYear - index
+      currentYearEstimateYears.push(year)
+      currentYearEstimate[year] = { key: this.makeKey() }
+    }
+
     return {
       validated: false,
       language: 'en',
-      // languageLabel: {
-      //   en: 'Language',
-      //   fr: 'Langue'
-      // },
-      // languageOptions: [
-      //   {
-      //     text: {
-      //       en: 'English',
-      //       fr: 'Anglais'
-      //     },
-      //     value: 'en'
-      //   },
-      //   {
-      //     text: {
-      //       en: 'French',
-      //       fr: 'Français'
-      //     },
-      //     value: 'fr'
-      //   }
-      // ],
+      languageLabel: {
+        en: 'Language',
+        fr: 'Langue'
+      },
+      languageOptions: [
+        {
+          text: {
+            en: 'English',
+            fr: 'Anglais'
+          },
+          value: 'en'
+        },
+        {
+          text: {
+            en: 'French',
+            fr: 'Français'
+          },
+          value: 'fr'
+        }
+      ],
       pppSetup: {},
       clientsInvestmentAdvisor: {},
-      memberEmployees: [{ key: this.uuidv4() }],
-      sponsorEmployers: [{ key: this.uuidv4() }],
+      memberEmployees: [{
+        key: this.makeKey(),
+        beneficiaryDesignations: [{ key: this.makeKey() }]
+      }],
+      sponsorEmployers: [{ key: this.makeKey() }],
       custodian: {},
       corporateIndividualTrustee: {},
-      individualTrustees: [{ key: this.uuidv4() }],
-      currentYearEstimate: {}
+      individualTrustees: [{ key: this.makeKey() }],
+      currentYearEstimate,
+      currentYearEstimateYears
     }
   },
 
   computed: {
     // _languageLabel() {
-    //   return this.$localize(this.languageLabel, this.language)
+    //   return this.localize(this.languageLabel)
     // },
     // _languageOptions() {
-    //   return this.$localize(this.languageOptions, this.language)
+    //   return this.localize(this.languageOptions)
     // },
     // memberEmployeeRemovable() {
     //   return this.memberEmployees.length > 1
@@ -249,31 +280,26 @@ export default {
       this.memberEmployees.splice(index, 1)
     },
     onAddMemberEmployee() {
-      if (this.memberEmployees.length < 4) {
-        this.memberEmployees.push({
-          key: this.uuidv4()
-        })
-      }
+      this.memberEmployees.push({
+        key: this.makeKey(),
+        beneficiaryDesignations: [{ key: this.makeKey() }]
+      })
     },
     onRemoveSponsorEmployer(index) {
       this.sponsorEmployers.splice(index, 1)
     },
     onAddSponsorEmployer() {
-      if (this.sponsorEmployers.length < 3) {
-        this.sponsorEmployers.push({
-          key: this.uuidv4()
-        })
-      }
+      this.sponsorEmployers.push({
+        key: this.makeKey()
+      })
     },
     onRemoveIndividualTrustee(index) {
       this.individualTrustees.splice(index, 1)
     },
     onAddIndividualTrustee() {
-      if (this.individualTrustees.length < 3) {
-        this.individualTrustees.push({
-          key: this.uuidv4()
-        })
-      }
+      this.individualTrustees.push({
+        key: this.makeKey()
+      })
     },
     onSubmit(event) {
       event.preventDefault()

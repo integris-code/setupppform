@@ -8,7 +8,7 @@
           size="sm"
           class="float-right"
           type="button"
-          @click="onRemoveClick"
+          @click="$emit('remove')"
         >
           <b-icon icon="x-circle" class="mr-1"></b-icon>Remove
         </b-button>
@@ -22,31 +22,23 @@
             <b-form-row>
               <b-col cols="12" md="6">
                 <JnInputField
-                  ref="firstName"
-                  v-model="firstName"
+                  v-model="value.firstName"
                   :validated="validated"
                   :language="language"
                   :label="{ en: 'First Name' }"
                   type="text"
-                  :validators="{
-                    notEmpty: {}
-                  }"
-                  @input="onInput"
+                  :not-empty-validator="true"
                 ></JnInputField>
               </b-col>
 
               <b-col cols="12" md="6">
                 <JnInputField
-                  ref="lastName"
-                  v-model="lastName"
+                  v-model="value.lastName"
                   :validated="validated"
                   :language="language"
                   :label="{ en: 'Last Name' }"
                   type="text"
-                  :validators="{
-                    notEmpty: {}
-                  }"
-                  @input="onInput"
+                  :not-empty-validator="true"
                 ></JnInputField>
               </b-col>
             </b-form-row>
@@ -54,30 +46,22 @@
             <b-form-row>
               <b-col cols="12" md="6">
                 <JnDatePickerField
-                  ref="dateOfBirth"
-                  v-model="dateOfBirth"
+                  v-model="value.dateOfBirth"
                   :validated="validated"
                   :language="language"
                   :label="{ en: 'Date of Birth' }"
-                  :validators="{
-                    notEmpty: {}
-                  }"
-                  @input="onInput"
+                  :not-empty-validator="true"
                 ></JnDatePickerField>
               </b-col>
 
               <b-col cols="12" md="6">
                 <JnInputField
-                  ref="relationship"
-                  v-model="relationship"
+                  v-model="value.relationship"
                   :validated="validated"
                   :language="language"
                   :label="{ en: 'Relationship' }"
                   type="text"
-                  :validators="{
-                    notEmpty: {}
-                  }"
-                  @input="onInput"
+                  :not-empty-validator="true"
                 ></JnInputField>
               </b-col>
             </b-form-row>
@@ -85,8 +69,7 @@
             <b-form-row>
               <b-col cols="12" md="6">
                 <JnSelectField
-                  ref="type"
-                  v-model="type"
+                  v-model="value.type"
                   :validated="validated"
                   :language="language"
                   :label="{ en: 'Type' }"
@@ -94,25 +77,18 @@
                     { text: { en: 'Primary' }, value: 'Primary' },
                     { text: { en: 'Contingent' }, value: 'Contingent' }
                   ]"
-                  :validators="{
-                    notEmpty: {}
-                  }"
-                  @input="onInput"
+                  :not-empty-validator="true"
                 ></JnSelectField>
               </b-col>
 
               <b-col cols="12" md="6">
                 <JnInputField
-                  ref="revocability"
-                  v-model="revocability"
+                  v-model="value.revocability"
                   :validated="validated"
                   :language="language"
                   :label="{ en: 'Revocability' }"
                   type="text"
-                  :validators="{
-                    notEmpty: {}
-                  }"
-                  @input="onInput"
+                  :not-empty-validator="true"
                 ></JnInputField>
               </b-col>
             </b-form-row>
@@ -120,26 +96,22 @@
 
           <b-col cols="12" md="2">
             <JnInputField
-              ref="share"
-              v-model="share"
+              v-model="value.share"
               :validated="validated"
               :language="language"
               :label="{ en: 'Share (%)' }"
               type="number"
-              :validators="{
-                between: {
-                  inclusive: true,
-                  min: 0,
-                  max: 100
-                },
-                callback: {
-                  callback() {
-                    return totalShareValidation
-                  }
-                },
-                notEmpty: {}
+              :between-validator="{
+                inclusive: true,
+                min: 0,
+                max: 100
               }"
-              @input="onInput"
+              :callback-validator="{
+                callback() {
+                  return totalShareValidation
+                }
+              }"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-row>
@@ -149,10 +121,10 @@
 </template>
 
 <script>
-import localizeMixin from '~/mixins/localize'
+import localizer from '~/mixins/localizer'
 
 export default {
-  mixins: [localizeMixin],
+  mixins: [localizer],
 
   props: {
     validated: {
@@ -167,7 +139,7 @@ export default {
       type: Boolean,
       default: false
     },
-    totalshare: {
+    totalShare: {
       type: Number,
       default: null
     },
@@ -179,42 +151,12 @@ export default {
     }
   },
 
-  data() {
-    return {
-      firstName: this.value.firstName,
-      lastName: this.value.lastName,
-      dateOfBirth: this.value.dateOfBirth,
-      relationship: this.value.relationship,
-      type: this.value.type,
-      revocability: this.value.revocability,
-      share: this.value.share
-    }
-  },
-
   computed: {
     _header() {
       return this.localize(this.header)
     },
     totalShareValidation() {
-      return this.totalshare <= 100
-    }
-  },
-
-  methods: {
-    onRemoveClick() {
-      this.$emit('remove')
-    },
-    onInput() {
-      this.$emit('input', {
-        key: this.value.key,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        dateOfBirth: this.dateOfBirth,
-        relationship: this.relationship,
-        type: this.type,
-        revocability: this.revocability,
-        share: +this.share || 0
-      })
+      return this.totalShare <= 100
     }
   }
 }

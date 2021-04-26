@@ -16,17 +16,13 @@
 </template>
 
 <script>
-import localizeMixin from '~/mixins/localize'
-import validationMixin from '~/mixins/validation'
+import localizer from '~/mixins/localizer'
+import validator from '~/mixins/validator'
 
 export default {
-  mixins: [localizeMixin, validationMixin],
+  mixins: [localizer, validator],
 
   props: {
-    validated: {
-      type: Boolean,
-      default: true
-    },
     label: {
       type: [String, Object],
       default: 'Unlabelled'
@@ -63,16 +59,9 @@ export default {
           text: { en: 'Select\u2026' },
           value: ''
         }
-      ]).concat(this.localize(this.options))
+      ].concat(this.options))
     },
     _validation() {
-      if (!this.validated) {
-        return {
-          state: null,
-          invalidFeedback: null,
-          validFeedback: null
-        }
-      }
       return this.localize(this.validation)
     }
   },

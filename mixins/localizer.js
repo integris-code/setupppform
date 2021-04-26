@@ -1,18 +1,18 @@
+const LANGUAGES = ['en', 'fr']
+
 export default {
   props: {
     language: {
       type: String,
-      default: 'en'
+      default: LANGUAGES[0]
     }
   },
 
   methods: {
     localize(value) {
-      const languages = ['en', 'fr']
-
       if (value && typeof value === 'object') {
-        if (Object.keys(value).every((key) => languages.includes(key))) {
-          value = value[this.language] || value['en'] || value
+        if (Object.keys(value).every((key) => LANGUAGES.includes(key))) {
+          value = value[this.language] || value[LANGUAGES[0]] || value
         } else {
           for (const key in value) {
             value[key] = this.localize(value[key])

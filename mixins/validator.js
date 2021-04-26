@@ -1,32 +1,49 @@
 export default {
   props: {
-    valueProp: {
-      type: String,
-      default: 'value'
+    validated: {
+      type: Boolean,
+      default: true
     },
-    validFeedback: {
+    validatorValidFeedback: {
       type: [String, Object],
       default: null
     },
-    validators: {
+    betweenValidator: {
       type: Object,
-      default() {
-        return {}
-      }
+      value: null
+    },
+    callbackValidator: {
+      type: Object,
+      value: null
+    },
+    notEmptyValidator: {
+      type: [Boolean, Object],
+      value: false
+    },
+    regexValidator: {
+      type: Object,
+      value: null
+    },
+    value: {
+      type: [Boolean, Number, String, Object, Array],
+      value: null
     }
   },
 
   computed: {
     validation() {
-      const value = this[this.valueProp]
-      const {
-        between: betweenValidator,
-        callback: callbackValidator,
-        notEmpty: notEmptyValidator
-      } = this.validators
+      if (!this.validated) {
+        return {
+          state: null,
+          invalidFeedback: null,
+          validFeedback: null
+        }
+      }
+
+      const value = this.value
 
       // BETWEEN VALIDATOR
-      if (betweenValidator && value != null && !isNaN(value)) {
+      if (this.betweenValidator && value != null && !isNaN(value)) {
         const numValue = +value
         const {
           inclusive = false,
@@ -35,7 +52,7 @@ export default {
           invalidFeedback = {
             en: `Must be between ${min} and ${max}${inclusive ? ' (Inclusive)' : ''}`
           }
-        } = betweenValidator
+        } = this.betweenValidator
 
         if ((inclusive && (numValue < min || numValue > max))
           || (!inclusive && (numValue <= min || numValue >= max))) {
@@ -49,13 +66,13 @@ export default {
       }
 
       // CALLBACK VALIDATOR
-      if (callbackValidator) {
+      if (this.callbackValidator) {
         const {
           callback,
           invalidFeedback = {
             en: 'Invalid value'
           }
-        } = callbackValidator
+        } = this.callbackValidator
 
         let result = callback(value);
         if (typeof result === 'boolean') {
@@ -72,13 +89,14 @@ export default {
       }
 
       // NOT EMPTY VALIDATOR
-      if (notEmptyValidator) {
+      if (this.notEmptyValidator) {
+
         const {
           trim = false,
           invalidFeedback = {
             en: 'Cannot be empty'
           }
-        } = notEmptyValidator
+        } = typeof this.notEmptyValidator === 'object' ? this.notEmptyValidator : {}
 
         if (value == null || value === '' || value === false ||
           (trim && typeof value === string && value.trim() === '') ||
@@ -92,6 +110,10 @@ export default {
         }
       }
 
+      // REGEX VALIDATOR
+      if (this.regexValidator && value && typeof value === 'string') { }
+
+      // SUCCESSFUL VALIDATION
       return {
         state: true,
         invalidFeedback: null,

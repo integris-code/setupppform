@@ -9,31 +9,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="firstName"
-              v-model="firstName"
+              v-model="value.firstName"
               :validated="validated"
               :language="language"
               :label="{ en: 'First Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="lastName"
-              v-model="lastName"
+              v-model="value.lastName"
               :validated="validated"
               :language="language"
               :label="{ en: 'Last Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -41,31 +33,23 @@
         <b-form-row>
           <b-col cols="12" md="6">
             <JnInputField
-              ref="title"
-              v-model="title"
+              v-model="value.title"
               :validated="validated"
               :language="language"
               :label="{ en: 'Title' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6">
             <JnInputField
-              ref="companyName"
-              v-model="companyName"
+              v-model="value.companyName"
               :validated="validated"
               :language="language"
               :label="{ en: 'Company Name' }"
               type="text"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -73,46 +57,34 @@
         <b-form-row>
           <b-col cols="12" lg="6">
             <JnInputField
-              ref="emailAddress"
-              v-model="emailAddress"
+              v-model="value.emailAddress"
               :validated="validated"
               :language="language"
               :label="{ en: 'Email Address' }"
               type="email"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
-              ref="phoneNumber"
-              v-model="phoneNumber"
+              v-model="value.phoneNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Phone Number' }"
               type="tel"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
 
           <b-col cols="12" md="6" lg="3">
             <JnInputField
-              ref="faxNumber"
-              v-model="faxNumber"
+              v-model="value.faxNumber"
               :validated="validated"
               :language="language"
               :label="{ en: 'Fax Number' }"
               type="tel"
-              :validators="{
-                notEmpty: {}
-              }"
-              @input="onInput"
+              :not-empty-validator="true"
             ></JnInputField>
           </b-col>
         </b-form-row>
@@ -122,10 +94,10 @@
 </template>
 
 <script>
-import localizeMixin from '~/mixins/localize'
+import localizer from '~/mixins/localizer'
 
 export default {
-  mixins: [localizeMixin],
+  mixins: [localizer],
 
   props: {
     validated: {
@@ -142,34 +114,13 @@ export default {
 
   data() {
     return {
-      header: { en: 'Client(s) Investment Advisor' },
-      firstName: this.value.firstName,
-      lastName: this.value.lastName,
-      title: this.value.title,
-      companyName: this.value.companyName,
-      emailAddress: this.value.emailAddress,
-      phoneNumber: this.value.phoneNumber,
-      faxNumber: this.value.faxNumber
+      header: { en: 'Client(s) Investment Advisor' }
     }
   },
 
   computed: {
     _header() {
       return this.localize(this.header)
-    }
-  },
-
-  methods: {
-    onInput() {
-      this.$emit('input', {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        title: this.title,
-        companyName: this.companyName,
-        emailAddress: this.emailAddress,
-        phoneNumber: this.phoneNumber,
-        faxNumber: this.faxNumber
-      })
     }
   }
 }
